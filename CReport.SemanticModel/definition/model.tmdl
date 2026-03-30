@@ -18,23 +18,30 @@ queryGroup Silver
 
 	annotation PBI_QueryGroupOrder = 2
 
+queryGroup Dimensions
+
+	annotation PBI_QueryGroupOrder = 3
+
+queryGroup Surrogate_Keys
+
+	annotation PBI_QueryGroupOrder = 4
+
 annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBI_QueryOrder = ["CSVs","DataFolder","Customer","Employee","Category","Invoice","Order","OrderStatus","OrderDetail","Product","Shipper","Supplier"]
+annotation PBI_QueryOrder = ["CSVs","DataFolder","stg_Customer","stg_Employee","stg_Category","Invoice","Order","OrderStatus","OrderDetail","stg_Product","stg_Shipper","stg_Supplier","Supplier","Shipper","Customer","Employee","Product","Customer_Key"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
-ref table Customer
-ref table Employee
-ref table Category
 ref table Invoice
 ref table Order
-ref table OrderStatus
 ref table OrderDetail
-ref table Product
-ref table Shipper
-ref table Supplier
 ref table Date
+ref table Supplier
+ref table Shipper
+ref table Customer
+ref table Employee
+ref table Product
+ref table Customer_Key
 
 ref cultureInfo en-US
 

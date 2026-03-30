@@ -1,9 +1,18 @@
 table Customer
-	lineageTag: 7f000cd8-4bda-4439-9191-001ea10f000c
+	lineageTag: cba8a3f8-91f6-4a41-a05e-75027e92e066
+
+	column Customer_Key
+		dataType: int64
+		formatString: 0
+		lineageTag: bea002c3-71f7-461d-9967-9f0b004aa326
+		summarizeBy: count
+		sourceColumn: Customer_Key
+
+		annotation SummarizationSetBy = Automatic
 
 	column CustomerKey
 		dataType: string
-		lineageTag: a6a8dace-4112-45c9-83da-ae347719767f
+		lineageTag: 932f7ff2-7a05-4995-a305-1484e48e5ec1
 		summarizeBy: none
 		sourceColumn: CustomerKey
 
@@ -11,7 +20,7 @@ table Customer
 
 	column Address
 		dataType: string
-		lineageTag: 577d4cf2-cc07-459f-aa46-df9c3a160ca6
+		lineageTag: 5078323c-4561-4e41-b94b-10dd0e8b1624
 		summarizeBy: none
 		sourceColumn: Address
 
@@ -19,39 +28,39 @@ table Customer
 
 	column City
 		dataType: string
-		lineageTag: e1a6dc2e-4343-44b2-a09b-d5204f727c5c
+		lineageTag: 255ea007-9db5-45aa-bd2c-b8332268fda2
 		summarizeBy: none
 		sourceColumn: City
 
 		annotation SummarizationSetBy = Automatic
 
-	column CompanyName
+	column 'Customer Company'
 		dataType: string
-		lineageTag: f6f5a236-1b64-4ee3-b4e5-9ff8dad8422a
+		lineageTag: f1407a77-4d61-4aef-92b1-c2e72425524b
 		summarizeBy: none
-		sourceColumn: CompanyName
+		sourceColumn: Customer Company
 
 		annotation SummarizationSetBy = Automatic
 
-	column ContactName
+	column 'Contact Name'
 		dataType: string
-		lineageTag: 5e44a886-fa85-4a8e-8886-f6a54500e89f
+		lineageTag: eb4de332-07a4-45e4-aa40-10a6a7458753
 		summarizeBy: none
-		sourceColumn: ContactName
+		sourceColumn: Contact Name
 
 		annotation SummarizationSetBy = Automatic
 
-	column ContactTitle
+	column 'Contact Title'
 		dataType: string
-		lineageTag: d71d907a-9cda-41c8-ba4e-b7c699f6b5fa
+		lineageTag: 2f6ff1e6-77c1-48ad-918c-5aaf55c4d897
 		summarizeBy: none
-		sourceColumn: ContactTitle
+		sourceColumn: Contact Title
 
 		annotation SummarizationSetBy = Automatic
 
 	column Country
 		dataType: string
-		lineageTag: e0ac790e-fec1-40ee-839f-5672b8df7bcb
+		lineageTag: f0ecf228-89b6-4c22-9814-3c0bbedff5ed
 		summarizeBy: none
 		sourceColumn: Country
 
@@ -59,7 +68,7 @@ table Customer
 
 	column Fax
 		dataType: string
-		lineageTag: 8d787626-c43f-4982-aa58-40a2118bb0d2
+		lineageTag: ad416ff4-aa0d-4c21-a459-1c7c2ac76f15
 		summarizeBy: none
 		sourceColumn: Fax
 
@@ -67,23 +76,23 @@ table Customer
 
 	column Phone
 		dataType: string
-		lineageTag: ef62cc3a-9be7-48ac-aad3-3334b62da02e
+		lineageTag: 01b2e74e-5de9-417d-90e6-febf76597b85
 		summarizeBy: none
 		sourceColumn: Phone
 
 		annotation SummarizationSetBy = Automatic
 
-	column PostalCode
+	column 'Postal Code'
 		dataType: string
-		lineageTag: 6dc5a3ac-20fc-490d-9249-1fdbcd3316ef
+		lineageTag: 802ff651-6443-4bd0-9b38-14d1e7044b05
 		summarizeBy: none
-		sourceColumn: PostalCode
+		sourceColumn: Postal Code
 
 		annotation SummarizationSetBy = Automatic
 
 	column Region
 		dataType: string
-		lineageTag: 79a8157b-28df-4880-9bbd-359176cd5f88
+		lineageTag: cb7e1104-ac30-495f-88c0-8bfceff437eb
 		summarizeBy: none
 		sourceColumn: Region
 
@@ -91,18 +100,16 @@ table Customer
 
 	partition Customer = m
 		mode: import
-		queryGroup: Silver
+		queryGroup: Dimensions
 		source =
 				let
-				    Source = CSVs,
-				    #"Data" = Source{[#"Folder Path" = DataFolder,Name="Customers.csv"]}[Content],
-				    #"Imported CSV" = Csv.Document(#"Data",[Delimiter=",", Columns=11, Encoding=65001, QuoteStyle=QuoteStyle.None]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Imported CSV",{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}, {"Column5", type text}, {"Column6", type text}, {"Column7", type text}, {"Column8", type text}, {"Column9", type text}, {"Column10", type text}, {"Column11", type text}}),
-				    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
-				    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"Address", type text}, {"City", type text}, {"CompanyName", type text}, {"ContactName", type text}, {"ContactTitle", type text}, {"Country", type text}, {"CustomerKey", type text}, {"Fax", type text}, {"Phone", type text}, {"PostalCode", type text}, {"Region", type text}}),
-				    #"Reordered Columns" = Table.ReorderColumns(#"Changed Type1",{"CustomerKey", "Address", "City", "CompanyName", "ContactName", "ContactTitle", "Country", "Fax", "Phone", "PostalCode", "Region"})
+				    Source = stg_Customer,
+				    #"Merged Queries" = Table.NestedJoin(Source, {"CustomerKey"}, Customer_Key, {"CustomerKey"}, "sil_Customer (2)", JoinKind.LeftOuter),
+				    #"Expanded sil_Customer (2)" = Table.ExpandTableColumn(#"Merged Queries", "sil_Customer (2)", {"Customer_Key"}, {"Customer_Key"}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Expanded sil_Customer (2)",{"Customer_Key", "CustomerKey", "Address", "City", "CompanyName", "ContactName", "ContactTitle", "Country", "Fax", "Phone", "PostalCode", "Region"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Reordered Columns",{{"CompanyName", "Customer Company"}, {"ContactName", "Contact Name"}, {"ContactTitle", "Contact Title"}, {"PostalCode", "Postal Code"}})
 				in
-				    #"Reordered Columns"
+				    #"Renamed Columns"
 
 	annotation PBI_NavigationStepName = Navigation
 

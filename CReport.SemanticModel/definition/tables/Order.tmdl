@@ -13,7 +13,7 @@ table Order
 		dataType: int64
 		formatString: 0
 		lineageTag: 56c83bd6-3fc2-4f1a-96c7-527ddb8edda3
-		summarizeBy: none
+		summarizeBy: count
 		sourceColumn: EmployeeID
 
 		annotation SummarizationSetBy = Automatic

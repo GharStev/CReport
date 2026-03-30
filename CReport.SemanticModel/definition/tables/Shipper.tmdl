@@ -1,45 +1,40 @@
 table Shipper
-	lineageTag: 1f50d0b1-63bc-473b-83a0-b50a959f5189
+	lineageTag: 7b2b8011-43b4-4750-afd5-9a970645aa98
 
-	column ShipperID
+	column Shipper_Key
 		dataType: int64
 		formatString: 0
-		lineageTag: 272f0235-b9aa-43d3-a706-f90443ce9e36
+		lineageTag: 4be7527b-f397-455f-b3dd-66ae4c9381e3
 		summarizeBy: count
-		sourceColumn: ShipperID
+		sourceColumn: Shipper_Key
 
 		annotation SummarizationSetBy = Automatic
 
-	column CompanyName
+	column 'Shipper Name'
 		dataType: string
-		lineageTag: b29b9d76-4c0b-4e8b-a144-d7063ead899f
+		lineageTag: 53172c0f-8f8b-416e-a1e1-9a826d4a6419
 		summarizeBy: none
-		sourceColumn: CompanyName
+		sourceColumn: Shipper Name
 
 		annotation SummarizationSetBy = Automatic
 
-	column Phone
+	column 'Shipper Phone'
 		dataType: string
-		lineageTag: 474c9d55-2912-4fa5-ad43-09410336a751
+		lineageTag: d25bcc82-c164-4589-a302-75c0803619a5
 		summarizeBy: none
-		sourceColumn: Phone
+		sourceColumn: Shipper Phone
 
 		annotation SummarizationSetBy = Automatic
 
 	partition Shipper = m
 		mode: import
-		queryGroup: Silver
+		queryGroup: Dimensions
 		source =
 				let
-				    Source = CSVs,
-				    Data = Source{[#"Folder Path"=DataFolder,Name="Shippers.csv"]}[Content],
-				    #"Imported CSV" = Csv.Document(Data,[Delimiter=",", Columns=3, Encoding=65001, QuoteStyle=QuoteStyle.None]),
-				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ShipperID", Int64.Type}}),
-				    #"Reordered Columns" = Table.ReorderColumns(#"Changed Type",{"ShipperID", "CompanyName", "Phone"}),
-				    #"Sorted Rows" = Table.Sort(#"Reordered Columns",{{"ShipperID", Order.Ascending}})
+				    Source = stg_Shipper,
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"ShipperID", "Shipper_Key"}, {"CompanyName", "Shipper Name"}, {"Phone", "Shipper Phone"}})
 				in
-				    #"Sorted Rows"
+				    #"Renamed Columns"
 
 	annotation PBI_NavigationStepName = Navigation
 

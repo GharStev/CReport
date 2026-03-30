@@ -10,7 +10,7 @@ table Invoice
 		annotation SummarizationSetBy = Automatic
 
 	column Freight
-		dataType: double
+		dataType: decimal
 		lineageTag: 474365da-87ed-494e-aff6-8a7349923262
 		summarizeBy: sum
 		sourceColumn: Freight
@@ -97,7 +97,7 @@ table Invoice
 		annotation SummarizationSetBy = Automatic
 
 	column UnitPrice
-		dataType: double
+		dataType: decimal
 		lineageTag: 6b9d2a69-c945-4b9a-aa66-e999d9546146
 		summarizeBy: sum
 		sourceColumn: UnitPrice
@@ -150,7 +150,7 @@ table Invoice
 				    Data = Source{[#"Folder Path"=DataFolder,Name="Invoices.csv"]}[Content],
 				    #"Imported CSV" = Csv.Document(Data,[Delimiter=",", Columns=16, Encoding=65001, QuoteStyle=QuoteStyle.None]),
 				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"CustomerID", type text}, {"Freight", type number}, {"OrderID", Int64.Type}, {"ProductName", type text}, {"Quantity", Int64.Type}, {"Region", type text}, {"RequiredDate", type text}, {"ShipName", type text}, {"ShippedDate", type text}, {"ShipperName", type text}, {"ShipPostalCode", type text}, {"ShipRegion", type text}, {"UnitPrice", type number}, {"ShipCountry", type text}, {"ShipCity", type text}, {"ShipAddress", type text}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"CustomerID", type text}, {"Freight", Currency.Type}, {"OrderID", Int64.Type}, {"ProductName", type text}, {"Quantity", Int64.Type}, {"Region", type text}, {"RequiredDate", type text}, {"ShipName", type text}, {"ShippedDate", type text}, {"ShipperName", type text}, {"ShipPostalCode", type text}, {"ShipRegion", type text}, {"UnitPrice", Currency.Type}, {"ShipCountry", type text}, {"ShipCity", type text}, {"ShipAddress", type text}}),
 				    #"Added Conditional Column" = Table.AddColumn(#"Changed Type", "ShippedDateClean", each if not Text.Contains([ShippedDate], "/") then null else [ShippedDate]),
 				    #"Changed Type with Locale" = Table.TransformColumnTypes(#"Added Conditional Column", {{"RequiredDate", type datetime}, {"ShippedDateClean", type datetime}}, "en-US"),
 				    #"Changed Type1" = Table.TransformColumnTypes(#"Changed Type with Locale",{{"ShippedDateClean", type date}, {"RequiredDate", type date}}),

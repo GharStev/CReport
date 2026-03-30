@@ -1,150 +1,123 @@
 table Employee
-	lineageTag: 37d63d13-6993-4195-8ce8-d6ad4d4a38e9
+	lineageTag: 599d1331-e7a8-4933-8ee6-3b7fcad65921
 
 	column EmployeeID
 		dataType: int64
 		formatString: 0
-		lineageTag: a1a6dbec-5830-4a62-a1f7-d4044e754cdd
-		summarizeBy: none
+		lineageTag: 8f845d43-785e-4046-b512-6a04ab606788
+		summarizeBy: count
 		sourceColumn: EmployeeID
 
 		annotation SummarizationSetBy = Automatic
 
-	column FirstName
+	column 'Last Name'
 		dataType: string
-		lineageTag: 86a4698e-0695-45b0-8047-ad76939d659c
+		lineageTag: 15e7b371-8a01-444f-b80d-0781ed645c57
 		summarizeBy: none
-		sourceColumn: FirstName
+		sourceColumn: Last Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'First Name'
+		dataType: string
+		lineageTag: cb99018b-ccbc-43aa-a511-3dfa7c8ce412
+		summarizeBy: none
+		sourceColumn: First Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Prefix
+		dataType: string
+		lineageTag: accfeb93-2ef5-4c3b-a5c6-595a4d617e17
+		summarizeBy: none
+		sourceColumn: Prefix
 
 		annotation SummarizationSetBy = Automatic
 
 	column Address
 		dataType: string
-		lineageTag: e545e897-46d1-4574-841a-a72c5a8eaa22
+		lineageTag: 64f6240c-f74b-4fc9-ba36-32936f981f92
 		summarizeBy: none
 		sourceColumn: Address
 
 		annotation SummarizationSetBy = Automatic
 
-	column BirthDate
-		dataType: dateTime
-		formatString: Long Date
-		lineageTag: dcb5b9fe-413c-4799-9179-b87c92d35304
-		summarizeBy: none
-		sourceColumn: BirthDate
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation UnderlyingDateTimeDataType = Date
-
 	column City
 		dataType: string
-		lineageTag: 49529c25-f40e-4904-96ba-5d3d57a79ed5
+		lineageTag: a507564f-b39c-4112-b297-0cafa5712644
 		summarizeBy: none
 		sourceColumn: City
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'Postal Code'
+		dataType: string
+		lineageTag: cb9edb25-89b7-4c44-af80-76af77f725b7
+		summarizeBy: none
+		sourceColumn: Postal Code
+
+		annotation SummarizationSetBy = Automatic
+
 	column Country
 		dataType: string
-		lineageTag: 03c889f1-850f-464a-88a1-58b18bcf61c3
+		lineageTag: 993f4533-160f-4ecf-aa1b-4b702fc91411
 		summarizeBy: none
 		sourceColumn: Country
 
 		annotation SummarizationSetBy = Automatic
 
-	column Extension
-		dataType: int64
-		formatString: 0
-		lineageTag: 9274fb12-465d-489f-baad-fd4c27dab277
-		summarizeBy: none
-		sourceColumn: Extension
-
-		annotation SummarizationSetBy = Automatic
-
-	column HireDate
-		dataType: dateTime
-		formatString: Long Date
-		lineageTag: 223cc044-7890-487e-9b72-2e68364f4412
-		summarizeBy: none
-		sourceColumn: HireDate
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation UnderlyingDateTimeDataType = Date
-
-	column HomePhone
-		dataType: string
-		lineageTag: 1b4ca6a2-6c1f-4e1e-a6e7-36e5332e219e
-		summarizeBy: none
-		sourceColumn: HomePhone
-
-		annotation SummarizationSetBy = Automatic
-
-	column LastName
-		dataType: string
-		lineageTag: eb2c9e7d-9c30-44f7-a2a1-4e6f2ea60785
-		summarizeBy: none
-		sourceColumn: LastName
-
-		annotation SummarizationSetBy = Automatic
-
-	column PostalCode
-		dataType: string
-		lineageTag: dfa3f1a3-b57a-480b-8030-99c0a0d72d6a
-		summarizeBy: none
-		sourceColumn: PostalCode
-
-		annotation SummarizationSetBy = Automatic
-
 	column Region
 		dataType: string
-		lineageTag: e2f10864-cfb0-47b2-b156-1901e27cd58f
+		lineageTag: d5712ec3-e40e-415d-af2e-fd731eb19ac4
 		summarizeBy: none
 		sourceColumn: Region
 
 		annotation SummarizationSetBy = Automatic
 
-	column ReportsTo
-		dataType: int64
-		formatString: 0
-		lineageTag: 94d632fc-a835-47b6-86ee-3d391297eced
-		summarizeBy: none
-		sourceColumn: ReportsTo
-
-		annotation SummarizationSetBy = Automatic
-
 	column Title
 		dataType: string
-		lineageTag: 3be84076-58de-4370-8ea3-b05b6891665d
+		lineageTag: db58cdd0-9153-441a-a8a2-750468f7a31d
 		summarizeBy: none
 		sourceColumn: Title
 
 		annotation SummarizationSetBy = Automatic
 
-	column TitleOfCourtesy
+	column 'Phone Extension'
+		dataType: int64
+		formatString: 0
+		lineageTag: 7cc70ec9-40d0-4aec-9c48-f0b74f897ee7
+		summarizeBy: sum
+		sourceColumn: Phone Extension
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phone (Home)'
 		dataType: string
-		lineageTag: 35b14c7e-6af8-481a-a875-80ee9820a142
+		lineageTag: 9a86b613-ac0f-4ff8-8ff1-258b5d9290d4
 		summarizeBy: none
-		sourceColumn: TitleOfCourtesy
+		sourceColumn: Phone (Home)
+
+		annotation SummarizationSetBy = Automatic
+
+	column Manager
+		dataType: int64
+		formatString: 0
+		lineageTag: c4499aaa-6e9b-44c3-a380-defbabd93f79
+		summarizeBy: sum
+		sourceColumn: Manager
 
 		annotation SummarizationSetBy = Automatic
 
 	partition Employee = m
 		mode: import
-		queryGroup: Silver
+		queryGroup: Dimensions
 		source =
 				let
-				    Source = CSVs,
-				    #"Data" = Source{[#"Folder Path"=DataFolder,Name="Employees.csv"]}[Content],
-				    #"Imported CSV" = Csv.Document(Data,[Delimiter=",", Columns=15, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
-				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
-				    #"Changed Types" = Table.TransformColumnTypes(#"Promoted Headers",{{"EmployeeID", Int64.Type}, {"FirstName", type text}, {"Address", type text},  {"City", type text}, {"Country", type text}, {"Extension", Int64.Type}, {"HomePhone", type text}, {"LastName", type text}, {"PostalCode", type text}, {"Region", type text}, {"ReportsTo", Int64.Type}, {"Title", type text}, {"TitleOfCourtesy", type text}}),
-				    #"Changed DateTime to Date (pt 1)" = Table.TransformColumnTypes(#"Changed Types", {{"BirthDate", type datetime}, {"HireDate", type datetime}}, "en-US"),
-				    #"Changed DateTime to Date (pt 2)" = Table.TransformColumnTypes(#"Changed DateTime to Date (pt 1)",{{"BirthDate", type date}, {"HireDate", type date}}),
-				    #"Reordered Columns" = Table.ReorderColumns(#"Changed DateTime to Date (pt 2)",{"EmployeeID", "LastName", "FirstName", "TitleOfCourtesy", "Address", "City", "PostalCode", "Country", "Region", "Title", "HireDate", "BirthDate", "Extension", "HomePhone", "ReportsTo"})
+				    Source = stg_Employee,
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"LastName", "Last Name"}, {"FirstName", "First Name"}, {"TitleOfCourtesy", "Prefix"}, {"PostalCode", "Postal Code"}, {"HireDate", "Hire Date"}, {"BirthDate", "Birth Date"}, {"Extension", "Phone Extension"}, {"HomePhone", "Phone (Home)"}, {"ReportsTo", "Manager"}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Renamed Columns",{"Birth Date", "Hire Date"})
 				in
-				    #"Reordered Columns"
+				    #"Removed Columns"
 
 	annotation PBI_NavigationStepName = Navigation
 

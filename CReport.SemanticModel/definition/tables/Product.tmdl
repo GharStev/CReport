@@ -1,101 +1,108 @@
 table Product
-	lineageTag: f99fcdbc-01ab-493b-bc8a-ce3c03cd17e0
+	lineageTag: bcb26b49-5c38-4c86-8b1c-bb32d712b3b6
 
-	column ProductID
+	column Product_Key
 		dataType: int64
 		formatString: 0
-		lineageTag: c1e56737-f242-411d-a4de-7bab2101489f
-		summarizeBy: none
-		sourceColumn: ProductID
+		lineageTag: d39a9f6f-2a64-458d-bd9c-3fa823d19fc1
+		summarizeBy: count
+		sourceColumn: Product_Key
 
 		annotation SummarizationSetBy = Automatic
 
-	column CategoryID
+	column Supplier_Key
 		dataType: int64
 		formatString: 0
-		lineageTag: 3500f0bd-010e-4263-8152-102cb996e44a
-		summarizeBy: none
-		sourceColumn: CategoryID
+		lineageTag: 945ad3e7-b21c-48fc-b047-204a528ad7a0
+		summarizeBy: count
+		sourceColumn: Supplier_Key
 
 		annotation SummarizationSetBy = Automatic
 
-	column SupplierID
-		dataType: int64
-		formatString: 0
-		lineageTag: beae0cf9-62de-49ee-8cfd-229b0184c1f8
-		summarizeBy: none
-		sourceColumn: SupplierID
-
-		annotation SummarizationSetBy = Automatic
-
-	column ProductName
+	column 'Product Name'
 		dataType: string
-		lineageTag: 1b620523-1f62-42c4-bdd8-fb5d860f98b8
+		lineageTag: b69d5150-1cb6-4ed1-bd20-a327b3fb697b
 		summarizeBy: none
-		sourceColumn: ProductName
+		sourceColumn: Product Name
 
 		annotation SummarizationSetBy = Automatic
 
-	column QuantityPerUnit
+	column 'Quantity Per Unit'
 		dataType: string
-		lineageTag: f73d3f58-a598-4e0f-8245-fbef080e43ff
+		lineageTag: dfd9bd88-a8f5-47d8-8e8e-af5577b97c02
 		summarizeBy: none
-		sourceColumn: QuantityPerUnit
+		sourceColumn: Quantity Per Unit
 
 		annotation SummarizationSetBy = Automatic
 
-	column UnitPrice
+	column 'Unit Price'
 		dataType: decimal
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
-		lineageTag: 92b49a47-8b10-4d65-891a-5881287f5d74
+		lineageTag: 372efa06-64f6-4de2-8f2e-7bec947d721e
 		summarizeBy: sum
-		sourceColumn: UnitPrice
+		sourceColumn: Unit Price
 
 		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
-	column UnitsInStock
+	column 'Units In Stock'
 		dataType: int64
 		formatString: 0
-		lineageTag: 158fb9df-9f98-47a2-ae45-81d46f8faa4f
+		lineageTag: 637af2b4-cc73-4fe6-aff2-4472c706fc25
 		summarizeBy: sum
-		sourceColumn: UnitsInStock
+		sourceColumn: Units In Stock
 
 		annotation SummarizationSetBy = Automatic
 
-	column UnitsOnOrder
+	column 'Units On Order'
 		dataType: int64
 		formatString: 0
-		lineageTag: 84437aed-cf98-43e6-a374-433f028a0aa4
+		lineageTag: 9eb406ab-ed6d-4982-a9a3-6aea15ae8b2e
 		summarizeBy: sum
-		sourceColumn: UnitsOnOrder
+		sourceColumn: Units On Order
 
 		annotation SummarizationSetBy = Automatic
 
 	column Discontinued
 		dataType: boolean
 		formatString: """TRUE"";""TRUE"";""FALSE"""
-		lineageTag: d9c24e84-cbae-4837-8b1a-8fae77518de5
+		lineageTag: f6974a37-8df4-4d1b-85e2-08cbf5bc8079
 		summarizeBy: none
 		sourceColumn: Discontinued
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'Category Name'
+		dataType: string
+		lineageTag: 73d57798-3c6c-4f92-9d78-005c52f5761a
+		summarizeBy: none
+		sourceColumn: Category Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Category Description'
+		dataType: string
+		lineageTag: cd343874-2a29-4de8-b0a3-fc75ec19f759
+		summarizeBy: none
+		sourceColumn: Category Description
+
+		annotation SummarizationSetBy = Automatic
+
 	partition Product = m
 		mode: import
-		queryGroup: Silver
+		queryGroup: Dimensions
 		source =
 				let
-				    Source = CSVs,
-				    Data = Source{[#"Folder Path"=DataFolder,Name="Products.csv"]}[Content],
-				    #"Imported CSV" = Csv.Document(Data,[Delimiter=",", Columns=9, Encoding=65001, QuoteStyle=QuoteStyle.None]),
-				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Discontinued", type logical}, {"CategoryID", Int64.Type}, {"ProductID", Int64.Type}, {"SupplierID", Int64.Type}, {"UnitPrice", Currency.Type}, {"UnitsInStock", Int64.Type}, {"UnitsOnOrder", Int64.Type}}),
-				    #"Reordered Columns" = Table.ReorderColumns(#"Changed Type",{"ProductID", "CategoryID", "SupplierID", "ProductName", "QuantityPerUnit", "UnitPrice", "UnitsInStock", "UnitsOnOrder", "Discontinued"}),
-				    #"Sorted Rows" = Table.Sort(#"Reordered Columns",{{"ProductID", Order.Ascending}})
+				    Source = stg_Product,
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"ProductID", "Product_Key"}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Renamed Columns", {"CategoryID"}, stg_Category, {"CategoryKey"}, "stg_Category", JoinKind.LeftOuter),
+				    #"Expanded stg_Category" = Table.ExpandTableColumn(#"Merged Queries", "stg_Category", {"CategoryName", "Description"}, {"CategoryName", "Description"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Expanded stg_Category",{{"CategoryName", "Category Name"}, {"Description", "Category Description"}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Renamed Columns1",{"CategoryID"}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Removed Columns",{{"SupplierID", "Supplier_Key"}, {"ProductName", "Product Name"}, {"QuantityPerUnit", "Quantity Per Unit"}, {"UnitPrice", "Unit Price"}, {"UnitsInStock", "Units In Stock"}, {"UnitsOnOrder", "Units On Order"}})
 				in
-				    #"Sorted Rows"
+				    #"Renamed Columns2"
 
 	annotation PBI_NavigationStepName = Navigation
 

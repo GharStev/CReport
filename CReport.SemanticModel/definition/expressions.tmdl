@@ -19,3 +19,127 @@ expression CSVs =
 
 	annotation PBI_ResultType = Table
 
+expression stg_Customer =
+		let
+		    Source = CSVs,
+		    #"Data" = Source{[#"Folder Path" = DataFolder,Name="Customers.csv"]}[Content],
+		    #"Imported CSV" = Csv.Document(#"Data",[Delimiter=",", Columns=11, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Imported CSV",{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}, {"Column5", type text}, {"Column6", type text}, {"Column7", type text}, {"Column8", type text}, {"Column9", type text}, {"Column10", type text}, {"Column11", type text}}),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"Address", type text}, {"City", type text}, {"CompanyName", type text}, {"ContactName", type text}, {"ContactTitle", type text}, {"Country", type text}, {"CustomerKey", type text}, {"Fax", type text}, {"Phone", type text}, {"PostalCode", type text}, {"Region", type text}}),
+		    #"Reordered Columns" = Table.ReorderColumns(#"Changed Type1",{"CustomerKey", "Address", "City", "CompanyName", "ContactName", "ContactTitle", "Country", "Fax", "Phone", "PostalCode", "Region"})
+		in
+		    #"Reordered Columns"
+	lineageTag: 0df9fae2-ac31-44f2-b66f-4af73f87631a
+	queryGroup: Silver
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression stg_Employee =
+		let
+		    Source = CSVs,
+		    #"Data" = Source{[#"Folder Path"=DataFolder,Name="Employees.csv"]}[Content],
+		    #"Imported CSV" = Csv.Document(Data,[Delimiter=",", Columns=15, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+		    #"Changed Types" = Table.TransformColumnTypes(#"Promoted Headers",{{"EmployeeID", Int64.Type}, {"FirstName", type text}, {"Address", type text},  {"City", type text}, {"Country", type text}, {"Extension", Int64.Type}, {"HomePhone", type text}, {"LastName", type text}, {"PostalCode", type text}, {"Region", type text}, {"ReportsTo", Int64.Type}, {"Title", type text}, {"TitleOfCourtesy", type text}}),
+		    #"Changed DateTime to Date (pt 1)" = Table.TransformColumnTypes(#"Changed Types", {{"BirthDate", type datetime}, {"HireDate", type datetime}}, "en-US"),
+		    #"Changed DateTime to Date (pt 2)" = Table.TransformColumnTypes(#"Changed DateTime to Date (pt 1)",{{"BirthDate", type date}, {"HireDate", type date}}),
+		    #"Reordered Columns" = Table.ReorderColumns(#"Changed DateTime to Date (pt 2)",{"EmployeeID", "LastName", "FirstName", "TitleOfCourtesy", "Address", "City", "PostalCode", "Country", "Region", "Title", "HireDate", "BirthDate", "Extension", "HomePhone", "ReportsTo"})
+		in
+		    #"Reordered Columns"
+	lineageTag: c848b455-446a-4f19-afd4-28ad4fa8107e
+	queryGroup: Silver
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression stg_Category =
+		let
+		    Source = CSVs,
+		    Data = Source{[#"Folder Path"=DataFolder,Name="Category.csv"]}[Content],
+		    #"Imported CSV" = Csv.Document(Data,[Delimiter=",", Columns=3, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"CategoryKey", Int64.Type}, {"CategoryName", type text}, {"Description", type text}})
+		in
+		    #"Changed Type"
+	lineageTag: 9e298ed5-6157-4af7-92e7-8e0997884113
+	queryGroup: Silver
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression OrderStatus =
+		let
+		    Source = CSVs,
+		    Data = Source{[#"Folder Path"=DataFolder,Name="OrdersStatus.csv"]}[Content],
+		    #"Imported CSV" = Csv.Document(Data,[Delimiter=",", Columns=3, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+		    #"Replaced Value" = Table.ReplaceValue(#"Promoted Headers","Cancell","Cancelled",Replacer.ReplaceText,{"Description"}),
+		    #"Sorted Rows" = Table.Sort(#"Replaced Value",{{"StatusID", Order.Ascending}})
+		in
+		    #"Sorted Rows"
+	lineageTag: 187bfde9-ec34-4f58-8e86-d5c919fc9256
+	queryGroup: Silver
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression stg_Product =
+		let
+		    Source = CSVs,
+		    Data = Source{[#"Folder Path"=DataFolder,Name="Products.csv"]}[Content],
+		    #"Imported CSV" = Csv.Document(Data,[Delimiter=",", Columns=9, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Discontinued", type logical}, {"CategoryID", Int64.Type}, {"ProductID", Int64.Type}, {"SupplierID", Int64.Type}, {"UnitPrice", Currency.Type}, {"UnitsInStock", Int64.Type}, {"UnitsOnOrder", Int64.Type}}),
+		    #"Reordered Columns" = Table.ReorderColumns(#"Changed Type",{"ProductID", "CategoryID", "SupplierID", "ProductName", "QuantityPerUnit", "UnitPrice", "UnitsInStock", "UnitsOnOrder", "Discontinued"}),
+		    #"Sorted Rows" = Table.Sort(#"Reordered Columns",{{"ProductID", Order.Ascending}})
+		in
+		    #"Sorted Rows"
+	lineageTag: b1659dca-a6ce-4a92-8a44-60fe3fbc9595
+	queryGroup: Silver
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression stg_Shipper =
+		let
+		    Source = CSVs,
+		    Data = Source{[#"Folder Path"=DataFolder,Name="Shippers.csv"]}[Content],
+		    #"Imported CSV" = Csv.Document(Data,[Delimiter=",", Columns=3, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ShipperID", Int64.Type}}),
+		    #"Reordered Columns" = Table.ReorderColumns(#"Changed Type",{"ShipperID", "CompanyName", "Phone"}),
+		    #"Sorted Rows" = Table.Sort(#"Reordered Columns",{{"ShipperID", Order.Ascending}})
+		in
+		    #"Sorted Rows"
+	lineageTag: 29fb3fa6-cf45-42fe-b3f5-92f1d8feb160
+	queryGroup: Silver
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression stg_Supplier =
+		let
+		    Source = CSVs,
+		    Data = Source{[#"Folder Path"=DataFolder,Name="Suppliers.csv"]}[Content],
+		    #"Imported CSV" = Csv.Document(Data,[Delimiter=",", Columns=11, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"SupplierID", Int64.Type}}),
+		    #"Reordered Columns" = Table.ReorderColumns(#"Changed Type",{"SupplierID", "Address", "City", "CompanyName", "ContactTitle", "ContactName", "Country", "Fax", "Phone", "PostalCode", "Region"}),
+		    #"Sorted Rows" = Table.Sort(#"Reordered Columns",{{"SupplierID", Order.Ascending}})
+		in
+		    #"Sorted Rows"
+	lineageTag: 2a140c6e-d408-46cd-94c0-1609c5e9f36c
+	queryGroup: Silver
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

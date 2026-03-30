@@ -24,7 +24,7 @@ table OrderDetail
 		dataType: int64
 		formatString: 0
 		lineageTag: 687f8a97-aaca-427a-bee7-383b0e2c70f5
-		summarizeBy: none
+		summarizeBy: count
 		sourceColumn: ProductID
 
 		annotation SummarizationSetBy = Automatic
@@ -79,7 +79,8 @@ table OrderDetail
 				    #"Merged Queries" = Table.NestedJoin(#"Reordered Columns", {"Status"}, OrderStatus, {"StatusCode"}, "OrderStatus", JoinKind.LeftOuter),
 				    #"Expanded OrderStatus" = Table.ExpandTableColumn(#"Merged Queries", "OrderStatus", {"Description"}, {"OrderStatus.Description"}),
 				    #"Added Conditional Column" = Table.AddColumn(#"Expanded OrderStatus", "OrderStatus", each if [OrderStatus.Description] = null then "Unknown" else [OrderStatus.Description]),
-				    #"Removed Columns" = Table.RemoveColumns(#"Added Conditional Column",{"Status", "OrderStatus.Description"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Added Conditional Column",{{"OrderStatus", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type1",{"Status", "OrderStatus.Description"}),
 				    #"Sorted Rows" = Table.Sort(#"Removed Columns",{{"OrderID_FK", Order.Ascending}})
 				in
 				    #"Sorted Rows"
