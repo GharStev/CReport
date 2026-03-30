@@ -132,7 +132,7 @@ table Employee
 
 	partition Employee = m
 		mode: import
-		queryGroup: Dimensions
+		queryGroup: Silver
 		source =
 				let
 				    Source = CSVs,

@@ -40,7 +40,7 @@ table Order
 
 	partition Order = m
 		mode: import
-		queryGroup: Dimensions
+		queryGroup: Silver
 		source = ```
 				let
 				    Source = CSVs,
@@ -63,9 +63,11 @@ table Order
 				    #"Transformed OrderDate" = Table.TransformColumns(#"Changed Type", {
 				        {"OrderDate", each fnRealorExcelDate(_), type date}
 				    }),
-				    #"Change Type (OrderDate) to Date" = Table.TransformColumnTypes(#"Transformed OrderDate",{{"OrderDate", type date}})
+				    #"Change Type (OrderDate) to Date" = Table.TransformColumnTypes(#"Transformed OrderDate",{{"OrderDate", type date}}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Change Type (OrderDate) to Date",{"PK_OrderID", "CustomerID", "EmployeeID", "OrderDate"}),
+				    #"Sorted Rows" = Table.Sort(#"Reordered Columns",{{"PK_OrderID", Order.Ascending}})
 				in
-				    #"Change Type (OrderDate) to Date"
+				    #"Sorted Rows"
 				```
 
 	annotation PBI_NavigationStepName = Navigation

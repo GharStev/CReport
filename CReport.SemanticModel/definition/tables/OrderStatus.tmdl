@@ -27,16 +27,17 @@ table OrderStatus
 
 	partition OrderStatus = m
 		mode: import
-		queryGroup: Dimensions
+		queryGroup: Silver
 		source =
 				let
 				    Source = CSVs,
 				    Data = Source{[#"Folder Path"=DataFolder,Name="OrdersStatus.csv"]}[Content],
 				    #"Imported CSV" = Csv.Document(Data,[Delimiter=",", Columns=3, Encoding=65001, QuoteStyle=QuoteStyle.None]),
 				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
-				    #"Replaced Value" = Table.ReplaceValue(#"Promoted Headers","Cancell","Cancelled",Replacer.ReplaceText,{"Description"})
+				    #"Replaced Value" = Table.ReplaceValue(#"Promoted Headers","Cancell","Cancelled",Replacer.ReplaceText,{"Description"}),
+				    #"Sorted Rows" = Table.Sort(#"Replaced Value",{{"StatusID", Order.Ascending}})
 				in
-				    #"Replaced Value"
+				    #"Sorted Rows"
 
 	annotation PBI_NavigationStepName = Navigation
 

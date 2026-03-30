@@ -1,0 +1,55 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "b059571142fd60484f2a",
+  "position": {
+    "x": 631.39996041955283,
+    "y": 14.396728016359919,
+    "z": 1,
+    "height": 280.08179959100204,
+    "width": 280.08179959100204
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "OrderDetail"
+                    }
+                  },
+                  "Property": "OrderStatus"
+                }
+              },
+              "queryRef": "OrderDetail.OrderStatus",
+              "nativeQueryRef": "OrderStatus"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "7cd4c291eaa49c0437b5",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "OrderDetail"
+              }
+            },
+            "Property": "OrderStatus"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

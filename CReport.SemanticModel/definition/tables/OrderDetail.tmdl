@@ -67,7 +67,7 @@ table OrderDetail
 
 	partition OrderDetail = m
 		mode: import
-		queryGroup: Dimensions
+		queryGroup: Silver
 		source =
 				let
 				    Source = CSVs,
@@ -79,9 +79,10 @@ table OrderDetail
 				    #"Merged Queries" = Table.NestedJoin(#"Reordered Columns", {"Status"}, OrderStatus, {"StatusCode"}, "OrderStatus", JoinKind.LeftOuter),
 				    #"Expanded OrderStatus" = Table.ExpandTableColumn(#"Merged Queries", "OrderStatus", {"Description"}, {"OrderStatus.Description"}),
 				    #"Added Conditional Column" = Table.AddColumn(#"Expanded OrderStatus", "OrderStatus", each if [OrderStatus.Description] = null then "Unknown" else [OrderStatus.Description]),
-				    #"Removed Columns" = Table.RemoveColumns(#"Added Conditional Column",{"Status", "OrderStatus.Description"})
+				    #"Removed Columns" = Table.RemoveColumns(#"Added Conditional Column",{"Status", "OrderStatus.Description"}),
+				    #"Sorted Rows" = Table.Sort(#"Removed Columns",{{"OrderID_FK", Order.Ascending}})
 				in
-				    #"Removed Columns"
+				    #"Sorted Rows"
 
 	annotation PBI_NavigationStepName = Navigation
 

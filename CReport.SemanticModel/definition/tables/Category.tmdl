@@ -28,7 +28,7 @@ table Category
 
 	partition Category = m
 		mode: import
-		queryGroup: Dimensions
+		queryGroup: Silver
 		source =
 				let
 				    Source = CSVs,

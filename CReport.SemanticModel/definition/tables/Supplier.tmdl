@@ -1,0 +1,111 @@
+table Supplier
+	lineageTag: 43ab51de-a2f2-438c-9fc9-24dbaa0379e4
+
+	column SupplierID
+		dataType: int64
+		formatString: 0
+		lineageTag: ab14f6bf-b290-4236-9b14-4b8e3c62e698
+		summarizeBy: none
+		sourceColumn: SupplierID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Address
+		dataType: string
+		lineageTag: 36d84783-930a-4147-bb03-87649eedc332
+		summarizeBy: none
+		sourceColumn: Address
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: 3674a3c6-bb3c-4862-8f94-bc5e1677b3ec
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column CompanyName
+		dataType: string
+		lineageTag: afab1b13-0f12-44b3-a0a5-50cdcf35239b
+		summarizeBy: none
+		sourceColumn: CompanyName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ContactTitle
+		dataType: string
+		lineageTag: 1b6eaaeb-0bd1-475a-90d6-2f3b26675892
+		summarizeBy: none
+		sourceColumn: ContactTitle
+
+		annotation SummarizationSetBy = Automatic
+
+	column ContactName
+		dataType: string
+		lineageTag: 9ca4d771-55ae-4dc2-a67a-a8a9aea4c4fd
+		summarizeBy: none
+		sourceColumn: ContactName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: 8f974e70-f7ed-4325-b0d9-6f15b40e9454
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Fax
+		dataType: string
+		lineageTag: d763ef2d-15c2-4c98-bf11-cb8e128cee9f
+		summarizeBy: none
+		sourceColumn: Fax
+
+		annotation SummarizationSetBy = Automatic
+
+	column Phone
+		dataType: string
+		lineageTag: a282409c-f211-4362-a638-0ad1087f7791
+		summarizeBy: none
+		sourceColumn: Phone
+
+		annotation SummarizationSetBy = Automatic
+
+	column PostalCode
+		dataType: string
+		lineageTag: abbd37ba-700f-465d-8510-76a852cf8ba9
+		summarizeBy: none
+		sourceColumn: PostalCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 0b23571c-d943-457b-99b5-4aadb928483f
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Supplier = m
+		mode: import
+		queryGroup: Silver
+		source =
+				let
+				    Source = CSVs,
+				    Data = Source{[#"Folder Path"=DataFolder,Name="Suppliers.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(Data,[Delimiter=",", Columns=11, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"SupplierID", Int64.Type}}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Changed Type",{"SupplierID", "Address", "City", "CompanyName", "ContactTitle", "ContactName", "Country", "Fax", "Phone", "PostalCode", "Region"}),
+				    #"Sorted Rows" = Table.Sort(#"Reordered Columns",{{"SupplierID", Order.Ascending}})
+				in
+				    #"Sorted Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

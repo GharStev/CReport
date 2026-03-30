@@ -27,3 +27,7 @@ relationship AutoDetected_62d6276d-323d-4ab2-b1ff-88cd99b95128
 	fromColumn: Invoice.OrderID
 	toColumn: Order.PK_OrderID
 
+relationship AutoDetected_d038f0ed-9453-47b8-8975-529599e2b97f
+	fromColumn: Product.SupplierID
+	toColumn: Supplier.SupplierID
+

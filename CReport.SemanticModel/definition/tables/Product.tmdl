@@ -23,7 +23,7 @@ table Product
 		dataType: int64
 		formatString: 0
 		lineageTag: beae0cf9-62de-49ee-8cfd-229b0184c1f8
-		summarizeBy: count
+		summarizeBy: none
 		sourceColumn: SupplierID
 
 		annotation SummarizationSetBy = Automatic
@@ -84,7 +84,7 @@ table Product
 
 	partition Product = m
 		mode: import
-		queryGroup: Dimensions
+		queryGroup: Silver
 		source =
 				let
 				    Source = CSVs,
@@ -92,9 +92,10 @@ table Product
 				    #"Imported CSV" = Csv.Document(Data,[Delimiter=",", Columns=9, Encoding=65001, QuoteStyle=QuoteStyle.None]),
 				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
 				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Discontinued", type logical}, {"CategoryID", Int64.Type}, {"ProductID", Int64.Type}, {"SupplierID", Int64.Type}, {"UnitPrice", Currency.Type}, {"UnitsInStock", Int64.Type}, {"UnitsOnOrder", Int64.Type}}),
-				    #"Reordered Columns" = Table.ReorderColumns(#"Changed Type",{"ProductID", "CategoryID", "SupplierID", "ProductName", "QuantityPerUnit", "UnitPrice", "UnitsInStock", "UnitsOnOrder", "Discontinued"})
+				    #"Reordered Columns" = Table.ReorderColumns(#"Changed Type",{"ProductID", "CategoryID", "SupplierID", "ProductName", "QuantityPerUnit", "UnitPrice", "UnitsInStock", "UnitsOnOrder", "Discontinued"}),
+				    #"Sorted Rows" = Table.Sort(#"Reordered Columns",{{"ProductID", Order.Ascending}})
 				in
-				    #"Reordered Columns"
+				    #"Sorted Rows"
 
 	annotation PBI_NavigationStepName = Navigation
 
