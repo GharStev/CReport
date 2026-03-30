@@ -1,0 +1,37 @@
+expression DataFolder = "C:\Users\Steve\CData" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 76b70fc7-e47c-47bf-bbd9-017730e77244
+	queryGroup: Parameters
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+expression CSVs =
+		let
+		    Source = Folder.Files(DataFolder),
+		    #"Filtered Rows" = Table.SelectRows(Source, each ([Extension] = ".csv"))
+		in
+		    #"Filtered Rows"
+	lineageTag: 11faacf4-cd17-43a4-a82c-5771b8e8c112
+	queryGroup: DataSource
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression fnToDateOny =
+		let
+		    Source = () => let
+		        Source = "(input) => #(cr)#(lf)    let#(cr)#(lf)        SourceValue = if input = null or input = """" then null #(cr)#(lf)                      else DateTime.From(input, ""en-US""),#(cr)#(lf)        Result = if SourceValue = null then null else DateTime.Date(SourceValue)#(cr)#(lf)    in#(cr)#(lf)        Result"
+		    in
+		        Source
+		in
+		    Source
+	mAttributes: [ FunctionQueryBinding = "{""exemplarFormulaName"":""fnToDate""}" ]
+	lineageTag: f84a3f8e-6dc8-4ce4-987d-0c46a6d8408e
+	queryGroup: Dimensions\fnToDateOny
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Function
+

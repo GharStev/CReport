@@ -1,0 +1,45 @@
+table Category
+	lineageTag: dc8a95b6-3a00-4bee-85a1-c396f197fa4c
+
+	column CategoryKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ffca08b0-54d9-44dd-ba1c-029b2e94c4f2
+		summarizeBy: count
+		sourceColumn: CategoryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CategoryName
+		dataType: string
+		lineageTag: fed7a360-a969-480a-a9ae-336e87888a7b
+		summarizeBy: none
+		sourceColumn: CategoryName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: 3ce76a56-fdeb-44ec-a5a3-0cc35eb7adb6
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Category = m
+		mode: import
+		queryGroup: Dimensions
+		source =
+				let
+				    Source = CSVs,
+				    #"C:\Users\Steve\CData\_Category csv" = Source{[#"Folder Path"="C:\Users\Steve\CData\",Name="Category.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Steve\CData\_Category csv",[Delimiter=",", Columns=3, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"CategoryKey", Int64.Type}, {"CategoryName", type text}, {"Description", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

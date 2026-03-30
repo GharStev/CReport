@@ -1,0 +1,144 @@
+table Employee
+	lineageTag: 37d63d13-6993-4195-8ce8-d6ad4d4a38e9
+
+	column EmployeeID
+		dataType: int64
+		formatString: 0
+		lineageTag: a1a6dbec-5830-4a62-a1f7-d4044e754cdd
+		summarizeBy: count
+		sourceColumn: EmployeeID
+
+		annotation SummarizationSetBy = Automatic
+
+	column FirstName
+		dataType: string
+		lineageTag: 86a4698e-0695-45b0-8047-ad76939d659c
+		summarizeBy: none
+		sourceColumn: FirstName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Address
+		dataType: string
+		lineageTag: e545e897-46d1-4574-841a-a72c5a8eaa22
+		summarizeBy: none
+		sourceColumn: Address
+
+		annotation SummarizationSetBy = Automatic
+
+	column BirthDate
+		dataType: string
+		lineageTag: dcb5b9fe-413c-4799-9179-b87c92d35304
+		summarizeBy: none
+		sourceColumn: BirthDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: 49529c25-f40e-4904-96ba-5d3d57a79ed5
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: 03c889f1-850f-464a-88a1-58b18bcf61c3
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Extension
+		dataType: int64
+		formatString: 0
+		lineageTag: 9274fb12-465d-489f-baad-fd4c27dab277
+		summarizeBy: sum
+		sourceColumn: Extension
+
+		annotation SummarizationSetBy = Automatic
+
+	column HireDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 223cc044-7890-487e-9b72-2e68364f4412
+		summarizeBy: none
+		sourceColumn: HireDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column HomePhone
+		dataType: string
+		lineageTag: 1b4ca6a2-6c1f-4e1e-a6e7-36e5332e219e
+		summarizeBy: none
+		sourceColumn: HomePhone
+
+		annotation SummarizationSetBy = Automatic
+
+	column LastName
+		dataType: string
+		lineageTag: eb2c9e7d-9c30-44f7-a2a1-4e6f2ea60785
+		summarizeBy: none
+		sourceColumn: LastName
+
+		annotation SummarizationSetBy = Automatic
+
+	column PostalCode
+		dataType: string
+		lineageTag: dfa3f1a3-b57a-480b-8030-99c0a0d72d6a
+		summarizeBy: none
+		sourceColumn: PostalCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: e2f10864-cfb0-47b2-b156-1901e27cd58f
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReportsTo
+		dataType: int64
+		formatString: 0
+		lineageTag: 94d632fc-a835-47b6-86ee-3d391297eced
+		summarizeBy: sum
+		sourceColumn: ReportsTo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Title
+		dataType: string
+		lineageTag: 3be84076-58de-4370-8ea3-b05b6891665d
+		summarizeBy: none
+		sourceColumn: Title
+
+		annotation SummarizationSetBy = Automatic
+
+	column TitleOfCourtesy
+		dataType: string
+		lineageTag: 35b14c7e-6af8-481a-a875-80ee9820a142
+		summarizeBy: none
+		sourceColumn: TitleOfCourtesy
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Employee = m
+		mode: import
+		queryGroup: Dimensions
+		source =
+				let
+				    Source = CSVs,
+				    #"C:\Users\Steve\CData\_Employees csv" = Source{[#"Folder Path"="C:\Users\Steve\CData\",Name="Employees.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Steve\CData\_Employees csv",[Delimiter=",", Columns=15, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"EmployeeID", Int64.Type}, {"FirstName", type text}, {"Address", type text}, {"BirthDate", type text}, {"City", type text}, {"Country", type text}, {"Extension", Int64.Type}, {"HireDate", type datetime}, {"HomePhone", type text}, {"LastName", type text}, {"PostalCode", type text}, {"Region", type text}, {"ReportsTo", Int64.Type}, {"Title", type text}, {"TitleOfCourtesy", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

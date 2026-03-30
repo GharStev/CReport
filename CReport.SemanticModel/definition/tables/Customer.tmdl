@@ -1,0 +1,110 @@
+table Customer
+	lineageTag: 7f000cd8-4bda-4439-9191-001ea10f000c
+
+	column CustomerKey
+		dataType: string
+		lineageTag: a6a8dace-4112-45c9-83da-ae347719767f
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Address
+		dataType: string
+		lineageTag: 577d4cf2-cc07-459f-aa46-df9c3a160ca6
+		summarizeBy: none
+		sourceColumn: Address
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: e1a6dc2e-4343-44b2-a09b-d5204f727c5c
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column CompanyName
+		dataType: string
+		lineageTag: f6f5a236-1b64-4ee3-b4e5-9ff8dad8422a
+		summarizeBy: none
+		sourceColumn: CompanyName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ContactName
+		dataType: string
+		lineageTag: 5e44a886-fa85-4a8e-8886-f6a54500e89f
+		summarizeBy: none
+		sourceColumn: ContactName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ContactTitle
+		dataType: string
+		lineageTag: d71d907a-9cda-41c8-ba4e-b7c699f6b5fa
+		summarizeBy: none
+		sourceColumn: ContactTitle
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: e0ac790e-fec1-40ee-839f-5672b8df7bcb
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Fax
+		dataType: string
+		lineageTag: 8d787626-c43f-4982-aa58-40a2118bb0d2
+		summarizeBy: none
+		sourceColumn: Fax
+
+		annotation SummarizationSetBy = Automatic
+
+	column Phone
+		dataType: string
+		lineageTag: ef62cc3a-9be7-48ac-aad3-3334b62da02e
+		summarizeBy: none
+		sourceColumn: Phone
+
+		annotation SummarizationSetBy = Automatic
+
+	column PostalCode
+		dataType: string
+		lineageTag: 6dc5a3ac-20fc-490d-9249-1fdbcd3316ef
+		summarizeBy: none
+		sourceColumn: PostalCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 79a8157b-28df-4880-9bbd-359176cd5f88
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Customer = m
+		mode: import
+		queryGroup: Dimensions
+		source =
+				let
+				    Source = CSVs,
+				    #"C:\Users\Steve\CData\_Customers csv" = Source{[#"Folder Path"="C:\Users\Steve\CData\",Name="Customers.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Steve\CData\_Customers csv",[Delimiter=",", Columns=11, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Imported CSV",{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}, {"Column5", type text}, {"Column6", type text}, {"Column7", type text}, {"Column8", type text}, {"Column9", type text}, {"Column10", type text}, {"Column11", type text}}),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"Address", type text}, {"City", type text}, {"CompanyName", type text}, {"ContactName", type text}, {"ContactTitle", type text}, {"Country", type text}, {"CustomerKey", type text}, {"Fax", type text}, {"Phone", type text}, {"PostalCode", type text}, {"Region", type text}}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Changed Type1",{"CustomerKey", "Address", "City", "CompanyName", "ContactName", "ContactTitle", "Country", "Fax", "Phone", "PostalCode", "Region"})
+				in
+				    #"Reordered Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
