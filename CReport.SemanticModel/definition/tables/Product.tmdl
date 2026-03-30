@@ -1,0 +1,102 @@
+table Product
+	lineageTag: f99fcdbc-01ab-493b-bc8a-ce3c03cd17e0
+
+	column ProductID
+		dataType: int64
+		formatString: 0
+		lineageTag: c1e56737-f242-411d-a4de-7bab2101489f
+		summarizeBy: none
+		sourceColumn: ProductID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CategoryID
+		dataType: int64
+		formatString: 0
+		lineageTag: 3500f0bd-010e-4263-8152-102cb996e44a
+		summarizeBy: none
+		sourceColumn: CategoryID
+
+		annotation SummarizationSetBy = Automatic
+
+	column SupplierID
+		dataType: int64
+		formatString: 0
+		lineageTag: beae0cf9-62de-49ee-8cfd-229b0184c1f8
+		summarizeBy: count
+		sourceColumn: SupplierID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductName
+		dataType: string
+		lineageTag: 1b620523-1f62-42c4-bdd8-fb5d860f98b8
+		summarizeBy: none
+		sourceColumn: ProductName
+
+		annotation SummarizationSetBy = Automatic
+
+	column QuantityPerUnit
+		dataType: string
+		lineageTag: f73d3f58-a598-4e0f-8245-fbef080e43ff
+		summarizeBy: none
+		sourceColumn: QuantityPerUnit
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitPrice
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 92b49a47-8b10-4d65-891a-5881287f5d74
+		summarizeBy: sum
+		sourceColumn: UnitPrice
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column UnitsInStock
+		dataType: int64
+		formatString: 0
+		lineageTag: 158fb9df-9f98-47a2-ae45-81d46f8faa4f
+		summarizeBy: sum
+		sourceColumn: UnitsInStock
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitsOnOrder
+		dataType: int64
+		formatString: 0
+		lineageTag: 84437aed-cf98-43e6-a374-433f028a0aa4
+		summarizeBy: sum
+		sourceColumn: UnitsOnOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column Discontinued
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d9c24e84-cbae-4837-8b1a-8fae77518de5
+		summarizeBy: none
+		sourceColumn: Discontinued
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Product = m
+		mode: import
+		queryGroup: Dimensions
+		source =
+				let
+				    Source = CSVs,
+				    Data = Source{[#"Folder Path"=DataFolder,Name="Products.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(Data,[Delimiter=",", Columns=9, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Discontinued", type logical}, {"CategoryID", Int64.Type}, {"ProductID", Int64.Type}, {"SupplierID", Int64.Type}, {"UnitPrice", Currency.Type}, {"UnitsInStock", Int64.Type}, {"UnitsOnOrder", Int64.Type}}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Changed Type",{"ProductID", "CategoryID", "SupplierID", "ProductName", "QuantityPerUnit", "UnitPrice", "UnitsInStock", "UnitsOnOrder", "Discontinued"})
+				in
+				    #"Reordered Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -5,7 +5,7 @@ table Employee
 		dataType: int64
 		formatString: 0
 		lineageTag: a1a6dbec-5830-4a62-a1f7-d4044e754cdd
-		summarizeBy: count
+		summarizeBy: none
 		sourceColumn: EmployeeID
 
 		annotation SummarizationSetBy = Automatic
@@ -27,12 +27,15 @@ table Employee
 		annotation SummarizationSetBy = Automatic
 
 	column BirthDate
-		dataType: string
+		dataType: dateTime
+		formatString: Long Date
 		lineageTag: dcb5b9fe-413c-4799-9179-b87c92d35304
 		summarizeBy: none
 		sourceColumn: BirthDate
 
 		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	column City
 		dataType: string
@@ -54,19 +57,21 @@ table Employee
 		dataType: int64
 		formatString: 0
 		lineageTag: 9274fb12-465d-489f-baad-fd4c27dab277
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Extension
 
 		annotation SummarizationSetBy = Automatic
 
 	column HireDate
 		dataType: dateTime
-		formatString: General Date
+		formatString: Long Date
 		lineageTag: 223cc044-7890-487e-9b72-2e68364f4412
 		summarizeBy: none
 		sourceColumn: HireDate
 
 		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	column HomePhone
 		dataType: string
@@ -104,7 +109,7 @@ table Employee
 		dataType: int64
 		formatString: 0
 		lineageTag: 94d632fc-a835-47b6-86ee-3d391297eced
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: ReportsTo
 
 		annotation SummarizationSetBy = Automatic
@@ -131,12 +136,15 @@ table Employee
 		source =
 				let
 				    Source = CSVs,
-				    #"C:\Users\Steve\CData\_Employees csv" = Source{[#"Folder Path"="C:\Users\Steve\CData\",Name="Employees.csv"]}[Content],
-				    #"Imported CSV" = Csv.Document(#"C:\Users\Steve\CData\_Employees csv",[Delimiter=",", Columns=15, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Data" = Source{[#"Folder Path"=DataFolder,Name="Employees.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(Data,[Delimiter=",", Columns=15, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
 				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"EmployeeID", Int64.Type}, {"FirstName", type text}, {"Address", type text}, {"BirthDate", type text}, {"City", type text}, {"Country", type text}, {"Extension", Int64.Type}, {"HireDate", type datetime}, {"HomePhone", type text}, {"LastName", type text}, {"PostalCode", type text}, {"Region", type text}, {"ReportsTo", Int64.Type}, {"Title", type text}, {"TitleOfCourtesy", type text}})
+				    #"Changed Types" = Table.TransformColumnTypes(#"Promoted Headers",{{"EmployeeID", Int64.Type}, {"FirstName", type text}, {"Address", type text},  {"City", type text}, {"Country", type text}, {"Extension", Int64.Type}, {"HomePhone", type text}, {"LastName", type text}, {"PostalCode", type text}, {"Region", type text}, {"ReportsTo", Int64.Type}, {"Title", type text}, {"TitleOfCourtesy", type text}}),
+				    #"Changed DateTime to Date (pt 1)" = Table.TransformColumnTypes(#"Changed Types", {{"BirthDate", type datetime}, {"HireDate", type datetime}}, "en-US"),
+				    #"Changed DateTime to Date (pt 2)" = Table.TransformColumnTypes(#"Changed DateTime to Date (pt 1)",{{"BirthDate", type date}, {"HireDate", type date}}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Changed DateTime to Date (pt 2)",{"EmployeeID", "LastName", "FirstName", "TitleOfCourtesy", "Address", "City", "PostalCode", "Country", "Region", "Title", "HireDate", "BirthDate", "Extension", "HomePhone", "ReportsTo"})
 				in
-				    #"Changed Type"
+				    #"Reordered Columns"
 
 	annotation PBI_NavigationStepName = Navigation
 

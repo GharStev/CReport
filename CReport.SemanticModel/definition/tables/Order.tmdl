@@ -1,0 +1,74 @@
+table Order
+	lineageTag: 6726b69f-44db-49bd-8cc4-98581337f8bb
+
+	column CustomerID
+		dataType: string
+		lineageTag: abc06260-082f-43c7-959b-7aa0e8c8ec6f
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column EmployeeID
+		dataType: int64
+		formatString: 0
+		lineageTag: 56c83bd6-3fc2-4f1a-96c7-527ddb8edda3
+		summarizeBy: none
+		sourceColumn: EmployeeID
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c0b9a900-a4ed-4be6-9682-78bda70f08a3
+		summarizeBy: none
+		sourceColumn: OrderDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column PK_OrderID
+		dataType: int64
+		formatString: 0
+		lineageTag: 98ec92c4-3cac-494d-aec9-6f16f9c5ae86
+		summarizeBy: count
+		sourceColumn: PK_OrderID
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Order = m
+		mode: import
+		queryGroup: Dimensions
+		source = ```
+				let
+				    Source = CSVs,
+				    Data = Source{[#"Folder Path"=DataFolder,Name="Orders.csv"]}[Content],
+				    fnRealorExcelDate = (input) =>
+				        let
+				            // Try to convert standard text (mm/dd/yyyy) first
+				            StandardDate = try DateTime.From(input, "en-US") otherwise null,
+				            
+				            // If that fails, try to convert from Excel Serial Number
+				            ExcelDate = try DateTime.From(Number.From(input)) otherwise null,
+				            
+				            // Return the first one that actually worked
+				            Result = if StandardDate <> null then StandardDate else ExcelDate
+				        in
+				            Result,
+				    #"Imported CSV" = Csv.Document(Data,[Delimiter=",", Columns=4, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"EmployeeID", Int64.Type}, {"PK_OrderID", Int64.Type}}),
+				    #"Transformed OrderDate" = Table.TransformColumns(#"Changed Type", {
+				        {"OrderDate", each fnRealorExcelDate(_), type date}
+				    }),
+				    #"Change Type (OrderDate) to Date" = Table.TransformColumnTypes(#"Transformed OrderDate",{{"OrderDate", type date}})
+				in
+				    #"Change Type (OrderDate) to Date"
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

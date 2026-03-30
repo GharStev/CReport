@@ -1,43 +1,42 @@
-table Category
-	lineageTag: dc8a95b6-3a00-4bee-85a1-c396f197fa4c
+table OrderStatus
+	lineageTag: b0aa731e-1f9c-4244-a2b1-fc4aa991ed12
 
-	column CategoryKey
-		dataType: int64
-		formatString: 0
-		lineageTag: ffca08b0-54d9-44dd-ba1c-029b2e94c4f2
+	column StatusID
+		dataType: string
+		lineageTag: fcc6288a-1e75-4c3a-b452-1ae5d973d4a3
 		summarizeBy: none
-		sourceColumn: CategoryKey
+		sourceColumn: StatusID
 
 		annotation SummarizationSetBy = Automatic
 
-	column CategoryName
+	column StatusCode
 		dataType: string
-		lineageTag: fed7a360-a969-480a-a9ae-336e87888a7b
+		lineageTag: 9ea84cab-e99c-44c6-b914-bab20e421f42
 		summarizeBy: none
-		sourceColumn: CategoryName
+		sourceColumn: StatusCode
 
 		annotation SummarizationSetBy = Automatic
 
 	column Description
 		dataType: string
-		lineageTag: 3ce76a56-fdeb-44ec-a5a3-0cc35eb7adb6
+		lineageTag: 925cedea-1933-4bf7-84d7-5e25c2023321
 		summarizeBy: none
 		sourceColumn: Description
 
 		annotation SummarizationSetBy = Automatic
 
-	partition Category = m
+	partition OrderStatus = m
 		mode: import
 		queryGroup: Dimensions
 		source =
 				let
 				    Source = CSVs,
-				    Data = Source{[#"Folder Path"=DataFolder,Name="Category.csv"]}[Content],
+				    Data = Source{[#"Folder Path"=DataFolder,Name="OrdersStatus.csv"]}[Content],
 				    #"Imported CSV" = Csv.Document(Data,[Delimiter=",", Columns=3, Encoding=65001, QuoteStyle=QuoteStyle.None]),
 				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"CategoryKey", Int64.Type}, {"CategoryName", type text}, {"Description", type text}})
+				    #"Replaced Value" = Table.ReplaceValue(#"Promoted Headers","Cancell","Cancelled",Replacer.ReplaceText,{"Description"})
 				in
-				    #"Changed Type"
+				    #"Replaced Value"
 
 	annotation PBI_NavigationStepName = Navigation
 

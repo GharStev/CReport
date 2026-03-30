@@ -1,0 +1,29 @@
+relationship AutoDetected_cb0e3db1-1ac2-475f-a32a-3ee28f3a797a
+	fromColumn: Invoice.CustomerID
+	toColumn: Customer.CustomerKey
+
+relationship AutoDetected_17da2e44-0495-470b-87d4-7cadd3f0d3fe
+	fromColumn: Order.EmployeeID
+	toColumn: Employee.EmployeeID
+
+relationship AutoDetected_c2a1172e-89c9-4e33-9a99-6f11f58e804f
+	fromColumn: Invoice.ProductName
+	toColumn: Product.ProductName
+
+relationship AutoDetected_8f2af383-61e8-4bbf-9584-63b6b75618c5
+	fromColumn: OrderDetail.ProductID
+	toColumn: Product.ProductID
+
+relationship AutoDetected_121de243-1ac0-4071-a7d2-d5d56688712c
+	fromColumn: Order.CustomerID
+	toColumn: Customer.CustomerKey
+
+relationship AutoDetected_ebe9d3b6-50c3-4816-ae2d-2d3d3dfd6b2c
+	fromColumn: Product.CategoryID
+	toColumn: Category.CategoryKey
+
+relationship AutoDetected_62d6276d-323d-4ab2-b1ff-88cd99b95128
+	isActive: false
+	fromColumn: Invoice.OrderID
+	toColumn: Order.PK_OrderID
+

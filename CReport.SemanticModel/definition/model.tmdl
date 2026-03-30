@@ -18,20 +18,20 @@ queryGroup Dimensions
 
 	annotation PBI_QueryGroupOrder = 2
 
-queryGroup Dimensions\fnToDateOny
-
-	annotation PBI_QueryGroupOrder = 0
-
 annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBI_QueryOrder = ["CSVs","DataFolder","Customer","Employee","Category","fnToDate","fnToDateOny"]
+annotation PBI_QueryOrder = ["CSVs","DataFolder","Customer","Employee","Category","Invoice","Order","OrderStatus","OrderDetail","Product"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
 ref table Customer
 ref table Employee
 ref table Category
-ref table fnToDate
+ref table Invoice
+ref table Order
+ref table OrderStatus
+ref table OrderDetail
+ref table Product
 
 ref cultureInfo en-US
 
