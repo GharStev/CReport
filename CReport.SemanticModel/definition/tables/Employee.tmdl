@@ -5,7 +5,7 @@ table Employee
 		dataType: int64
 		formatString: 0
 		lineageTag: 8f845d43-785e-4046-b512-6a04ab606788
-		summarizeBy: count
+		summarizeBy: none
 		sourceColumn: EmployeeID
 
 		annotation SummarizationSetBy = Automatic
@@ -86,7 +86,7 @@ table Employee
 		dataType: int64
 		formatString: 0
 		lineageTag: 7cc70ec9-40d0-4aec-9c48-f0b74f897ee7
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Phone Extension
 
 		annotation SummarizationSetBy = Automatic
@@ -103,7 +103,7 @@ table Employee
 		dataType: int64
 		formatString: 0
 		lineageTag: c4499aaa-6e9b-44c3-a380-defbabd93f79
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Manager
 
 		annotation SummarizationSetBy = Automatic

@@ -1,13 +1,42 @@
-relationship AutoDetected_62d6276d-323d-4ab2-b1ff-88cd99b95128
+relationship AutoDetected_59fe5c2b-d063-4f1a-b788-bb2eb110289f
+	fromColumn: Order.Supplier_Key
+	toColumn: Supplier.Supplier_Key
+
+relationship AutoDetected_9bedc5e1-091a-4dec-a163-64d775c407c1
+	fromColumn: Order.Customer_Key
+	toColumn: Customer.Customer_Key
+
+relationship AutoDetected_74de8f5c-1d08-4785-839a-c148a5b5e1aa
+	fromColumn: Order.Product_Key
+	toColumn: Product.Product_Key
+
+relationship AutoDetected_a064a5aa-cd14-481f-b73c-13cd64d8799a
+	fromColumn: Order.'Invoice.Shipper_Key'
+	toColumn: Shipper.Shipper_Key
+
+relationship AutoDetected_eaa93141-68bf-477b-a8f6-31666d45a8ab
+	fromColumn: Order.Employee_Key
+	toColumn: Employee.EmployeeID
+
+relationship AutoDetected_670d25d7-42b9-477e-b8ac-de89d2cefbee
+	fromColumn: Order.'Invoice.Shipment_Key'
+	toColumn: Shipment.Shipment_Key
+
+relationship 052d3d3d-9c19-19fc-c7d2-f30454e89f15
+	fromColumn: Order.'Invoice.RequiredDate_Key'
+	toColumn: Date.DateKey
+
+relationship 1f2fa040-30f6-a52c-d300-57ab22e3b175
 	isActive: false
-	fromColumn: Invoice.OrderID
-	toColumn: Order.PK_OrderID
+	fromColumn: Order.Order_Shipper_Key
+	toColumn: Shipper.Shipper_Key
 
-relationship d2383a97-9836-42f4-8d89-8ec96e3a067d
-	crossFilteringBehavior: bothDirections
-	fromCardinality: one
-	fromColumn: Customer.CustomerKey
-	toColumn: Customer_Key.CustomerKey
+relationship 066c3d7b-bfcf-325e-af7d-d346af151384
+	isActive: false
+	fromColumn: Order.OrderDate_Key
+	toColumn: Date.DateKey
 
-	annotation PBI_IsFromSource = FS
+relationship AutoDetected_6a32163e-7d8e-4a7f-9f6d-d27878776e76
+	fromColumn: Order.OrderStatus_Key
+	toColumn: Filters.StatusID
 

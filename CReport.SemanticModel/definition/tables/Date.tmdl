@@ -13,16 +13,16 @@ table Date
 	column DateKey
 		formatString: 0
 		lineageTag: 8033fc8d-05fd-494d-9a28-09e4c99ff938
-		summarizeBy: count
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [DateKey]
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Day of Month'
 		formatString: 0
 		lineageTag: d92bb1bb-0623-41cf-8a1c-28fce9e838c1
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Day of Month]
 
@@ -31,7 +31,7 @@ table Date
 	column WeekDayNumber
 		formatString: 0
 		lineageTag: b8b22d7c-586e-4111-a1ad-d0a3d31f5dc9
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [WeekDayNumber]
 
@@ -48,7 +48,7 @@ table Date
 	column Sequential365DayNumber
 		formatString: 0
 		lineageTag: 275469cb-2f50-4af1-8759-df10bc4a862a
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Sequential365DayNumber]
 
@@ -57,7 +57,7 @@ table Date
 	column 'Calendar YearNumber'
 		formatString: 0
 		lineageTag: 70f3b8d8-23c5-42f1-bb9d-2359eb173cf9
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Calendar YearNumber]
 
@@ -73,7 +73,7 @@ table Date
 
 	column 'Calendar QuarterNumber'
 		lineageTag: 4ea3ffb9-d73a-46b1-8726-9be2d84b5613
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Calendar QuarterNumber]
 
@@ -91,7 +91,7 @@ table Date
 
 	column 'Calendar YearQuarterNumber'
 		lineageTag: 0ddbea42-d24a-47cb-8190-3dcd9b5bc301
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Calendar YearQuarterNumber]
 
@@ -110,7 +110,7 @@ table Date
 	column 'Calendar MonthNumber'
 		formatString: 0
 		lineageTag: 5fdc17ee-bbc0-4c7e-ad3c-403b365e4d58
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Calendar MonthNumber]
 
@@ -127,7 +127,7 @@ table Date
 	column 'Calendar YearMonthNumber'
 		formatString: 0
 		lineageTag: 8fb1d83d-824d-4cab-b16e-383dfa81b73c
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Calendar YearMonthNumber]
 
@@ -144,7 +144,7 @@ table Date
 	column 'Calendar WeekNumber'
 		formatString: 0
 		lineageTag: 6dc3a672-ce37-4c6b-b6b6-5eb0715f2889
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Calendar WeekNumber]
 
@@ -161,7 +161,7 @@ table Date
 	column 'Calendar YearWeekNumber'
 		formatString: 0
 		lineageTag: 77238075-e248-44cf-adb2-3bbc63aab9bc
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Calendar YearWeekNumber]
 
@@ -178,7 +178,7 @@ table Date
 	column 'Calendar WeekYearOrder'
 		formatString: 0
 		lineageTag: 7d3d2245-4466-4329-be3a-656b7f7d769e
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Calendar WeekYearOrder]
 
@@ -186,7 +186,7 @@ table Date
 
 	column 'Calendar RelativeWeekPos'
 		lineageTag: 5e2ffa34-38d9-4486-8aef-c6424e79df78
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Calendar RelativeWeekPos]
 
@@ -196,7 +196,7 @@ table Date
 
 	column 'Calendar RelativeMonthPos'
 		lineageTag: de611d7d-aada-4e2c-aad5-b51683b00363
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Calendar RelativeMonthPos]
 
@@ -206,7 +206,7 @@ table Date
 
 	column 'Calendar RelativeQuarterPos'
 		lineageTag: 21fe0b21-148b-4b44-95a5-f2112c12e334
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Calendar RelativeQuarterPos]
 
@@ -216,7 +216,7 @@ table Date
 
 	column 'Calendar RelativeYearPos'
 		lineageTag: 886a404e-206a-464d-a867-74b4392df9cf
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Calendar RelativeYearPos]
 
@@ -281,7 +281,7 @@ table Date
 	column 'Calendar MonthDays'
 		formatString: 0
 		lineageTag: 4f639461-2576-4781-97b4-5c9211af8089
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Calendar MonthDays]
 
@@ -290,7 +290,7 @@ table Date
 	column 'Calendar QuarterDays'
 		formatString: 0
 		lineageTag: ceaace7f-f1e7-4f02-946d-c8c38cc86b45
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Calendar QuarterDays]
 
@@ -299,7 +299,7 @@ table Date
 	column 'Calendar YearDays'
 		formatString: 0
 		lineageTag: c8ed0c00-2db4-42e7-917c-fbd99997d3a5
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Calendar YearDays]
 
@@ -308,7 +308,7 @@ table Date
 	column 'Calendar DayOfMonthNumber'
 		formatString: 0
 		lineageTag: c6f753da-3bd5-4ff2-9d73-6adff6e2420a
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Calendar DayOfMonthNumber]
 
@@ -317,7 +317,7 @@ table Date
 	column 'Calendar DayOfQuarterNumber'
 		formatString: 0
 		lineageTag: 34ec5a3d-58b2-41a0-bdb7-716c0b00f865
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Calendar DayOfQuarterNumber]
 
@@ -326,7 +326,7 @@ table Date
 	column 'Calendar DayOfYearNumber'
 		formatString: 0
 		lineageTag: 8ec89994-8db9-47ec-a193-000a533bf89d
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Calendar DayOfYearNumber]
 
@@ -379,7 +379,7 @@ table Date
 	column 'Fiscal YearNumber'
 		formatString: 0
 		lineageTag: a3c995db-ed82-401f-8624-f82b72ae1c52
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Fiscal YearNumber]
 
@@ -387,7 +387,7 @@ table Date
 
 	column 'Fiscal QuarterNumber'
 		lineageTag: eabfd5f4-91bb-4bf7-ac08-58575bde4605
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Fiscal QuarterNumber]
 
@@ -405,7 +405,7 @@ table Date
 
 	column 'Fiscal YearQuarterNumber'
 		lineageTag: e2e814c8-d659-409b-93af-f5e8bd7d2f8b
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Fiscal YearQuarterNumber]
 
@@ -424,7 +424,7 @@ table Date
 	column 'Fiscal MonthNumber'
 		formatString: 0
 		lineageTag: 707c71f8-02d8-4fdb-83eb-51b09c64acd1
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Fiscal MonthNumber]
 
@@ -441,7 +441,7 @@ table Date
 	column 'Fiscal YearMonthNumber'
 		formatString: 0
 		lineageTag: 9f0de0de-2f91-4115-aa36-542164e7d551
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Fiscal YearMonthNumber]
 
@@ -458,7 +458,7 @@ table Date
 	column 'Fiscal WeekNumber'
 		formatString: 0
 		lineageTag: 279436dd-664a-421b-bdf8-2673c6f07b75
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Fiscal WeekNumber]
 
@@ -475,7 +475,7 @@ table Date
 	column 'Fiscal YearWeekNumber'
 		formatString: 0
 		lineageTag: 99596c1a-1b58-435d-99e9-0300ea26e68c
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Fiscal YearWeekNumber]
 
@@ -492,7 +492,7 @@ table Date
 	column 'Fiscal WeekYearOrder'
 		formatString: 0
 		lineageTag: 279a2bb3-85c6-49a9-9220-846b54609a3b
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Fiscal WeekYearOrder]
 
@@ -500,7 +500,7 @@ table Date
 
 	column 'Fiscal RelativeWeekPos'
 		lineageTag: 2c765b1c-4fec-4a28-b7cb-68197833fb25
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Fiscal RelativeWeekPos]
 
@@ -510,7 +510,7 @@ table Date
 
 	column 'Fiscal RelativeMonthPos'
 		lineageTag: 987274ad-78e2-4ae7-a9c0-4d13ea2da576
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Fiscal RelativeMonthPos]
 
@@ -520,7 +520,7 @@ table Date
 
 	column 'Fiscal RelativeQuarterPos'
 		lineageTag: 064921df-baa5-4a0f-bc9a-86eaaffb2fd9
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Fiscal RelativeQuarterPos]
 
@@ -530,7 +530,7 @@ table Date
 
 	column 'Fiscal RelativeYearPos'
 		lineageTag: 6793bdac-8231-45e8-aef0-71462d85131f
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Fiscal RelativeYearPos]
 
@@ -595,7 +595,7 @@ table Date
 	column 'Fiscal MonthDays'
 		formatString: 0
 		lineageTag: c1943711-e0b3-4bc9-9b96-efca45f47661
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Fiscal MonthDays]
 
@@ -604,7 +604,7 @@ table Date
 	column 'Fiscal QuarterDays'
 		formatString: 0
 		lineageTag: 28ac503d-a181-4b77-8800-2262e63c673d
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Fiscal QuarterDays]
 
@@ -613,7 +613,7 @@ table Date
 	column 'Fiscal YearDays'
 		formatString: 0
 		lineageTag: 242c9b75-84ea-4639-ad4d-8852671e3ab8
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Fiscal YearDays]
 
@@ -622,7 +622,7 @@ table Date
 	column 'Fiscal DayOfMonthNumber'
 		formatString: 0
 		lineageTag: a9f5a4f7-3c44-4e28-8a5f-58169fd1576f
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Fiscal DayOfMonthNumber]
 
@@ -631,7 +631,7 @@ table Date
 	column 'Fiscal DayOfQuarterNumber'
 		formatString: 0
 		lineageTag: a31a57b0-9478-4770-a0ad-8cb0d213230f
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Fiscal DayOfQuarterNumber]
 
@@ -640,7 +640,7 @@ table Date
 	column 'Fiscal DayOfYearNumber'
 		formatString: 0
 		lineageTag: 925a6fca-ee97-44e9-8b92-6bd04d42cfa5
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Fiscal DayOfYearNumber]
 
@@ -685,7 +685,7 @@ table Date
 	column 'FW YearNumber'
 		formatString: 0
 		lineageTag: 8d7eb444-114c-49d3-9fdf-97bf3c0557c0
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [FW YearNumber]
 
@@ -701,7 +701,7 @@ table Date
 
 	column 'FW QuarterNumber'
 		lineageTag: 26717291-755c-4034-9b5e-540b9a487cbb
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [FW QuarterNumber]
 
@@ -719,7 +719,7 @@ table Date
 
 	column 'FW YearQuarterNumber'
 		lineageTag: ff35f6f4-214f-48aa-a65b-b0ad036049af
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [FW YearQuarterNumber]
 
@@ -737,7 +737,7 @@ table Date
 
 	column 'FW MonthNumber'
 		lineageTag: bad6acc6-5cb2-40e0-9cf5-0a7f2dacb974
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [FW MonthNumber]
 
@@ -755,7 +755,7 @@ table Date
 
 	column 'FW YearMonthNumber'
 		lineageTag: 75ab148d-38a7-4690-8574-bcee9f4d71c4
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [FW YearMonthNumber]
 
@@ -774,7 +774,7 @@ table Date
 	column 'FW WeekNumber'
 		formatString: 0
 		lineageTag: 438bd7d8-d767-48b0-b571-31ebc7989889
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [FW WeekNumber]
 
@@ -790,7 +790,7 @@ table Date
 
 	column 'FW PeriodNumber'
 		lineageTag: 3bba8af4-3920-4136-a69a-7bcb98099855
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [FW PeriodNumber]
 
@@ -809,7 +809,7 @@ table Date
 	column 'FW YearWeekNumber'
 		formatString: 0
 		lineageTag: 45232d6a-087e-4313-9a7f-7d96b213de02
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [FW YearWeekNumber]
 
@@ -843,7 +843,7 @@ table Date
 
 	column 'FW RelativeWeekPos'
 		lineageTag: 829684de-c2cf-4229-a8ec-b0cab2571799
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [FW RelativeWeekPos]
 
@@ -853,7 +853,7 @@ table Date
 
 	column 'FW RelativeMonthPos'
 		lineageTag: 85d02ab8-5142-493d-a43e-f3846d030090
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [FW RelativeMonthPos]
 
@@ -863,7 +863,7 @@ table Date
 
 	column 'FW RelativeQuarterPos'
 		lineageTag: 94923ed3-53f5-4cd0-bf06-e1761f8236e4
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [FW RelativeQuarterPos]
 
@@ -873,7 +873,7 @@ table Date
 
 	column 'FW RelativeYearPos'
 		lineageTag: 7418856c-fe29-4c7e-9e60-bcd4ae227400
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [FW RelativeYearPos]
 
@@ -938,7 +938,7 @@ table Date
 	column 'FW MonthDays'
 		formatString: 0
 		lineageTag: 41659b6a-b1a6-4bc4-babd-4114197946f6
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [FW MonthDays]
 
@@ -947,7 +947,7 @@ table Date
 	column 'FW QuarterDays'
 		formatString: 0
 		lineageTag: a61a0675-ef05-4f96-8f3c-5fbba15a1975
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [FW QuarterDays]
 
@@ -956,7 +956,7 @@ table Date
 	column 'FW YearDays'
 		formatString: 0
 		lineageTag: 605ede9a-9fe3-4891-8619-79c902f46fa9
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [FW YearDays]
 
@@ -965,7 +965,7 @@ table Date
 	column 'FW DayOfMonthNumber'
 		formatString: 0
 		lineageTag: 199a5637-52b4-45e5-842a-adfed5019e45
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [FW DayOfMonthNumber]
 
@@ -974,7 +974,7 @@ table Date
 	column 'FW DayOfQuarterNumber'
 		formatString: 0
 		lineageTag: cfb9c1bb-25b9-45ce-8f41-357a31a2fe35
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [FW DayOfQuarterNumber]
 
@@ -983,7 +983,7 @@ table Date
 	column 'FW DayOfYearNumber'
 		formatString: 0
 		lineageTag: 7a8442c3-51e9-4b0e-bad7-deca77eaa39e
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [FW DayOfYearNumber]
 

@@ -72,7 +72,7 @@ expression stg_Category =
 
 	annotation PBI_ResultType = Table
 
-expression OrderStatus =
+expression stg_OrderStatus =
 		let
 		    Source = CSVs,
 		    Data = Source{[#"Folder Path"=DataFolder,Name="OrdersStatus.csv"]}[Content],
@@ -138,6 +138,190 @@ expression stg_Supplier =
 		    #"Sorted Rows"
 	lineageTag: 2a140c6e-d408-46cd-94c0-1609c5e9f36c
 	queryGroup: Silver
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression stg_Invoice =
+		let
+		    Source = CSVs,
+		    Data = Source{[#"Folder Path"=DataFolder,Name="Invoices.csv"]}[Content],
+		    #"Imported CSV" = Csv.Document(Data,[Delimiter=",", Columns=16, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"CustomerID", type text}, {"Freight", Currency.Type}, {"OrderID", type text}, {"ProductName", type text}, {"Quantity", Int64.Type}, {"Region", type text}, {"RequiredDate", type text}, {"ShipName", type text}, {"ShippedDate", type text}, {"ShipperName", type text}, {"ShipPostalCode", type text}, {"ShipRegion", type text}, {"UnitPrice", Currency.Type}, {"ShipCountry", type text}, {"ShipCity", type text}, {"ShipAddress", type text}}),
+		    #"Added Conditional Column" = Table.AddColumn(#"Changed Type", "ShippedDateClean", each if not Text.Contains([ShippedDate], "/") then null else [ShippedDate]),
+		    #"Changed Type with Locale" = Table.TransformColumnTypes(#"Added Conditional Column", {{"RequiredDate", type datetime}, {"ShippedDateClean", type datetime}}, "en-US"),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Changed Type with Locale",{{"ShippedDateClean", type date}, {"RequiredDate", type date}}),
+		    #"Removed Columns" = Table.RemoveColumns(#"Changed Type1",{"ShippedDate"}),
+		    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"ShippedDateClean", "ShippedDate"}, {"Region", "Invoice Region"}})
+		in
+		    #"Renamed Columns"
+	lineageTag: c8315d20-f792-43e7-a863-9786aefd8a3a
+	queryGroup: Silver
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression stg_Order = ```
+		let
+		    Source = CSVs,
+		    Data = Source{[#"Folder Path"=DataFolder,Name="Orders.csv"]}[Content],
+		    fnRealorExcelDate = (input) =>
+		        let
+		            // Try to convert standard text (mm/dd/yyyy) first
+		            StandardDate = try DateTime.From(input, "en-US") otherwise null,
+		            
+		            // If that fails, try to convert from Excel Serial Number
+		            ExcelDate = try DateTime.From(Number.From(input)) otherwise null,
+		            
+		            // Return the first one that actually worked
+		            Result = if StandardDate <> null then StandardDate else ExcelDate
+		        in
+		            Result,
+		    #"Imported CSV" = Csv.Document(Data,[Delimiter=",", Columns=4, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"EmployeeID", Int64.Type}, {"PK_OrderID", Int64.Type}}),
+		    #"Transformed OrderDate" = Table.TransformColumns(#"Changed Type", {
+		        {"OrderDate", each fnRealorExcelDate(_), type date}
+		    }),
+		    #"Change Type (OrderDate) to Date" = Table.TransformColumnTypes(#"Transformed OrderDate",{{"OrderDate", type date}}),
+		    #"Reordered Columns" = Table.ReorderColumns(#"Change Type (OrderDate) to Date",{"PK_OrderID", "CustomerID", "EmployeeID", "OrderDate"}),
+		    #"Sorted Rows" = Table.Sort(#"Reordered Columns",{{"PK_OrderID", Order.Ascending}}),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Sorted Rows",{{"PK_OrderID", type text}}),
+		    #"Added Index" = Table.AddIndexColumn(#"Changed Type1", "Index", 1, 1, Int64.Type),
+		    #"Removed Columns" = Table.RemoveColumns(#"Added Index",{"Index"})
+		in
+		    #"Removed Columns"
+		```
+	lineageTag: b479cbff-e3e6-4ff7-be32-d0a1c0a9f83b
+	queryGroup: Silver
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression stg_OrderDetail =
+		let
+		    Source = CSVs,
+		    Data = Source{[#"Folder Path"=DataFolder,Name="OrdersDetails.csv"]}[Content],
+		    #"Imported CSV" = Csv.Document(Data,[Delimiter=",", Columns=7, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"OrderID_FK", type text}, {"Discount", type number}, {"ProductID", Int64.Type}, {"Quantity", Int64.Type}, {"UnitPrice", Currency.Type}}),
+		    #"Reordered Columns" = Table.ReorderColumns(#"Changed Type",{"OrderID_FK", "Discount", "ProductID", "Quantity", "UnitPrice", "ShipVia", "Status"}),
+		    #"Sorted Rows" = Table.Sort(#"Reordered Columns",{{"OrderID_FK", Order.Ascending}, {"ProductID", Order.Ascending}}),
+		    #"Changed Type2" = Table.TransformColumnTypes(#"Sorted Rows",{{"ShipVia", Int64.Type}}),
+		    #"Merged Queries" = Table.NestedJoin(#"Changed Type2", {"Status"}, stg_OrderStatus, {"StatusCode"}, "stg_OrderStatus", JoinKind.LeftOuter),
+		    #"Removed Columns" = Table.RemoveColumns(#"Merged Queries",{"stg_OrderStatus"})
+		in
+		    #"Removed Columns"
+	lineageTag: 3791e900-22a8-457e-8a2d-f5016084014b
+	queryGroup: Silver
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression lkp_Product_Key =
+		let
+		    Source = Product,
+		    #"Removed Other Columns" = Table.SelectColumns(Source,{"Supplier_Key", "Product_Key", "Product Name"}),
+		    #"Reordered Columns" = Table.ReorderColumns(#"Removed Other Columns",{"Product Name", "Supplier_Key", "Product_Key"}),
+		    #"Sorted Rows" = Table.Sort(#"Reordered Columns",{{"Product Name", Order.Ascending}})
+		in
+		    #"Sorted Rows"
+	lineageTag: 99e2194a-7306-4e07-9c3b-498421915ae7
+	queryGroup: Surrogate_Keys
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression lkp_Shipment_Key =
+		let
+		    Source = Shipment,
+		    #"Removed Columns" = Table.RemoveColumns(Source,{"ShipPostalCode", "ShipRegion", "ShipCountry", "ShipCity", "ShipAddress"}),
+		    #"Reordered Columns" = Table.ReorderColumns(#"Removed Columns",{"ShipName", "Shipment_Key"}),
+		    #"Sorted Rows" = Table.Sort(#"Reordered Columns",{{"ShipName", Order.Ascending}})
+		in
+		    #"Sorted Rows"
+	lineageTag: f3f53465-0072-4e8d-bdab-c7433c06db64
+	queryGroup: Surrogate_Keys
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression lkp_Customer_Key =
+		let
+		    Source = stg_Customer,
+		    #"Removed Other Columns" = Table.SelectColumns(Source,{"CustomerKey"}),
+		    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+		    #"Added Index" = Table.AddIndexColumn(#"Removed Duplicates", "Index", 1, 1, Int64.Type),
+		    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "Customer_Key"}}),
+		    #"Reordered Columns" = Table.ReorderColumns(#"Renamed Columns",{"CustomerKey", "Customer_Key"}),
+		    #"Sorted Rows" = Table.Sort(#"Reordered Columns",{{"CustomerKey", Order.Ascending}})
+		in
+		    #"Sorted Rows"
+	lineageTag: f77bdaaa-1a00-43de-a7d4-b04f38d82a99
+	queryGroup: Surrogate_Keys
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression lkp_Shipper_Key =
+		let
+		    Source = Shipper,
+		    #"Removed Columns" = Table.RemoveColumns(Source,{"Shipper Phone"}),
+		    #"Reordered Columns" = Table.ReorderColumns(#"Removed Columns",{"Shipper Name", "Shipper_Key"}),
+		    #"Sorted Rows" = Table.Sort(#"Reordered Columns",{{"Shipper Name", Order.Ascending}})
+		in
+		    #"Sorted Rows"
+	lineageTag: 9c3b1d00-7a48-49fc-8cfc-7ae5ecce112c
+	queryGroup: Surrogate_Keys
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression lkp_OrderStatus_Key =
+		let
+		    Source = stg_OrderStatus,
+		    #"Renamed Columns" = Table.RenameColumns(Source,{{"StatusCode", "OrderStatus"}, {"StatusID", "OrderStatus_Key"}}),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Renamed Columns",{"OrderStatus_Key", "OrderStatus"}),
+		    #"Reordered Columns" = Table.ReorderColumns(#"Removed Other Columns",{"OrderStatus", "OrderStatus_Key"}),
+		    #"Sorted Rows" = Table.Sort(#"Reordered Columns",{{"OrderStatus", Order.Ascending}}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Sorted Rows",{{"OrderStatus_Key", Int64.Type}})
+		in
+		    #"Changed Type"
+	lineageTag: edbf0409-08f6-4db6-8493-4799aba96ac9
+	queryGroup: Surrogate_Keys
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression Invoice =
+		let
+		    Source = stg_Invoice,
+		    #"Merged Queries" = Table.NestedJoin(Source, {"CustomerID"}, lkp_Customer_Key, {"CustomerKey"}, "lkp_Customer_Key", JoinKind.LeftOuter),
+		    // Replace any NULL with 0
+		    #"Expanded lkp_Customer_Key" = Table.ExpandTableColumn(#"Merged Queries", "lkp_Customer_Key", {"Customer_Key"}, {"Customer_Key"}),
+		    #"Merged Queries1" = Table.NestedJoin(#"Expanded lkp_Customer_Key", {"ProductName"}, lkp_Product_Key, {"Product Name"}, "lkp_Product_Key", JoinKind.LeftOuter),
+		    #"Expanded lkp_Product_Key" = Table.ExpandTableColumn(#"Merged Queries1", "lkp_Product_Key", {"Product_Key"}, {"Product_Key"}),
+		    #"Reordered Columns" = Table.ReorderColumns(#"Expanded lkp_Product_Key",{"Customer_Key", "OrderID", "Quantity", "Product_Key", "CustomerID", "Freight", "ProductName", "Invoice Region", "RequiredDate", "ShipName", "ShipperName", "ShipPostalCode", "ShipRegion", "UnitPrice", "ShipCountry", "ShipCity", "ShipAddress", "ShippedDate"}),
+		    #"Removed Columns" = Table.RemoveColumns(#"Reordered Columns",{"CustomerID"}),
+		    #"Merged Queries2" = Table.NestedJoin(#"Removed Columns", {"ShipName"}, lkp_Shipment_Key, {"ShipName"}, "lkp_Shipment_Key", JoinKind.LeftOuter),
+		    #"Expanded lkp_Shipment_Key" = Table.ExpandTableColumn(#"Merged Queries2", "lkp_Shipment_Key", {"Shipment_Key"}, {"Shipment_Key"}),
+		    #"Merged Queries3" = Table.NestedJoin(#"Expanded lkp_Shipment_Key", {"ShipperName"}, lkp_Shipper_Key, {"Shipper Name"}, "lkp_Shipper_Key", JoinKind.LeftOuter),
+		    #"Expanded lkp_Shipper_Key" = Table.ExpandTableColumn(#"Merged Queries3", "lkp_Shipper_Key", {"Shipper_Key"}, {"Shipper_Key"}),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Expanded lkp_Shipper_Key",{"Customer_Key", "OrderID", "Quantity", "Product_Key", "Freight", "Invoice Region", "RequiredDate", "UnitPrice", "ShippedDate", "Shipment_Key", "Shipper_Key"})
+		in
+		    #"Removed Other Columns"
+	lineageTag: 01c4e17a-fba1-4073-997d-3170728f764a
+	queryGroup: Dimensions
 
 	annotation PBI_NavigationStepName = Navigation
 

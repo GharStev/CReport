@@ -3,10 +3,13 @@ table Supplier
 
 	column Supplier_Key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: a7b1de27-430f-4105-ab7d-a4687edda2bb
-		summarizeBy: count
+		summarizeBy: none
 		sourceColumn: Supplier_Key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 

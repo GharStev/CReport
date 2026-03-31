@@ -3,10 +3,13 @@ table Customer
 
 	column Customer_Key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: bea002c3-71f7-461d-9967-9f0b004aa326
-		summarizeBy: count
+		summarizeBy: none
 		sourceColumn: Customer_Key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -104,7 +107,7 @@ table Customer
 		source =
 				let
 				    Source = stg_Customer,
-				    #"Merged Queries" = Table.NestedJoin(Source, {"CustomerKey"}, Customer_Key, {"CustomerKey"}, "sil_Customer (2)", JoinKind.LeftOuter),
+				    #"Merged Queries" = Table.NestedJoin(Source, {"CustomerKey"}, lkp_Customer_Key, {"CustomerKey"}, "sil_Customer (2)", JoinKind.LeftOuter),
 				    #"Expanded sil_Customer (2)" = Table.ExpandTableColumn(#"Merged Queries", "sil_Customer (2)", {"Customer_Key"}, {"Customer_Key"}),
 				    #"Reordered Columns" = Table.ReorderColumns(#"Expanded sil_Customer (2)",{"Customer_Key", "CustomerKey", "Address", "City", "CompanyName", "ContactName", "ContactTitle", "Country", "Fax", "Phone", "PostalCode", "Region"}),
 				    #"Renamed Columns" = Table.RenameColumns(#"Reordered Columns",{{"CompanyName", "Customer Company"}, {"ContactName", "Contact Name"}, {"ContactTitle", "Contact Title"}, {"PostalCode", "Postal Code"}})

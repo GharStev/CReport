@@ -1,0 +1,84 @@
+table Shipment
+	lineageTag: 485d58a9-1fd0-4d60-92ea-b5da23dc9d2a
+
+	column Shipment_Key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b53dfcbe-ce75-4040-8868-6133d02a67e9
+		summarizeBy: none
+		sourceColumn: Shipment_Key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipName
+		dataType: string
+		lineageTag: e7eede35-d3db-45ad-bc98-2699ae0a98ff
+		summarizeBy: none
+		sourceColumn: ShipName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipPostalCode
+		dataType: string
+		lineageTag: 8525bf1e-381a-4d2a-ab59-1fc5c1c34716
+		summarizeBy: none
+		sourceColumn: ShipPostalCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipRegion
+		dataType: string
+		lineageTag: d0eafbf5-0670-4b14-ae77-dd801c7a0a00
+		summarizeBy: none
+		sourceColumn: ShipRegion
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipCountry
+		dataType: string
+		lineageTag: b1cd4a6d-04e9-4353-af0a-40ef3ae8a372
+		summarizeBy: none
+		sourceColumn: ShipCountry
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipCity
+		dataType: string
+		lineageTag: 49b975b1-28e0-44cb-b44b-3d8c70cf5f31
+		summarizeBy: none
+		sourceColumn: ShipCity
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipAddress
+		dataType: string
+		lineageTag: 4017e8e6-4e32-412f-b05e-f2a782bb55c6
+		summarizeBy: none
+		sourceColumn: ShipAddress
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Shipment = m
+		mode: import
+		queryGroup: Dimensions
+		source =
+				let
+				    Source = stg_Invoice,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"RequiredDate", "ShipName", "ShipPostalCode", "ShipRegion", "ShipCountry", "ShipCity", "ShipAddress"}),
+				    #"Sorted Rows1" = Table.Sort(#"Removed Other Columns",{{"RequiredDate", Order.Ascending}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Sorted Rows1",{"RequiredDate"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Columns"),
+				    #"Filtered Rows" = Table.SelectRows(#"Removed Duplicates", each true),
+				    #"Added Index" = Table.AddIndexColumn(#"Filtered Rows", "Index", 1, 1, Int64.Type),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "Shipment_Key"}}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Renamed Columns",{"Shipment_Key", "ShipName", "ShipPostalCode", "ShipRegion", "ShipCountry", "ShipCity", "ShipAddress"})
+				in
+				    #"Reordered Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

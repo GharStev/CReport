@@ -3,10 +3,13 @@ table Product
 
 	column Product_Key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: d39a9f6f-2a64-458d-bd9c-3fa823d19fc1
-		summarizeBy: count
+		summarizeBy: none
 		sourceColumn: Product_Key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -14,7 +17,7 @@ table Product
 		dataType: int64
 		formatString: 0
 		lineageTag: 945ad3e7-b21c-48fc-b047-204a528ad7a0
-		summarizeBy: count
+		summarizeBy: none
 		sourceColumn: Supplier_Key
 
 		annotation SummarizationSetBy = Automatic
@@ -39,7 +42,7 @@ table Product
 		dataType: decimal
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 372efa06-64f6-4de2-8f2e-7bec947d721e
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Unit Price
 
 		annotation SummarizationSetBy = Automatic
@@ -50,7 +53,7 @@ table Product
 		dataType: int64
 		formatString: 0
 		lineageTag: 637af2b4-cc73-4fe6-aff2-4472c706fc25
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Units In Stock
 
 		annotation SummarizationSetBy = Automatic
@@ -59,7 +62,7 @@ table Product
 		dataType: int64
 		formatString: 0
 		lineageTag: 9eb406ab-ed6d-4982-a9a3-6aea15ae8b2e
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Units On Order
 
 		annotation SummarizationSetBy = Automatic

@@ -26,22 +26,25 @@ queryGroup Surrogate_Keys
 
 	annotation PBI_QueryGroupOrder = 4
 
+queryGroup Facts
+
+	annotation PBI_QueryGroupOrder = 5
+
 annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBI_QueryOrder = ["CSVs","DataFolder","stg_Customer","stg_Employee","stg_Category","Invoice","Order","OrderStatus","OrderDetail","stg_Product","stg_Shipper","stg_Supplier","Supplier","Shipper","Customer","Employee","Product","Customer_Key"]
+annotation PBI_QueryOrder = ["CSVs","DataFolder","stg_Customer","stg_Employee","stg_Category","stg_Invoice","stg_Order","stg_OrderStatus","stg_OrderDetail","stg_Product","stg_Shipper","stg_Supplier","Shipment","Supplier","Shipper","Customer","Employee","Product","Filters","Invoice","lkp_Customer_Key","lkp_OrderStatus_Key","lkp_Product_Key","lkp_Shipment_Key","lkp_Shipper_Key","Order"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
-ref table Invoice
-ref table Order
-ref table OrderDetail
 ref table Date
 ref table Supplier
 ref table Shipper
 ref table Customer
 ref table Employee
 ref table Product
-ref table Customer_Key
+ref table Shipment
+ref table Order
+ref table Filters
 
 ref cultureInfo en-US
 

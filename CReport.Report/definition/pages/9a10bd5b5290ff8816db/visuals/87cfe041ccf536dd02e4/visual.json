@@ -1,12 +1,12 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
-  "name": "b059571142fd60484f2a",
+  "name": "87cfe041ccf536dd02e4",
   "position": {
-    "x": 631.39996041955283,
-    "y": 14.396728016359919,
-    "z": 1,
-    "height": 280.08179959100204,
-    "width": 280.08179959100204
+    "x": 20.950369588173178,
+    "y": 145.97676874340021,
+    "z": 2,
+    "height": 431.84794086589227,
+    "width": 284.519535374868
   },
   "visual": {
     "visualType": "tableEx",
@@ -19,14 +19,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "OrderDetail"
+                      "Entity": "Supplier"
                     }
                   },
-                  "Property": "OrderStatus"
+                  "Property": "CompanyName"
                 }
               },
-              "queryRef": "OrderDetail.OrderStatus",
-              "nativeQueryRef": "OrderStatus"
+              "queryRef": "Supplier.CompanyName",
+              "nativeQueryRef": "CompanyName"
             }
           ]
         }
@@ -37,15 +37,15 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "7cd4c291eaa49c0437b5",
+        "name": "ccfb3c5dc5f993abc56e",
         "field": {
           "Column": {
             "Expression": {
               "SourceRef": {
-                "Entity": "OrderDetail"
+                "Entity": "Supplier"
               }
             },
-            "Property": "OrderStatus"
+            "Property": "CompanyName"
           }
         },
         "type": "Categorical"

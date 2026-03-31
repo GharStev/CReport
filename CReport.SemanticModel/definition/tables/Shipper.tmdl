@@ -3,10 +3,13 @@ table Shipper
 
 	column Shipper_Key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 4be7527b-f397-455f-b3dd-66ae4c9381e3
-		summarizeBy: count
+		summarizeBy: none
 		sourceColumn: Shipper_Key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
