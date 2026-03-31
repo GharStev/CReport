@@ -23,12 +23,72 @@
                       "Entity": "Product"
                     }
                   },
+                  "Property": "Product Status"
+                }
+              },
+              "queryRef": "Product.Product Status",
+              "nativeQueryRef": "Product Status",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product"
+                    }
+                  },
                   "Property": "Product Name"
                 }
               },
               "queryRef": "Product.Product Name",
               "nativeQueryRef": "Product Name",
               "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Customer"
+                    }
+                  },
+                  "Property": "Customer Company"
+                }
+              },
+              "queryRef": "Customer.Customer Company",
+              "nativeQueryRef": "Customer Company",
+              "active": false
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Order"
+                    }
+                  },
+                  "Property": "Invoice Shipped Date"
+                }
+              },
+              "queryRef": "Order.Invoice Shipped Date",
+              "nativeQueryRef": "Invoice Shipped Date",
+              "active": false
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Order"
+                    }
+                  },
+                  "Property": "OrderID"
+                }
+              },
+              "queryRef": "Order.OrderID",
+              "nativeQueryRef": "OrderID",
+              "active": false
             }
           ]
         },
@@ -103,13 +163,125 @@
         "levels": [
           {
             "queryRefs": [
+              "Product.Product Status"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product"
+                    }
+                  },
+                  "Property": "Product Status"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
               "Product.Product Name"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product"
+                    }
+                  },
+                  "Property": "Product Name"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "Customer.Customer Company"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Customer"
+                    }
+                  },
+                  "Property": "Customer Company"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "Order.Invoice Shipped Date"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Order"
+                    }
+                  },
+                  "Property": "Invoice Shipped Date"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "Order.OrderID"
             ],
             "isCollapsed": true,
             "isPinned": true
           }
         ],
-        "root": {}
+        "root": {
+          "children": [
+            {
+              "identityValues": [
+                {
+                  "Literal": {
+                    "Value": "'Discontinued'"
+                  }
+                }
+              ],
+              "isToggled": true,
+              "children": [
+                {
+                  "identityValues": [
+                    {
+                      "Literal": {
+                        "Value": "'Mishi Kobe Niku'"
+                      }
+                    }
+                  ],
+                  "children": [
+                    {
+                      "identityValues": [
+                        {
+                          "Literal": {
+                            "Value": "'Consolidated Holdings'"
+                          }
+                        }
+                      ],
+                      "isToggled": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       }
     ],
     "drillFilterOtherVisuals": true
@@ -174,7 +346,7 @@
         "type": "Advanced"
       },
       {
-        "name": "5969e97ce2f460bf06d4",
+        "name": "1345fc133d0935170473",
         "field": {
           "Column": {
             "Expression": {
@@ -183,6 +355,62 @@
               }
             },
             "Property": "Product Name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "06b38168e38682a69581",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Product"
+              }
+            },
+            "Property": "Product Status"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "472f1ea37abf5e34552e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Order"
+              }
+            },
+            "Property": "OrderID"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "07e1720e85ff734ce492",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Customer"
+              }
+            },
+            "Property": "Customer Company"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "99e400ec6820e459f885",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Order"
+              }
+            },
+            "Property": "Invoice Shipped Date"
           }
         },
         "type": "Categorical"

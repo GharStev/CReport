@@ -1,12 +1,12 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
-  "name": "87cfe041ccf536dd02e4",
+  "name": "3e9c13ffb39f2860b1f1",
   "position": {
-    "x": 20.950369588173178,
-    "y": 145.97676874340021,
+    "x": 20.869565217391305,
+    "y": 169.7391304347826,
     "z": 2,
-    "height": 431.84794086589227,
-    "width": 284.519535374868
+    "height": 145.39130434782609,
+    "width": 238.60869565217391
   },
   "visual": {
     "visualType": "tableEx",
@@ -19,14 +19,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Supplier"
+                      "Entity": "Product"
                     }
                   },
-                  "Property": "CompanyName"
+                  "Property": "Product Status"
                 }
               },
-              "queryRef": "Supplier.CompanyName",
-              "nativeQueryRef": "CompanyName"
+              "queryRef": "Product.Product Status",
+              "nativeQueryRef": "Product Status"
             }
           ]
         }
@@ -37,15 +37,15 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "ccfb3c5dc5f993abc56e",
+        "name": "cfd8c106e54e24c58887",
         "field": {
           "Column": {
             "Expression": {
               "SourceRef": {
-                "Entity": "Supplier"
+                "Entity": "Product"
               }
             },
-            "Property": "CompanyName"
+            "Property": "Product Status"
           }
         },
         "type": "Categorical"

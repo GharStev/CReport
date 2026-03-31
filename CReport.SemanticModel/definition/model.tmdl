@@ -32,12 +32,13 @@ queryGroup Facts
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBI_QueryOrder = ["CSVs","DataFolder","stg_Customer","stg_Employee","stg_Category","stg_Invoice","stg_Order","stg_OrderStatus","stg_OrderDetail","stg_Product","stg_Shipper","stg_Supplier","Shipment","Supplier","Shipper","Customer","Employee","Product","Filters","Invoice","lkp_Customer_Key","lkp_OrderStatus_Key","lkp_Product_Key","lkp_Shipment_Key","lkp_Shipper_Key","Order"]
+annotation PBI_QueryOrder = ["CSVs","DataFolder","stg_Customer","stg_Employee","stg_Category","stg_Invoice","stg_Order","stg_OrderStatus","stg_OrderDetail","stg_Product","stg_Shipper","stg_Supplier","Shipment","Shipper","Customer","Employee","Product","Filters","Invoice","lkp_Customer_Key","lkp_OrderStatus_Key","lkp_Product_Key","lkp_Shipment_Key","lkp_Shipper_Key","Order"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
+annotation __TEdtr = 1
+
 ref table Date
-ref table Supplier
 ref table Shipper
 ref table Customer
 ref table Employee

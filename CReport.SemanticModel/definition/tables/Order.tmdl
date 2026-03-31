@@ -111,9 +111,8 @@ table Order
 		annotation SummarizationSetBy = Automatic
 
 	column Supplier_Key
-		dataType: int64
+		dataType: string
 		isHidden
-		formatString: 0
 		lineageTag: 85fad3e9-d5ac-4ee3-af2e-b495e7e78b69
 		summarizeBy: none
 		sourceColumn: Supplier_Key
@@ -121,45 +120,6 @@ table Order
 		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
-
-	column 'Invoice.Quantity'
-		dataType: int64
-		formatString: 0
-		lineageTag: 325fad6b-4904-4144-9cda-1a58e21d5a98
-		summarizeBy: sum
-		sourceColumn: Invoice.Quantity
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'Invoice.Freight'
-		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
-		lineageTag: f91ef161-117b-48aa-9227-b08a1e2d74f0
-		summarizeBy: none
-		sourceColumn: Invoice.Freight
-
-		annotation SummarizationSetBy = User
-
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
-
-	column 'Invoice.Invoice Region'
-		dataType: string
-		lineageTag: a620ab3e-5429-431f-a79e-7fb2082cddcd
-		summarizeBy: none
-		sourceColumn: Invoice.Invoice Region
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'Invoice.UnitPrice'
-		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
-		lineageTag: 6cb6eb6f-2382-472b-b12e-1e00845352c9
-		summarizeBy: average
-		sourceColumn: Invoice.UnitPrice
-
-		annotation SummarizationSetBy = User
-
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column 'Invoice.Shipment_Key'
 		dataType: int64
@@ -209,6 +169,67 @@ table Order
 
 		annotation SummarizationSetBy = User
 
+	column 'Invoice Quantity'
+		dataType: int64
+		formatString: 0
+		lineageTag: 026408be-6318-4a00-82ef-590424432872
+		summarizeBy: sum
+		sourceColumn: Invoice Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Invoice Total Freight'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 84769e3d-ae9c-42ed-af2e-ce1e97d655e9
+		summarizeBy: sum
+		sourceColumn: Invoice Total Freight
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Invoice Region'
+		dataType: string
+		lineageTag: 9ad3f54e-1357-4f39-9016-fe4bb8948205
+		summarizeBy: none
+		sourceColumn: Invoice Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Invoice Required Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 190fb279-8520-4aa6-8845-9af2f9b5d721
+		summarizeBy: none
+		sourceColumn: Invoice Required Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Invoice Unit Price'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 0569a53e-7549-411e-aa6a-c7ea489b07c0
+		summarizeBy: sum
+		sourceColumn: Invoice Unit Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Invoice Shipped Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c679124f-d0f9-4ddc-baef-15ef3314ea0a
+		summarizeBy: none
+		sourceColumn: Invoice Shipped Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
 	partition Order = m
 		mode: import
 		queryGroup: Facts
@@ -244,12 +265,11 @@ table Order
 				    #"Expanded lkp_Product_Key" = Table.ExpandTableColumn(#"Merged Queries2", "lkp_Product_Key", {"Supplier_Key"}, {"Supplier_Key"}),
 				    #"Removed Columns1" = Table.RemoveColumns(#"Expanded lkp_Product_Key",{"Status"}),
 				    #"Merged Queries4" = Table.NestedJoin(#"Removed Columns1", {"OrderID", "Product_Key"}, Invoice, {"OrderID", "Product_Key"}, "Invoice", JoinKind.LeftOuter),
-				    #"Expanded Invoice" = Table.ExpandTableColumn(#"Merged Queries4", "Invoice", {"Quantity", "Freight", "Invoice Region", "RequiredDate", "UnitPrice", "ShippedDate", "Shipment_Key", "Shipper_Key"}, {"Invoice.Quantity", "Invoice.Freight", "Invoice.Invoice Region", "Invoice.RequiredDate", "Invoice.UnitPrice", "Invoice.ShippedDate", "Invoice.Shipment_Key", "Invoice.Shipper_Key"}),
-				    #"DateToKey2" = Table.AddColumn(#"Expanded Invoice","Invoice.RequiredDate_Key", each fnToDateKey([Invoice.RequiredDate]), Int64.Type),
-				    #"DateToKey3" = Table.AddColumn(#"DateToKey2","Invoice.ShippedDate_Key", each fnToDateKey([Invoice.ShippedDate]), Int64.Type),
-				    #"Removed Columns2" = Table.RemoveColumns(DateToKey3,{"Invoice.RequiredDate", "Invoice.ShippedDate"})
+				    #"Expanded Invoice" = Table.ExpandTableColumn(#"Merged Queries4", "Invoice", {"Quantity", "Freight", "Invoice Region", "RequiredDate", "UnitPrice", "ShippedDate", "Shipment_Key", "Shipper_Key"}, {"Invoice Quantity", "Invoice Total Freight", "Invoice Region", "Invoice Required Date", "Invoice Unit Price", "Invoice Shipped Date", "Invoice.Shipment_Key", "Invoice.Shipper_Key"}),
+				    #"DateToKey2" = Table.AddColumn(#"Expanded Invoice","Invoice.RequiredDate_Key", each fnToDateKey([Invoice Required Date]), Int64.Type),
+				    #"DateToKey3" = Table.AddColumn(#"DateToKey2","Invoice.ShippedDate_Key", each fnToDateKey([Invoice Shipped Date]), Int64.Type)
 				in
-				    #"Removed Columns2"
+				    DateToKey3
 
 	annotation PBI_NavigationStepName = Navigation
 

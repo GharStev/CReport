@@ -226,8 +226,8 @@ expression stg_OrderDetail =
 expression lkp_Product_Key =
 		let
 		    Source = Product,
-		    #"Removed Other Columns" = Table.SelectColumns(Source,{"Supplier_Key", "Product_Key", "Product Name"}),
-		    #"Reordered Columns" = Table.ReorderColumns(#"Removed Other Columns",{"Product Name", "Supplier_Key", "Product_Key"}),
+		    #"Removed Other Columns" = Table.SelectColumns(Source,{"Product_Key", "Product Name"}),
+		    #"Reordered Columns" = Table.ReorderColumns(#"Removed Other Columns",{"Product Name", "Product_Key"}),
 		    #"Sorted Rows" = Table.Sort(#"Reordered Columns",{{"Product Name", Order.Ascending}})
 		in
 		    #"Sorted Rows"

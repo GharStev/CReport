@@ -5,7 +5,7 @@
       "ordinal": 0,
       "scrollPosition": {
         "x": 0,
-        "y": 22.222222222222221
+        "y": 20
       },
       "nodes": [
         {
@@ -59,19 +59,6 @@
             "width": 234
           },
           "zIndex": 4
-        },
-        {
-          "location": {
-            "x": 1620.1900868676548,
-            "y": 645.48952478283081
-          },
-          "nodeIndex": "Supplier",
-          "nodeLineageTag": "3723e5ba-e229-4270-9529-7d158b6806d9",
-          "size": {
-            "height": 393.33333333333348,
-            "width": 234
-          },
-          "zIndex": 5
         },
         {
           "location": {

@@ -1,7 +1,3 @@
-relationship AutoDetected_59fe5c2b-d063-4f1a-b788-bb2eb110289f
-	fromColumn: Order.Supplier_Key
-	toColumn: Supplier.Supplier_Key
-
 relationship AutoDetected_9bedc5e1-091a-4dec-a163-64d775c407c1
 	fromColumn: Order.Customer_Key
 	toColumn: Customer.Customer_Key

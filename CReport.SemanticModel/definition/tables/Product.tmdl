@@ -13,15 +13,6 @@ table Product
 
 		annotation SummarizationSetBy = Automatic
 
-	column Supplier_Key
-		dataType: int64
-		formatString: 0
-		lineageTag: 945ad3e7-b21c-48fc-b047-204a528ad7a0
-		summarizeBy: none
-		sourceColumn: Supplier_Key
-
-		annotation SummarizationSetBy = Automatic
-
 	column 'Product Name'
 		dataType: string
 		lineageTag: b69d5150-1cb6-4ed1-bd20-a327b3fb697b
@@ -32,15 +23,17 @@ table Product
 
 	column 'Quantity Per Unit'
 		dataType: string
+		displayFolder: Unit Info
 		lineageTag: dfd9bd88-a8f5-47d8-8e8e-af5577b97c02
 		summarizeBy: none
 		sourceColumn: Quantity Per Unit
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Unit Price'
+	column 'Current Unit Price'
 		dataType: decimal
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		displayFolder: Unit Info
 		lineageTag: 372efa06-64f6-4de2-8f2e-7bec947d721e
 		summarizeBy: none
 		sourceColumn: Unit Price
@@ -52,6 +45,7 @@ table Product
 	column 'Units In Stock'
 		dataType: int64
 		formatString: 0
+		displayFolder: Unit Info
 		lineageTag: 637af2b4-cc73-4fe6-aff2-4472c706fc25
 		summarizeBy: none
 		sourceColumn: Units In Stock
@@ -61,18 +55,10 @@ table Product
 	column 'Units On Order'
 		dataType: int64
 		formatString: 0
+		displayFolder: Unit Info
 		lineageTag: 9eb406ab-ed6d-4982-a9a3-6aea15ae8b2e
 		summarizeBy: none
 		sourceColumn: Units On Order
-
-		annotation SummarizationSetBy = Automatic
-
-	column Discontinued
-		dataType: boolean
-		formatString: """TRUE"";""TRUE"";""FALSE"""
-		lineageTag: f6974a37-8df4-4d1b-85e2-08cbf5bc8079
-		summarizeBy: none
-		sourceColumn: Discontinued
 
 		annotation SummarizationSetBy = Automatic
 
@@ -92,6 +78,104 @@ table Product
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'Supplier Address'
+		dataType: string
+		displayFolder: Supplier Info
+		lineageTag: b4820110-bf04-448b-8675-a168babceb64
+		summarizeBy: none
+		sourceColumn: Supplier Address
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Supplier City'
+		dataType: string
+		displayFolder: Supplier Info
+		lineageTag: d6586e0c-9cba-4ec7-9d2b-61d8da045a82
+		summarizeBy: none
+		sourceColumn: Supplier City
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Supplier Company Name'
+		dataType: string
+		displayFolder: Supplier Info
+		lineageTag: 862a0e3a-5851-4a59-b944-b8f7f9018995
+		summarizeBy: none
+		sourceColumn: Supplier Company Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Supplier Contact Title'
+		dataType: string
+		displayFolder: Supplier Info
+		lineageTag: aa200dbd-59c4-4565-bac0-fa731c1528e4
+		summarizeBy: none
+		sourceColumn: Supplier Contact Title
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Supplier Contact Name'
+		dataType: string
+		displayFolder: Supplier Info
+		lineageTag: 30412a6d-1556-42b5-81ac-0188a9cdb026
+		summarizeBy: none
+		sourceColumn: Supplier Contact Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Supplier Country'
+		dataType: string
+		displayFolder: Supplier Info
+		lineageTag: fcd3f154-7e25-4290-9805-79bd2746951d
+		summarizeBy: none
+		sourceColumn: Supplier Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Supplier Fax'
+		dataType: string
+		displayFolder: Supplier Info
+		lineageTag: f2668efe-fe27-445f-821f-e2d2dba397f7
+		summarizeBy: none
+		sourceColumn: Supplier Fax
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Supplier Phone'
+		dataType: string
+		displayFolder: Supplier Info
+		lineageTag: bc573bd6-0b4b-48f3-81fd-9459b5e7207b
+		summarizeBy: none
+		sourceColumn: Supplier Phone
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Supplier Postal Code'
+		dataType: string
+		displayFolder: Supplier Info
+		lineageTag: dccd965e-34b8-49e8-8c58-e10cc178cf81
+		summarizeBy: none
+		sourceColumn: Supplier Postal Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Supplier Region'
+		dataType: string
+		displayFolder: Supplier Info
+		lineageTag: 63d6a038-ec95-4d8d-8ab5-9051a4867877
+		summarizeBy: none
+		sourceColumn: Supplier Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Status'
+		dataType: string
+		lineageTag: ba178392-66aa-41b1-b600-31a1d14c1da3
+		summarizeBy: none
+		sourceColumn: Product Status
+
+		annotation SummarizationSetBy = Automatic
+
 	partition Product = m
 		mode: import
 		queryGroup: Dimensions
@@ -103,9 +187,15 @@ table Product
 				    #"Expanded stg_Category" = Table.ExpandTableColumn(#"Merged Queries", "stg_Category", {"CategoryName", "Description"}, {"CategoryName", "Description"}),
 				    #"Renamed Columns1" = Table.RenameColumns(#"Expanded stg_Category",{{"CategoryName", "Category Name"}, {"Description", "Category Description"}}),
 				    #"Removed Columns" = Table.RemoveColumns(#"Renamed Columns1",{"CategoryID"}),
-				    #"Renamed Columns2" = Table.RenameColumns(#"Removed Columns",{{"SupplierID", "Supplier_Key"}, {"ProductName", "Product Name"}, {"QuantityPerUnit", "Quantity Per Unit"}, {"UnitPrice", "Unit Price"}, {"UnitsInStock", "Units In Stock"}, {"UnitsOnOrder", "Units On Order"}})
+				    #"Renamed Columns2" = Table.RenameColumns(#"Removed Columns",{{"SupplierID", "Supplier_Key"}, {"ProductName", "Product Name"}, {"QuantityPerUnit", "Quantity Per Unit"}, {"UnitPrice", "Unit Price"}, {"UnitsInStock", "Units In Stock"}, {"UnitsOnOrder", "Units On Order"}}),
+				    #"Merged Queries1" = Table.NestedJoin(#"Renamed Columns2", {"Supplier_Key"}, stg_Supplier, {"SupplierID"}, "stg_Supplier", JoinKind.LeftOuter),
+				    #"Renamed Columns3" = Table.RenameColumns(#"Merged Queries1",{{"stg_Supplier", "Supplier"}}),
+				    #"Expanded Supplier" = Table.ExpandTableColumn(#"Renamed Columns3", "Supplier", {"Address", "City", "CompanyName", "ContactTitle", "ContactName", "Country", "Fax", "Phone", "PostalCode", "Region"}, { "Supplier Address", "Supplier City", "Supplier Company Name", "Supplier Contact Title", "Supplier Contact Name", "Supplier Country", "Supplier Fax", "Supplier Phone", "Supplier Postal Code", "Supplier Region"}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Expanded Supplier",{"Supplier_Key"}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Removed Columns1", "Product Status", each if [Discontinued] = true then "Discontinued" else "Available"),
+				    #"Removed Columns2" = Table.RemoveColumns(#"Added Conditional Column",{"Discontinued"})
 				in
-				    #"Renamed Columns2"
+				    #"Removed Columns2"
 
 	annotation PBI_NavigationStepName = Navigation
 
