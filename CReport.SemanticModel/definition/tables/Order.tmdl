@@ -1,6 +1,80 @@
 table Order
 	lineageTag: a83682d0-d880-420b-9f64-53e7173217af
 
+	measure 'Order $' =
+			SUMX(
+			    'Order',
+			    'Order'[Unit Price] *
+			    'Order'[Quantity] *
+			    (1 - 'Order'[Discount])
+			)
+		formatString: "$"#,##0.00
+		displayFolder: Order Metrics
+		lineageTag: 4c82a32f-ee54-466f-86e1-ddc309113c7b
+
+	measure 'Shipped Order $' = ```
+			
+			    CALCULATE(
+			        [Order $],
+			        USERELATIONSHIP('Order'[Invoice.ShippedDate_Key], 'Date'[DateKey]),
+			        NOT ISBLANK('Order'[Invoice.ShippedDate_Key])
+			    )
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Order Metrics
+		lineageTag: f76de593-d69d-4bcf-ab7f-2784b8327e20
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Shipped Order $ YoY%' =
+			
+			    VAR PrevYear = CALCULATE(
+			        [Shipped Order $],
+			        PREVIOUSYEAR('Date'[Date]),
+			        USERELATIONSHIP('Order'[Invoice.ShippedDate_Key],'Date'[DateKey])
+			    )
+			    RETURN
+				    DIVIDE(
+			            [Shipped Order $] - PrevYear,
+			            PrevYear,
+			            0
+			        )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Order Metrics
+		lineageTag: 768cda00-d12d-4517-a65c-714dbc312179
+
+	measure 'Returned Shipped Order $' = ```
+			
+			    CALCULATE(
+			        [Shipped Order $],
+			        //Use "LEFT" in case user renames, likely it will still begin with R for Return, Returned, Refunded, etc...
+			        LEFT('Filters'[Order Status],1) = "R"
+			    )
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Order Metrics
+		lineageTag: b1b646c5-cc72-4316-853c-a6c75454b029
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Shipped Processing Days' = ```
+			
+			    AVERAGEX(
+			        FILTER(
+			            'Order',
+			            NOT ISBLANK('Order'[Shipped Date])
+			        ),
+			        DATEDIFF(
+			            'Order'[Order Date],
+			            'Order'[Shipped Date],
+			            DAY
+			        )
+			    )
+			```
+		formatString: 0.0
+		displayFolder: Order Metrics
+		lineageTag: e8a8eb91-b289-43dc-914b-9800b42cbc52
+
 	column OrderID
 		dataType: string
 		lineageTag: 23b59395-819f-4a86-bf0d-9e23d0dba01a
@@ -48,6 +122,7 @@ table Order
 	column Discount
 		dataType: double
 		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Line Item Info
 		lineageTag: 0441ddfc-71de-44bc-b85c-480606c53688
 		summarizeBy: average
 		sourceColumn: Discount
@@ -69,6 +144,7 @@ table Order
 	column Quantity
 		dataType: int64
 		formatString: #,0
+		displayFolder: Line Item Info
 		lineageTag: 3f43f193-6bdb-4de7-917b-8da9739be1cc
 		summarizeBy: sum
 		sourceColumn: Quantity
@@ -78,6 +154,7 @@ table Order
 	column 'Unit Price'
 		dataType: decimal
 		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Line Item Info
 		lineageTag: 776cb950-2827-43db-bff5-aa5a6854112a
 		summarizeBy: sum
 		sourceColumn: Unit Price
@@ -150,7 +227,7 @@ table Order
 		isHidden
 		formatString: 0
 		lineageTag: bcde8db6-fd0b-477e-b2da-04f60c50220b
-		summarizeBy: none
+		summarizeBy: count
 		sourceColumn: Invoice.RequiredDate_Key
 
 		changedProperty = IsHidden
@@ -172,6 +249,7 @@ table Order
 	column 'Invoice Quantity'
 		dataType: int64
 		formatString: 0
+		displayFolder: Invoice Info
 		lineageTag: 026408be-6318-4a00-82ef-590424432872
 		summarizeBy: sum
 		sourceColumn: Invoice Quantity
@@ -182,7 +260,7 @@ table Order
 		dataType: decimal
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 84769e3d-ae9c-42ed-af2e-ce1e97d655e9
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Invoice Total Freight
 
 		annotation SummarizationSetBy = Automatic
@@ -197,20 +275,10 @@ table Order
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Invoice Required Date'
-		dataType: dateTime
-		formatString: Long Date
-		lineageTag: 190fb279-8520-4aa6-8845-9af2f9b5d721
-		summarizeBy: none
-		sourceColumn: Invoice Required Date
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation UnderlyingDateTimeDataType = Date
-
 	column 'Invoice Unit Price'
 		dataType: decimal
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		displayFolder: Invoice Info
 		lineageTag: 0569a53e-7549-411e-aa6a-c7ea489b07c0
 		summarizeBy: sum
 		sourceColumn: Invoice Unit Price
@@ -219,12 +287,34 @@ table Order
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
-	column 'Invoice Shipped Date'
+	column 'Order Date'
 		dataType: dateTime
-		formatString: Long Date
-		lineageTag: c679124f-d0f9-4ddc-baef-15ef3314ea0a
+		formatString: Short Date
+		lineageTag: a3ee6ca6-5a22-476c-98b5-3221034857d6
 		summarizeBy: none
-		sourceColumn: Invoice Shipped Date
+		sourceColumn: Order Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Required Date'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 0df73924-9199-465a-803e-329c6cce13d7
+		summarizeBy: none
+		sourceColumn: Required Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Shipped Date'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 5cb11c50-6315-40e6-9254-c648c533cc2f
+		summarizeBy: none
+		sourceColumn: Shipped Date
 
 		annotation SummarizationSetBy = Automatic
 
@@ -252,22 +342,22 @@ table Order
 				    #"Renamed Columns1" = Table.RenameColumns(#"Reordered Columns",{{"EmployeeID", "Employee_Key"}}),
 				    #"DateToKey" = Table.AddColumn(#"Renamed Columns1","OrderDate_Key", each fnToDateKey([OrderDate]), Int64.Type),
 				    #"Changed Type" = Table.TransformColumnTypes(DateToKey,{{"OrderDate_Key", Int64.Type}}),
-				    #"Removed Other Columns" = Table.SelectColumns(#"Changed Type",{"OrderDate_Key", "Employee_Key", "Customer_Key", "OrderID"}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Changed Type",{"OrderID", "Customer_Key", "Employee_Key", "OrderDate", "OrderDate_Key"}),
 				    #"Reordered Columns1" = Table.ReorderColumns(#"Removed Other Columns",{"OrderID", "OrderDate_Key", "Customer_Key", "Employee_Key"}),
 				    #"Merged Queries1" = Table.NestedJoin(#"Reordered Columns1", {"OrderID"}, stg_OrderDetail, {"OrderID_FK"}, "stg_OrderDetail", JoinKind.LeftOuter),
 				    #"Expanded stg_OrderDetail" = Table.ExpandTableColumn(#"Merged Queries1", "stg_OrderDetail", {"OrderID_FK", "Discount", "ProductID", "Quantity", "UnitPrice", "ShipVia", "Status"}, {"OrderID_FK", "Discount", "ProductID", "Quantity", "UnitPrice", "ShipVia", "Status"}),
 				    #"Merged Queries3" = Table.NestedJoin(#"Expanded stg_OrderDetail", {"Status"}, lkp_OrderStatus_Key, {"OrderStatus"}, "lkp_OrderStatus_Key", JoinKind.LeftOuter),
 				    #"Expanded lkp_OrderStatus_Key" = Table.ExpandTableColumn(#"Merged Queries3", "lkp_OrderStatus_Key", {"OrderStatus_Key"}, {"OrderStatus_Key"}),
 				    #"Changed Type1" = Table.TransformColumnTypes(#"Expanded lkp_OrderStatus_Key",{{"Discount", Percentage.Type}}),
-				    #"Renamed Columns4" = Table.RenameColumns(#"Changed Type1",{{"ShipVia", "Order_Shipper_Key"}, {"UnitPrice", "Unit Price"}, {"ProductID", "Product_Key"}}),
+				    #"Renamed Columns4" = Table.RenameColumns(#"Changed Type1",{{"ShipVia", "Order_Shipper_Key"}, {"UnitPrice", "Unit Price"}, {"ProductID", "Product_Key"}, {"OrderDate", "Order Date"}}),
 				    #"Removed Columns" = Table.RemoveColumns(#"Renamed Columns4",{"OrderID_FK"}),
 				    #"Merged Queries2" = Table.NestedJoin(#"Removed Columns", {"Product_Key"}, lkp_Product_Key, {"Product_Key"}, "lkp_Product_Key", JoinKind.LeftOuter),
 				    #"Expanded lkp_Product_Key" = Table.ExpandTableColumn(#"Merged Queries2", "lkp_Product_Key", {"Supplier_Key"}, {"Supplier_Key"}),
 				    #"Removed Columns1" = Table.RemoveColumns(#"Expanded lkp_Product_Key",{"Status"}),
 				    #"Merged Queries4" = Table.NestedJoin(#"Removed Columns1", {"OrderID", "Product_Key"}, Invoice, {"OrderID", "Product_Key"}, "Invoice", JoinKind.LeftOuter),
-				    #"Expanded Invoice" = Table.ExpandTableColumn(#"Merged Queries4", "Invoice", {"Quantity", "Freight", "Invoice Region", "RequiredDate", "UnitPrice", "ShippedDate", "Shipment_Key", "Shipper_Key"}, {"Invoice Quantity", "Invoice Total Freight", "Invoice Region", "Invoice Required Date", "Invoice Unit Price", "Invoice Shipped Date", "Invoice.Shipment_Key", "Invoice.Shipper_Key"}),
-				    #"DateToKey2" = Table.AddColumn(#"Expanded Invoice","Invoice.RequiredDate_Key", each fnToDateKey([Invoice Required Date]), Int64.Type),
-				    #"DateToKey3" = Table.AddColumn(#"DateToKey2","Invoice.ShippedDate_Key", each fnToDateKey([Invoice Shipped Date]), Int64.Type)
+				    #"Expanded Invoice" = Table.ExpandTableColumn(#"Merged Queries4", "Invoice", {"Quantity", "Freight", "Invoice Region", "RequiredDate", "UnitPrice", "ShippedDate", "Shipment_Key", "Shipper_Key"}, {"Invoice Quantity", "Invoice Total Freight", "Invoice Region", "Required Date", "Invoice Unit Price", "Shipped Date", "Invoice.Shipment_Key", "Invoice.Shipper_Key"}),
+				    #"DateToKey2" = Table.AddColumn(#"Expanded Invoice","Invoice.RequiredDate_Key", each fnToDateKey([Required Date]), Int64.Type),
+				    #"DateToKey3" = Table.AddColumn(#"DateToKey2","Invoice.ShippedDate_Key", each fnToDateKey([Shipped Date]), Int64.Type)
 				in
 				    DateToKey3
 

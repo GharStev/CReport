@@ -5,7 +5,7 @@
       "ordinal": 0,
       "scrollPosition": {
         "x": 0,
-        "y": 20
+        "y": 20.075711122466345
       },
       "nodes": [
         {
@@ -23,8 +23,8 @@
         },
         {
           "location": {
-            "x": 605.99892125134841,
-            "y": 452.74740248679944
+            "x": 632.665587918015,
+            "y": 581.6362913756883
           },
           "nodeIndex": "Employee",
           "nodeLineageTag": "599d1331-e7a8-4933-8ee6-3b7fcad65921",
@@ -32,7 +32,7 @@
             "height": 545.55555555555566,
             "width": 234
           },
-          "zIndex": 2
+          "zIndex": 7
         },
         {
           "location": {
@@ -45,11 +45,11 @@
             "height": 431,
             "width": 234
           },
-          "zIndex": 3
+          "zIndex": 4
         },
         {
           "location": {
-            "x": 1320.7563163572358,
+            "x": 1322.978538579458,
             "y": 0
           },
           "nodeIndex": "Shipper",
@@ -58,12 +58,12 @@
             "height": 152,
             "width": 234
           },
-          "zIndex": 4
+          "zIndex": 5
         },
         {
           "location": {
-            "x": 1235.0759666155679,
-            "y": 482.35084880486005
+            "x": 1279.5204110600127,
+            "y": 600.12862658263793
           },
           "nodeIndex": "Date",
           "nodeLineageTag": "d94313a1-a8a8-41e1-844e-fba0ab1645ae",
@@ -71,7 +71,7 @@
             "height": 715.66666666666652,
             "width": 234
           },
-          "zIndex": 7
+          "zIndex": 8
         },
         {
           "location": {
@@ -84,7 +84,7 @@
             "height": 682.22222222222217,
             "width": 234
           },
-          "zIndex": 8
+          "zIndex": 9
         },
         {
           "location": {
@@ -97,7 +97,7 @@
             "height": 278.36024527337759,
             "width": 234
           },
-          "zIndex": 1
+          "zIndex": 3
         },
         {
           "location": {
@@ -110,7 +110,20 @@
             "height": 128,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 1830.0144211661841,
+            "y": 562.33333333333337
+          },
+          "nodeIndex": "dq_MissingEmployeeIDs",
+          "nodeLineageTag": "4875bd06-08cc-4136-a60d-f34d020f1ff1",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 1
         }
       ],
       "name": "All tables",

@@ -13,17 +13,18 @@ table Customer
 
 		annotation SummarizationSetBy = Automatic
 
-	column CustomerKey
+	column 'Customer Key'
 		dataType: string
 		lineageTag: 932f7ff2-7a05-4995-a305-1484e48e5ec1
 		summarizeBy: none
-		sourceColumn: CustomerKey
+		sourceColumn: Customer Key
 
 		annotation SummarizationSetBy = Automatic
 
 	column Address
 		dataType: string
 		lineageTag: 5078323c-4561-4e41-b94b-10dd0e8b1624
+		dataCategory: Address
 		summarizeBy: none
 		sourceColumn: Address
 
@@ -32,6 +33,7 @@ table Customer
 	column City
 		dataType: string
 		lineageTag: 255ea007-9db5-45aa-bd2c-b8332268fda2
+		dataCategory: City
 		summarizeBy: none
 		sourceColumn: City
 
@@ -64,6 +66,7 @@ table Customer
 	column Country
 		dataType: string
 		lineageTag: f0ecf228-89b6-4c22-9814-3c0bbedff5ed
+		dataCategory: County
 		summarizeBy: none
 		sourceColumn: Country
 
@@ -88,6 +91,7 @@ table Customer
 	column 'Postal Code'
 		dataType: string
 		lineageTag: 802ff651-6443-4bd0-9b38-14d1e7044b05
+		dataCategory: PostalCode
 		summarizeBy: none
 		sourceColumn: Postal Code
 
@@ -110,7 +114,7 @@ table Customer
 				    #"Merged Queries" = Table.NestedJoin(Source, {"CustomerKey"}, lkp_Customer_Key, {"CustomerKey"}, "sil_Customer (2)", JoinKind.LeftOuter),
 				    #"Expanded sil_Customer (2)" = Table.ExpandTableColumn(#"Merged Queries", "sil_Customer (2)", {"Customer_Key"}, {"Customer_Key"}),
 				    #"Reordered Columns" = Table.ReorderColumns(#"Expanded sil_Customer (2)",{"Customer_Key", "CustomerKey", "Address", "City", "CompanyName", "ContactName", "ContactTitle", "Country", "Fax", "Phone", "PostalCode", "Region"}),
-				    #"Renamed Columns" = Table.RenameColumns(#"Reordered Columns",{{"CompanyName", "Customer Company"}, {"ContactName", "Contact Name"}, {"ContactTitle", "Contact Title"}, {"PostalCode", "Postal Code"}})
+				    #"Renamed Columns" = Table.RenameColumns(#"Reordered Columns",{{"CompanyName", "Customer Company"}, {"ContactName", "Contact Name"}, {"ContactTitle", "Contact Title"}, {"PostalCode", "Postal Code"}, {"CustomerKey", "Customer Key"}})
 				in
 				    #"Renamed Columns"
 

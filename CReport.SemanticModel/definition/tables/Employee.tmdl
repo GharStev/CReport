@@ -12,17 +12,23 @@ table Employee
 
 	column 'Last Name'
 		dataType: string
+		isHidden
 		lineageTag: 15e7b371-8a01-444f-b80d-0781ed645c57
 		summarizeBy: none
 		sourceColumn: Last Name
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
 	column 'First Name'
 		dataType: string
+		isHidden
 		lineageTag: cb99018b-ccbc-43aa-a511-3dfa7c8ce412
 		summarizeBy: none
 		sourceColumn: First Name
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -32,11 +38,14 @@ table Employee
 		summarizeBy: none
 		sourceColumn: Prefix
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column Address
 		dataType: string
 		lineageTag: 64f6240c-f74b-4fc9-ba36-32936f981f92
+		dataCategory: Address
 		summarizeBy: none
 		sourceColumn: Address
 
@@ -45,6 +54,7 @@ table Employee
 	column City
 		dataType: string
 		lineageTag: a507564f-b39c-4112-b297-0cafa5712644
+		dataCategory: City
 		summarizeBy: none
 		sourceColumn: City
 
@@ -53,6 +63,7 @@ table Employee
 	column 'Postal Code'
 		dataType: string
 		lineageTag: cb9edb25-89b7-4c44-af80-76af77f725b7
+		dataCategory: PostalCode
 		summarizeBy: none
 		sourceColumn: Postal Code
 
@@ -61,6 +72,7 @@ table Employee
 	column Country
 		dataType: string
 		lineageTag: 993f4533-160f-4ecf-aa1b-4b702fc91411
+		dataCategory: Country
 		summarizeBy: none
 		sourceColumn: Country
 
@@ -89,6 +101,8 @@ table Employee
 		summarizeBy: none
 		sourceColumn: Phone Extension
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column 'Phone (Home)'
@@ -97,14 +111,60 @@ table Employee
 		summarizeBy: none
 		sourceColumn: Phone (Home)
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column Manager
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: c4499aaa-6e9b-44c3-a380-defbabd93f79
 		summarizeBy: none
 		sourceColumn: Manager
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column isPlaceholder
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 414521bd-ffce-4f87-b582-4ba69be0923b
+		summarizeBy: none
+		sourceColumn: isPlaceholder
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Employee Name' = ```
+			
+			    IF(
+			        Employee[isPlaceholder] = TRUE,
+			        "*Employee (" & Employee[EmployeeID] & ")",
+			        Employee[First Name] & " " & Employee[Last Name] & " (" & Employee[EmployeeID] & ")"
+			    )
+			```
+		lineageTag: 3c0423d5-9438-4e4f-a6d8-9960532d7a33
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Manager Display Name' = ```
+			
+			    VAR ManagerID = Employee[Manager]
+			    RETURN
+			        IF(
+			            ISBLANK(ManagerID),
+			            BLANK(),
+			            LOOKUPVALUE(
+			                Employee[Employee Name],
+			                Employee[EmployeeID],
+			                ManagerID
+			            )
+			        )
+			```
+		lineageTag: caeec5f9-79bb-4fb6-a0ce-6a55e935886e
+		summarizeBy: none
 
 		annotation SummarizationSetBy = Automatic
 
@@ -113,11 +173,14 @@ table Employee
 		queryGroup: Dimensions
 		source =
 				let
-				    Source = stg_Employee,
-				    #"Renamed Columns" = Table.RenameColumns(Source,{{"LastName", "Last Name"}, {"FirstName", "First Name"}, {"TitleOfCourtesy", "Prefix"}, {"PostalCode", "Postal Code"}, {"HireDate", "Hire Date"}, {"BirthDate", "Birth Date"}, {"Extension", "Phone Extension"}, {"HomePhone", "Phone (Home)"}, {"ReportsTo", "Manager"}}),
-				    #"Removed Columns" = Table.RemoveColumns(#"Renamed Columns",{"Birth Date", "Hire Date"})
+				    Source = Table.Combine({stg_Employee, #"dq_MissingEmployeeIDs"}),
+				    #"Added Conditional Column" = Table.AddColumn(Source, "isPlaceholder", each if Text.StartsWith([LastName], "*") then true else false),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Added Conditional Column",{{"isPlaceholder", type logical}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"LastName", "Last Name"}, {"FirstName", "First Name"}, {"TitleOfCourtesy", "Prefix"}, {"PostalCode", "Postal Code"}, {"HireDate", "Hire Date"}, {"BirthDate", "Birth Date"}, {"Extension", "Phone Extension"}, {"HomePhone", "Phone (Home)"}, {"ReportsTo", "Manager"}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Renamed Columns",{"Birth Date", "Hire Date"}),
+				    #"Sorted Rows" = Table.Sort(#"Removed Columns",{{"EmployeeID", Order.Ascending}})
 				in
-				    #"Removed Columns"
+				    #"Sorted Rows"
 
 	annotation PBI_NavigationStepName = Navigation
 

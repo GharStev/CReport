@@ -1,0 +1,144 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "73ef4d5a9e5bced045e0",
+  "position": {
+    "x": 62.779291553133518,
+    "y": 57.198910081743868,
+    "z": 0,
+    "height": 142.99727520435968,
+    "width": 634.07084468664846,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dq_MissingEmployeeIDs"
+                    }
+                  },
+                  "Property": "EmployeeID"
+                }
+              },
+              "queryRef": "dq_MissingEmployeeIDs.EmployeeID",
+              "nativeQueryRef": "EmployeeID"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dq_MissingEmployeeIDs"
+                    }
+                  },
+                  "Property": "LastName"
+                }
+              },
+              "queryRef": "dq_MissingEmployeeIDs.LastName",
+              "nativeQueryRef": "LastName"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Order"
+                        }
+                      },
+                      "Property": "Quantity"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(Order.Quantity)",
+              "nativeQueryRef": "Sum of Quantity"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Employees Referenced In Orders But Not / No-Longer In Employee Table'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "503a9281b52a85ef53c2",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dq_MissingEmployeeIDs"
+              }
+            },
+            "Property": "EmployeeID"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "e77a58bbb3e67285d9bb",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dq_MissingEmployeeIDs"
+              }
+            },
+            "Property": "LastName"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "f823c1c34fa0de87e400",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Order"
+                  }
+                },
+                "Property": "Quantity"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

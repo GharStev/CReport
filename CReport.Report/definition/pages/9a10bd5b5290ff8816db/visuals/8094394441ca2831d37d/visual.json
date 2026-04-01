@@ -1,0 +1,111 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "8094394441ca2831d37d",
+  "position": {
+    "x": 283.02222222222224,
+    "y": 39.111111111111114,
+    "z": 4,
+    "height": 260.97777777777776,
+    "width": 568.88888888888891
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Order"
+                    }
+                  },
+                  "Property": "Shipped Date"
+                }
+              },
+              "queryRef": "Order.Shipped Date",
+              "nativeQueryRef": "Shipped Date"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Employee"
+                    }
+                  },
+                  "Property": "Employee Name"
+                }
+              },
+              "queryRef": "Employee.Employee Name",
+              "nativeQueryRef": "Employee Name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Employee"
+                    }
+                  },
+                  "Property": "Manager Display Name"
+                }
+              },
+              "queryRef": "Employee.Manager Display Name",
+              "nativeQueryRef": "Manager Display Name"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "cdd997e81c0ae1ca474e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Employee"
+              }
+            },
+            "Property": "Employee Name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "a568ec59e8d65979477d",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Employee"
+              }
+            },
+            "Property": "Manager Display Name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "c802cb93425f620d0965",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Order"
+              }
+            },
+            "Property": "Shipped Date"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

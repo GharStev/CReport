@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
   "name": "e1f66a6c28017ff6f504",
   "position": {
-    "x": 573.09398099260818,
-    "y": 83.801478352692712,
+    "x": 691.75202156334228,
+    "y": 242.37196765498652,
     "z": 1,
-    "height": 494.02323125659979,
-    "width": 638.64836325237593,
+    "height": 457.14285714285711,
+    "width": 565.822102425876,
     "tabOrder": 1
   },
   "visual": {
@@ -23,11 +23,11 @@
                       "Entity": "Product"
                     }
                   },
-                  "Property": "Product Status"
+                  "Property": "Category Name"
                 }
               },
-              "queryRef": "Product.Product Status",
-              "nativeQueryRef": "Product Status",
+              "queryRef": "Product.Category Name",
+              "nativeQueryRef": "Category Name",
               "active": true
             },
             {
@@ -35,60 +35,15 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Product"
+                      "Entity": "Date"
                     }
                   },
-                  "Property": "Product Name"
+                  "Property": "Calendar Year"
                 }
               },
-              "queryRef": "Product.Product Name",
-              "nativeQueryRef": "Product Name",
+              "queryRef": "Date.Calendar Year",
+              "nativeQueryRef": "Calendar Year",
               "active": true
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Customer"
-                    }
-                  },
-                  "Property": "Customer Company"
-                }
-              },
-              "queryRef": "Customer.Customer Company",
-              "nativeQueryRef": "Customer Company",
-              "active": false
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Order"
-                    }
-                  },
-                  "Property": "Invoice Shipped Date"
-                }
-              },
-              "queryRef": "Order.Invoice Shipped Date",
-              "nativeQueryRef": "Invoice Shipped Date",
-              "active": false
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Order"
-                    }
-                  },
-                  "Property": "OrderID"
-                }
-              },
-              "queryRef": "Order.OrderID",
-              "nativeQueryRef": "OrderID",
-              "active": false
             }
           ]
         },
@@ -96,60 +51,45 @@
           "projections": [
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Order"
-                        }
-                      },
-                      "Property": "Quantity"
+                    "SourceRef": {
+                      "Entity": "Order"
                     }
                   },
-                  "Function": 0
+                  "Property": "Shipped Order $"
                 }
               },
-              "queryRef": "Sum(Order.Quantity)",
-              "nativeQueryRef": "Sum of Quantity"
+              "queryRef": "Order.Shipped Order Amount",
+              "nativeQueryRef": "Shipped Order $"
             },
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Order"
-                        }
-                      },
-                      "Property": "Unit Price"
+                    "SourceRef": {
+                      "Entity": "Order"
                     }
                   },
-                  "Function": 0
+                  "Property": "Returned Shipped Order $"
                 }
               },
-              "queryRef": "Sum(Order.Unit Price)",
-              "nativeQueryRef": "Sum of Unit Price"
+              "queryRef": "Order.Returned Order Amount",
+              "nativeQueryRef": "Returned Shipped Order $"
             },
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Order"
-                        }
-                      },
-                      "Property": "Discount"
+                    "SourceRef": {
+                      "Entity": "Order"
                     }
                   },
-                  "Function": 1
+                  "Property": "Shipped Order $ YoY%"
                 }
               },
-              "queryRef": "Avg(Order.Discount)",
-              "nativeQueryRef": "Average of Discount"
+              "queryRef": "Order.Shipped Order $ YoY%",
+              "nativeQueryRef": "Shipped Order $ YoY%"
             }
           ]
         }
@@ -163,7 +103,7 @@
         "levels": [
           {
             "queryRefs": [
-              "Product.Product Status"
+              "Product.Category Name"
             ],
             "isCollapsed": true,
             "identityKeys": [
@@ -174,7 +114,7 @@
                       "Entity": "Product"
                     }
                   },
-                  "Property": "Product Status"
+                  "Property": "Category Name"
                 }
               }
             ],
@@ -182,64 +122,7 @@
           },
           {
             "queryRefs": [
-              "Product.Product Name"
-            ],
-            "isCollapsed": true,
-            "identityKeys": [
-              {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Product"
-                    }
-                  },
-                  "Property": "Product Name"
-                }
-              }
-            ],
-            "isPinned": true
-          },
-          {
-            "queryRefs": [
-              "Customer.Customer Company"
-            ],
-            "isCollapsed": true,
-            "identityKeys": [
-              {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Customer"
-                    }
-                  },
-                  "Property": "Customer Company"
-                }
-              }
-            ],
-            "isPinned": true
-          },
-          {
-            "queryRefs": [
-              "Order.Invoice Shipped Date"
-            ],
-            "isCollapsed": true,
-            "identityKeys": [
-              {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Order"
-                    }
-                  },
-                  "Property": "Invoice Shipped Date"
-                }
-              }
-            ],
-            "isPinned": true
-          },
-          {
-            "queryRefs": [
-              "Order.OrderID"
+              "Date.Calendar Year"
             ],
             "isCollapsed": true,
             "isPinned": true
@@ -251,34 +134,21 @@
               "identityValues": [
                 {
                   "Literal": {
-                    "Value": "'Discontinued'"
+                    "Value": "'Condiments'"
                   }
                 }
               ],
-              "isToggled": true,
-              "children": [
+              "isToggled": true
+            },
+            {
+              "identityValues": [
                 {
-                  "identityValues": [
-                    {
-                      "Literal": {
-                        "Value": "'Mishi Kobe Niku'"
-                      }
-                    }
-                  ],
-                  "children": [
-                    {
-                      "identityValues": [
-                        {
-                          "Literal": {
-                            "Value": "'Consolidated Holdings'"
-                          }
-                        }
-                      ],
-                      "isToggled": true
-                    }
-                  ]
+                  "Literal": {
+                    "Value": "'Meat/Poultry'"
+                  }
                 }
-              ]
+              ],
+              "isToggled": true
             }
           ]
         }
@@ -289,64 +159,21 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "174a432d2384bf355f74",
+        "name": "5b1f63044ae2c7827ec8",
         "field": {
-          "Aggregation": {
+          "Column": {
             "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Order"
-                  }
-                },
-                "Property": "Quantity"
+              "SourceRef": {
+                "Entity": "Date"
               }
             },
-            "Function": 0
+            "Property": "Calendar Year"
           }
         },
-        "type": "Advanced"
+        "type": "Categorical"
       },
       {
-        "name": "7fec871a96eeb67e9449",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Order"
-                  }
-                },
-                "Property": "Unit Price"
-              }
-            },
-            "Function": 0
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "8e192ec13abd907d8f2a",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Order"
-                  }
-                },
-                "Property": "Discount"
-              }
-            },
-            "Function": 1
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "1345fc133d0935170473",
+        "name": "d44c67e10d9c5cc5321a",
         "field": {
           "Column": {
             "Expression": {
@@ -354,66 +181,52 @@
                 "Entity": "Product"
               }
             },
-            "Property": "Product Name"
+            "Property": "Category Name"
           }
         },
         "type": "Categorical"
       },
       {
-        "name": "06b38168e38682a69581",
+        "name": "d6f18fa17627d3eaa1c4",
         "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Product"
-              }
-            },
-            "Property": "Product Status"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "472f1ea37abf5e34552e",
-        "field": {
-          "Column": {
+          "Measure": {
             "Expression": {
               "SourceRef": {
                 "Entity": "Order"
               }
             },
-            "Property": "OrderID"
+            "Property": "Shipped Order $"
           }
         },
-        "type": "Categorical"
+        "type": "Advanced"
       },
       {
-        "name": "07e1720e85ff734ce492",
+        "name": "2572f70efdbd13ccca19",
         "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Customer"
-              }
-            },
-            "Property": "Customer Company"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "99e400ec6820e459f885",
-        "field": {
-          "Column": {
+          "Measure": {
             "Expression": {
               "SourceRef": {
                 "Entity": "Order"
               }
             },
-            "Property": "Invoice Shipped Date"
+            "Property": "Returned Shipped Order $"
           }
         },
-        "type": "Categorical"
+        "type": "Advanced"
+      },
+      {
+        "name": "2a9ebe858ed9ba94f5b4",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Order"
+              }
+            },
+            "Property": "Shipped Order $ YoY%"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

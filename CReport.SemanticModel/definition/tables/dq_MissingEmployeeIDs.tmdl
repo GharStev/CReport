@@ -1,0 +1,37 @@
+table dq_MissingEmployeeIDs
+	lineageTag: 4875bd06-08cc-4136-a60d-f34d020f1ff1
+
+	column EmployeeID
+		dataType: int64
+		formatString: 0
+		lineageTag: 58d88908-f624-4222-a401-45bcb3d54f4e
+		summarizeBy: none
+		sourceColumn: EmployeeID
+
+		annotation SummarizationSetBy = User
+
+	column LastName
+		dataType: string
+		lineageTag: f544f01f-7722-4d61-99c7-60e207e2d376
+		summarizeBy: none
+		sourceColumn: LastName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dq_MissingEmployeeIDs = m
+		mode: import
+		queryGroup: 'Data Quality'
+		source =
+				let
+				    tblOrderEmployees = Table.Distinct(Table.SelectColumns(stg_Order, {"EmployeeID"})),
+				    tblDimEmployees = Table.Distinct(Table.SelectColumns(stg_Employee, {"EmployeeID"})),
+				    tblMissingEmployees = Table.SelectRows(tblOrderEmployees, each not List.Contains(tblDimEmployees[EmployeeID], [EmployeeID])),
+				    #"Inserted Merged Column" = Table.AddColumn(tblMissingEmployees, "Merged", each Text.Combine({"*Employee ID: ", Text.From([EmployeeID], "en-US")}), type text),
+				    #"Renamed Columns" = Table.RenameColumns(#"Inserted Merged Column",{{"Merged", "LastName"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
