@@ -237,21 +237,6 @@ expression lkp_Product_Key =
 
 	annotation PBI_ResultType = Table
 
-expression lkp_Shipment_Key =
-		let
-		    Source = Shipment,
-		    #"Removed Columns" = Table.RemoveColumns(Source,{"ShipPostalCode", "ShipRegion", "ShipCountry", "ShipCity", "ShipAddress"}),
-		    #"Reordered Columns" = Table.ReorderColumns(#"Removed Columns",{"ShipName", "Shipment_Key"}),
-		    #"Sorted Rows" = Table.Sort(#"Reordered Columns",{{"ShipName", Order.Ascending}})
-		in
-		    #"Sorted Rows"
-	lineageTag: f3f53465-0072-4e8d-bdab-c7433c06db64
-	queryGroup: 'Key Lookups'
-
-	annotation PBI_NavigationStepName = Navigation
-
-	annotation PBI_ResultType = Table
-
 expression lkp_Customer_Key =
 		let
 		    Source = stg_Customer,
@@ -312,7 +297,7 @@ expression Invoice =
 		    #"Expanded lkp_Product_Key" = Table.ExpandTableColumn(#"Merged Queries1", "lkp_Product_Key", {"Product_Key"}, {"Product_Key"}),
 		    #"Reordered Columns" = Table.ReorderColumns(#"Expanded lkp_Product_Key",{"Customer_Key", "OrderID", "Quantity", "Product_Key", "CustomerID", "Freight", "ProductName", "Invoice Region", "RequiredDate", "ShipName", "ShipperName", "ShipPostalCode", "ShipRegion", "UnitPrice", "ShipCountry", "ShipCity", "ShipAddress", "ShippedDate"}),
 		    #"Removed Columns" = Table.RemoveColumns(#"Reordered Columns",{"CustomerID"}),
-		    #"Merged Queries2" = Table.NestedJoin(#"Removed Columns", {"ShipName"}, lkp_Shipment_Key, {"ShipName"}, "lkp_Shipment_Key", JoinKind.LeftOuter),
+		    #"Merged Queries2" = Table.NestedJoin(#"Removed Columns", {"OrderID"}, lkp_Shipment_Key, {"OrderID"}, "lkp_Shipment_Key", JoinKind.LeftOuter),
 		    #"Expanded lkp_Shipment_Key" = Table.ExpandTableColumn(#"Merged Queries2", "lkp_Shipment_Key", {"Shipment_Key"}, {"Shipment_Key"}),
 		    #"Merged Queries3" = Table.NestedJoin(#"Expanded lkp_Shipment_Key", {"ShipperName"}, lkp_Shipper_Key, {"Shipper Name"}, "lkp_Shipper_Key", JoinKind.LeftOuter),
 		    #"Expanded lkp_Shipper_Key" = Table.ExpandTableColumn(#"Merged Queries3", "lkp_Shipper_Key", {"Shipper_Key"}, {"Shipper_Key"}),
@@ -326,24 +311,17 @@ expression Invoice =
 
 	annotation PBI_ResultType = Table
 
-expression 'Errors in Order' =
+expression lkp_Shipment_Key =
 		let
-		Source = Order,
-		  #"Detected Type Mismatches" = let
-		    tableWithOnlyPrimitiveTypes = Table.SelectColumns(Source, Table.ColumnsOfType(Source, {type nullable number, type nullable text, type nullable logical, type nullable date, type nullable datetime, type nullable datetimezone, type nullable time, type nullable duration})),
-		    recordTypeFields = Type.RecordFields(Type.TableRow(Value.Type(tableWithOnlyPrimitiveTypes))),
-		    fieldNames = Record.FieldNames(recordTypeFields),
-		    fieldTypes = List.Transform(Record.ToList(recordTypeFields), each [Type]),
-		    pairs = List.Transform(List.Positions(fieldNames), (i) => {fieldNames{i}, (v) => if v = null or Value.Is(v, fieldTypes{i}) then v else error [Message = "The type of the value does not match the type of the column.", Detail = v], fieldTypes{i}})
+		    Source = Shipment,
+		    #"Removed Other Columns" = Table.SelectColumns(Source,{"Shipment_Key", "Orders"}),
+		    #"Expanded Orders" = Table.ExpandTableColumn(#"Removed Other Columns", "Orders", {"OrderID"}, {"OrderID"}),
+		    #"Reordered Columns" = Table.ReorderColumns(#"Expanded Orders",{"OrderID", "Shipment_Key"}),
+		    #"Sorted Rows" = Table.Sort(#"Reordered Columns",{{"OrderID", Order.Ascending}})
 		in
-		    Table.TransformColumns(Source, pairs),
-		  #"Added Index" = Table.AddIndexColumn(#"Detected Type Mismatches", "Row Number" ,1),
-		  #"Kept Errors" = Table.SelectRowsWithErrors(#"Added Index", {"OrderID", "OrderDate_Key", "Customer_Key", "Order Date", "Employee_Key", "Discount", "Product_Key", "Quantity", "Unit Price", "Order_Shipper_Key", "OrderStatus_Key", "Supplier_Key", "Invoice Quantity", "Invoice Total Freight", "Invoice Region", "Required Date", "Invoice Unit Price", "Shipped Date", "Invoice.Shipment_Key", "Invoice.Shipper_Key", "Invoice.RequiredDate_Key", "Invoice.ShippedDate_Key"}),
-		  #"Reordered Columns" = Table.ReorderColumns(#"Kept Errors", {"Row Number", "OrderID", "OrderDate_Key", "Customer_Key", "Order Date", "Employee_Key", "Discount", "Product_Key", "Quantity", "Unit Price", "Order_Shipper_Key", "OrderStatus_Key", "Supplier_Key", "Invoice Quantity", "Invoice Total Freight", "Invoice Region", "Required Date", "Invoice Unit Price", "Shipped Date", "Invoice.Shipment_Key", "Invoice.Shipper_Key", "Invoice.RequiredDate_Key", "Invoice.ShippedDate_Key"})
-		in
-		  #"Reordered Columns"
-	lineageTag: 52b1c628-f55b-4a0b-8607-6019ddf42ed5
-	queryGroup: 'Query Errors - 4/1/2026 11:44:30'
+		    #"Sorted Rows"
+	lineageTag: 9991af11-2527-4239-9ec9-2aac99ae048f
+	queryGroup: 'Key Lookups'
 
 	annotation PBI_NavigationStepName = Navigation
 

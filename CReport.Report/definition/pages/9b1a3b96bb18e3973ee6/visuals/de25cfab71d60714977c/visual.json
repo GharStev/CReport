@@ -1,19 +1,19 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
-  "name": "530859c5b88cbd230592",
+  "name": "de25cfab71d60714977c",
   "position": {
-    "x": 18.813282525857378,
-    "y": 103.12465977136637,
-    "z": 2000,
-    "height": 352.57485029940119,
-    "width": 1235.4055525313011,
-    "tabOrder": 1000
+    "x": 9.7550353837779,
+    "y": 467.54491017964074,
+    "z": 1000,
+    "height": 182.55851932498641,
+    "width": 1249.3413173652696,
+    "tabOrder": 0
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "pivotTable",
     "query": {
       "queryState": {
-        "Category": {
+        "Columns": {
           "projections": [
             {
               "field": {
@@ -32,7 +32,7 @@
             }
           ]
         },
-        "Series": {
+        "Rows": {
           "projections": [
             {
               "field": {
@@ -46,11 +46,12 @@
                 }
               },
               "queryRef": "Product.Category Name",
-              "nativeQueryRef": "Product Category"
+              "nativeQueryRef": "Product Category",
+              "active": true
             }
           ]
         },
-        "Y": {
+        "Values": {
           "projections": [
             {
               "field": {
@@ -60,109 +61,136 @@
                       "Entity": "Order"
                     }
                   },
-                  "Property": "Shipped Order $ YoY%"
+                  "Property": "Shipped Processing Days"
                 }
               },
-              "queryRef": "Order.Shipped Order $ YoY%",
-              "nativeQueryRef": "Shipped Order $ YoY%"
+              "queryRef": "Order.Shipped Processing Days",
+              "nativeQueryRef": "Shipped Processing Days"
             }
           ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Date"
-                  }
-                },
-                "Property": "Calendar Year"
-              }
-            },
-            "direction": "Ascending"
-          },
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Product"
-                  }
-                },
-                "Property": "Product Category"
-              }
-            },
-            "direction": "Ascending"
-          }
-        ]
       }
     },
-    "objects": {
-      "legend": [
-        {
-          "properties": {
-            "position": {
-              "expr": {
-                "Literal": {
-                  "Value": "'BottomCenter'"
+    "expansionStates": [
+      {
+        "roles": [
+          "Rows"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "Product.Category Name"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product"
+                    }
+                  },
+                  "Property": "Product Category"
                 }
               }
-            },
-            "showTitle": {
+            ],
+            "isPinned": true
+          }
+        ],
+        "root": {}
+      }
+    ],
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "172.74648223721653D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Product.Category Name"
+          }
+        }
+      ],
+      "subTotals": [
+        {
+          "properties": {
+            "perRowLevel": {
               "expr": {
                 "Literal": {
                   "Value": "false"
                 }
               }
-            }
-          }
-        }
-      ],
-      "categoryAxis": [
-        {
-          "properties": {
-            "titleText": {
+            },
+            "perColumnLevel": {
               "expr": {
                 "Literal": {
-                  "Value": "'Year (Shipped)'"
+                  "Value": "true"
                 }
               }
             },
-            "titleFontSize": {
+            "columnSubtotals": {
               "expr": {
                 "Literal": {
-                  "Value": "10D"
+                  "Value": "true"
+                }
+              }
+            },
+            "columnSubtotalsLabel": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Average for All Years'"
+                }
+              }
+            },
+            "rowSubtotalsLabel": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Average for All Categories'"
                 }
               }
             }
           }
         }
       ],
-      "valueAxis": [
+      "columnHeaders": [
         {
           "properties": {
-            "titleFontSize": {
+            "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "10D"
+                  "Value": "8D"
                 }
               }
             }
           }
         }
-      ]
-    },
-    "visualContainerObjects": {
-      "title": [
+      ],
+      "rowHeaders": [
         {
           "properties": {
-            "text": {
+            "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "'Shipped Orders Year-over-Year By Product Category'"
+                  "Value": "8D"
                 }
               }
             }
@@ -175,21 +203,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "faf6b4bcdff1b6ae241a",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Date"
-              }
-            },
-            "Property": "Calendar Year"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "dd7d378056cf84a3ef31",
+        "name": "69d614797a64ed9708f4",
         "field": {
           "Column": {
             "Expression": {
@@ -203,7 +217,21 @@
         "type": "Categorical"
       },
       {
-        "name": "9331819f055e7bcbb8d5",
+        "name": "27aa423fd6725dfc1204",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Date"
+              }
+            },
+            "Property": "Calendar Year"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "607dba4735604f1a6461",
         "field": {
           "Measure": {
             "Expression": {
@@ -211,7 +239,7 @@
                 "Entity": "Order"
               }
             },
-            "Property": "Shipped Order $ YoY%"
+            "Property": "Shipped Processing Days"
           }
         },
         "type": "Advanced"

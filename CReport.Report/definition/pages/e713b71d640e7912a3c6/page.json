@@ -1,0 +1,10 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "e713b71d640e7912a3c6",
+  "displayName": "Returned Tooltip",
+  "displayOption": "FitToPage",
+  "height": 200,
+  "width": 782,
+  "visibility": "HiddenInViewMode",
+  "type": "Tooltip"
+}

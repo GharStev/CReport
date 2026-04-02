@@ -147,9 +147,11 @@ table Employee
 		lineageTag: 3c0423d5-9438-4e4f-a6d8-9960532d7a33
 		summarizeBy: none
 
+		changedProperty = SortByColumn
+
 		annotation SummarizationSetBy = Automatic
 
-	column 'Manager Display Name' = ```
+	column 'Manager Name' = ```
 			
 			    VAR ManagerID = Employee[Manager]
 			    RETURN
@@ -167,6 +169,25 @@ table Employee
 		summarizeBy: none
 
 		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Employee Location'
+		lineageTag: b7ea9624-0d8e-4e02-9df5-e8f7e892534e
+
+		level Country
+			lineageTag: 9e9f57cf-852e-4eb5-8ac5-5a0d599d090d
+			column: Country
+
+		level Region
+			lineageTag: 07556583-8a46-4cdd-a555-c57c6e13ea84
+			column: Region
+
+		level City
+			lineageTag: 66984fbb-7197-4259-90dc-446c6161c000
+			column: City
+
+		level 'Employee Name'
+			lineageTag: 581b31d4-8da5-4447-85ee-eb2d3ed78457
+			column: 'Employee Name'
 
 	partition Employee = m
 		mode: import

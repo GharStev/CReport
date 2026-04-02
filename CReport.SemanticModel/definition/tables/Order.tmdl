@@ -20,7 +20,7 @@ table Order
 			        NOT ISBLANK('Order'[Invoice.ShippedDate_Key])
 			    )
 			```
-		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		formatString: \$#,0;(\$#,0);\$#,0
 		displayFolder: Order Metrics
 		lineageTag: f76de593-d69d-4bcf-ab7f-2784b8327e20
 
@@ -39,7 +39,7 @@ table Order
 			            PrevYear,
 			            0
 			        )
-		formatString: 0.00%;-0.00%;0.00%
+		formatString: 0%;-0%;0%
 		displayFolder: Order Metrics
 		lineageTag: 768cda00-d12d-4517-a65c-714dbc312179
 
@@ -51,7 +51,7 @@ table Order
 			        LEFT('Filters'[Order Status],1) = "R"
 			    )
 			```
-		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		formatString: \$#,0;(\$#,0);\$#,0
 		displayFolder: Order Metrics
 		lineageTag: b1b646c5-cc72-4316-853c-a6c75454b029
 
@@ -59,21 +59,70 @@ table Order
 
 	measure 'Shipped Processing Days' = ```
 			
-			    AVERAGEX(
-			        FILTER(
-			            'Order',
-			            NOT ISBLANK('Order'[Shipped Date])
+			    CALCULATE(
+			        AVERAGEX(
+			            FILTER(
+			                'Order',
+			                NOT ISBLANK('Order'[Shipped Date])
+			            ),
+			            DATEDIFF(
+			                'Order'[Order Date],
+			                'Order'[Shipped Date],
+			                DAY
+			            )
 			        ),
-			        DATEDIFF(
-			            'Order'[Order Date],
-			            'Order'[Shipped Date],
-			            DAY
-			        )
+			        USERELATIONSHIP('Order'[Invoice.ShippedDate_Key], 'Date'[DateKey])
 			    )
 			```
 		formatString: 0.0
 		displayFolder: Order Metrics
 		lineageTag: e8a8eb91-b289-43dc-914b-9800b42cbc52
+
+	measure 'Latest Shipped Date' = ```
+			
+			    MAX('Order'[Shipped Date])
+			```
+		formatString: Short Date
+		lineageTag: 2b73d25f-5fdf-41ba-b624-c71cd9d03a6d
+
+	measure 'Not Returned Shipped Order $' = ```
+			
+			    CALCULATE(
+			        [Shipped Order $],
+			        //Use "LEFT" in case user renames, likely it will still begin with S for Sold, Shipped, etc.
+			        LEFT('Filters'[Order Status], 1) = "S"
+			    )
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Order Metrics
+		lineageTag: 096e84d8-f123-4978-8674-5edfb6dd4c4b
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Return Rate' = ```
+			
+			    DIVIDE(
+			        [Returned Shipped Order $],
+			        [Shipped Order $],
+			        0
+			    )
+			        
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: c617bd34-44b7-4e70-8886-cd01951ecc1e
+
+	measure 'Return Rank' = ```
+			
+			    RANKX(
+			        ALLSELECTED('Product'),
+			        [Returned Shipped Order $],
+			        ,
+			        DESC,
+			        Dense
+			    )
+			```
+		formatString: 0
+		lineageTag: 3c39de90-cf26-4d5d-a36f-ec2f7a9ed84b
 
 	column OrderID
 		dataType: string

@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
-  "name": "73ef4d5a9e5bced045e0",
+  "name": "b04f809fba2a8ba31956",
   "position": {
     "x": 55.74305933587371,
-    "y": 78.737071311921611,
-    "z": 0,
+    "y": 232.03048448557433,
+    "z": 1,
     "height": 153.29341317365271,
     "width": 762.98312465977142,
-    "tabOrder": 0
+    "tabOrder": 1
   },
   "visual": {
     "visualType": "tableEx",
@@ -20,61 +20,56 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dq_MissingEmployeeIDs"
+                      "Entity": "Order"
                     }
                   },
-                  "Property": "EmployeeID"
+                  "Property": "OrderID"
                 }
               },
-              "queryRef": "dq_MissingEmployeeIDs.EmployeeID",
-              "nativeQueryRef": "EmployeeID"
+              "queryRef": "Order.OrderID",
+              "nativeQueryRef": "OrderID"
             },
             {
               "field": {
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dq_MissingEmployeeIDs"
+                      "Entity": "Order"
                     }
                   },
-                  "Property": "LastName"
+                  "Property": "Required Date"
                 }
               },
-              "queryRef": "dq_MissingEmployeeIDs.LastName",
-              "nativeQueryRef": "LastName"
+              "queryRef": "Order.Required Date",
+              "nativeQueryRef": "Required Date"
             },
             {
               "field": {
-                "Measure": {
+                "Column": {
                   "Expression": {
                     "SourceRef": {
                       "Entity": "Order"
                     }
                   },
-                  "Property": "Shipped Order $"
+                  "Property": "Order Date"
                 }
               },
-              "queryRef": "Order.Shipped Order $",
-              "nativeQueryRef": "Shipped Order $"
+              "queryRef": "Order.Order Date",
+              "nativeQueryRef": "Order Date"
             },
             {
               "field": {
-                "Aggregation": {
+                "Column": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Order"
-                        }
-                      },
-                      "Property": "Shipped Date"
+                    "SourceRef": {
+                      "Entity": "Order"
                     }
                   },
-                  "Function": 4
+                  "Property": "Shipped Date"
                 }
               },
               "queryRef": "Order.Shipped Date",
-              "nativeQueryRef": "Latest Shipped Date"
+              "nativeQueryRef": "Shipped Date"
             }
           ]
         }
@@ -94,7 +89,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Employees Referenced In Orders But Not / No-Longer In Employee Table'"
+                  "Value": "'Aged Orders Without Shipped Date'"
                 }
               }
             }
@@ -107,15 +102,29 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "73b7669e468812a629c1",
+        "name": "db0a6bfc129506c94780",
         "field": {
           "Column": {
             "Expression": {
               "SourceRef": {
-                "Entity": "Employee"
+                "Entity": "Order"
               }
             },
-            "Property": "isPlaceholder"
+            "Property": "OrderID"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "0ea929d9de65ffad6b1c",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Order"
+              }
+            },
+            "Property": "Shipped Date"
           }
         },
         "type": "Categorical",
@@ -123,8 +132,8 @@
           "Version": 2,
           "From": [
             {
-              "Name": "e",
-              "Entity": "Employee",
+              "Name": "o",
+              "Entity": "Order",
               "Type": 0
             }
           ],
@@ -137,10 +146,10 @@
                       "Column": {
                         "Expression": {
                           "SourceRef": {
-                            "Source": "e"
+                            "Source": "o"
                           }
                         },
-                        "Property": "isPlaceholder"
+                        "Property": "Shipped Date"
                       }
                     }
                   ],
@@ -148,7 +157,7 @@
                     [
                       {
                         "Literal": {
-                          "Value": "true"
+                          "Value": "null"
                         }
                       }
                     ]
@@ -157,69 +166,35 @@
               }
             }
           ]
-        },
-        "howCreated": "User"
+        }
       },
       {
-        "name": "ad53f44bc4061cf7bac6",
+        "name": "fe15657c0a3d03dcb1b7",
         "field": {
           "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dq_MissingEmployeeIDs"
-              }
-            },
-            "Property": "EmployeeID"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "d089cb5702843b90a1e7",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dq_MissingEmployeeIDs"
-              }
-            },
-            "Property": "LastName"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "f6bfa8fa07302386db75",
-        "field": {
-          "Measure": {
             "Expression": {
               "SourceRef": {
                 "Entity": "Order"
               }
             },
-            "Property": "Shipped Order $"
+            "Property": "Required Date"
           }
         },
-        "type": "Advanced"
+        "type": "Categorical"
       },
       {
-        "name": "11cf686d3c19738bda3e",
+        "name": "fa163de3060f39ab6293",
         "field": {
-          "Aggregation": {
+          "Column": {
             "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Order"
-                  }
-                },
-                "Property": "Shipped Date"
+              "SourceRef": {
+                "Entity": "Order"
               }
             },
-            "Function": 4
+            "Property": "Order Date"
           }
         },
-        "type": "Advanced"
+        "type": "Categorical"
       }
     ]
   }

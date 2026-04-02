@@ -1,0 +1,33 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "e1863cc9aa7b8185de42",
+  "position": {
+    "x": 9.7550353837779,
+    "y": 670.31028851388135,
+    "z": 6000,
+    "height": 29.961894393032118,
+    "width": 776.91888949373981,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Note: Orders often contain products from more than one category and are processed/shipped at the same time"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

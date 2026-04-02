@@ -1,6 +1,17 @@
 table Customer
 	lineageTag: cba8a3f8-91f6-4a41-a05e-75027e92e066
 
+	measure 'is Top 5 Returned' = ```
+			
+			    IF(
+			        [Return Rank] <= 5,
+			        True,
+			        False
+			    )
+			```
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a3860f15-9bf3-47ed-88d0-8f905e9b6435
+
 	column Customer_Key
 		dataType: int64
 		isHidden
@@ -104,6 +115,25 @@ table Customer
 		sourceColumn: Region
 
 		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Customer Location'
+		lineageTag: b93be367-0106-4847-88a9-357a753fa0f9
+
+		level Country
+			lineageTag: 37d036ef-d814-4605-bbe1-104188dd0de7
+			column: Country
+
+		level Region
+			lineageTag: a37862b5-8b62-4d24-af8a-a702d01263f5
+			column: Region
+
+		level City
+			lineageTag: acd20186-9000-4c6d-bebc-55494a313d89
+			column: City
+
+		level 'Customer Company'
+			lineageTag: 08c0bb95-f634-4b85-ba9d-ff0a7a8f66ab
+			column: 'Customer Company'
 
 	partition Customer = m
 		mode: import

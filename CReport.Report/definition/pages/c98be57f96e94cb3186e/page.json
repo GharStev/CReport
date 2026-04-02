@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
-  "name": "9a10bd5b5290ff8816db",
-  "displayName": "Shipped Sales",
+  "name": "c98be57f96e94cb3186e",
+  "displayName": "Returned Products",
   "displayOption": "FitToPage",
   "height": 720,
   "width": 1280,

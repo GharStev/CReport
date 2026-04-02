@@ -13,53 +13,76 @@ table Shipment
 
 		annotation SummarizationSetBy = Automatic
 
-	column ShipName
+	column 'Ship To'
 		dataType: string
 		lineageTag: e7eede35-d3db-45ad-bc98-2699ae0a98ff
 		summarizeBy: none
-		sourceColumn: ShipName
+		sourceColumn: Ship To
 
 		annotation SummarizationSetBy = Automatic
 
-	column ShipPostalCode
+	column 'Ship PostalCode'
 		dataType: string
 		lineageTag: 8525bf1e-381a-4d2a-ab59-1fc5c1c34716
+		dataCategory: PostalCode
 		summarizeBy: none
-		sourceColumn: ShipPostalCode
+		sourceColumn: Ship PostalCode
 
 		annotation SummarizationSetBy = Automatic
 
-	column ShipRegion
+	column 'Ship Region'
 		dataType: string
 		lineageTag: d0eafbf5-0670-4b14-ae77-dd801c7a0a00
 		summarizeBy: none
-		sourceColumn: ShipRegion
+		sourceColumn: Ship Region
 
 		annotation SummarizationSetBy = Automatic
 
-	column ShipCountry
+	column 'Ship Country'
 		dataType: string
 		lineageTag: b1cd4a6d-04e9-4353-af0a-40ef3ae8a372
+		dataCategory: Country
 		summarizeBy: none
-		sourceColumn: ShipCountry
+		sourceColumn: Ship Country
 
 		annotation SummarizationSetBy = Automatic
 
-	column ShipCity
+	column 'Ship City'
 		dataType: string
 		lineageTag: 49b975b1-28e0-44cb-b44b-3d8c70cf5f31
+		dataCategory: City
 		summarizeBy: none
-		sourceColumn: ShipCity
+		sourceColumn: Ship City
 
 		annotation SummarizationSetBy = Automatic
 
-	column ShipAddress
+	column 'Ship Address'
 		dataType: string
 		lineageTag: 4017e8e6-4e32-412f-b05e-f2a782bb55c6
+		dataCategory: Address
 		summarizeBy: none
-		sourceColumn: ShipAddress
+		sourceColumn: Ship Address
 
 		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Ship To Location'
+		lineageTag: ef630e5c-28a6-4aec-8789-b5eb98c8f31a
+
+		level 'Ship Country'
+			lineageTag: 9f760b22-efaa-4eca-9655-ddd5680b068c
+			column: 'Ship Country'
+
+		level 'Ship Region'
+			lineageTag: e4e37c4e-6c7e-465d-88b4-c1f9bf67f53f
+			column: 'Ship Region'
+
+		level 'Ship City'
+			lineageTag: a29e3692-81cb-458c-b9f2-727b62b93c49
+			column: 'Ship City'
+
+		level 'Ship To'
+			lineageTag: d3629c32-b0c4-4e47-a67d-781d1b3ce2d9
+			column: 'Ship To'
 
 	partition Shipment = m
 		mode: import
@@ -67,16 +90,18 @@ table Shipment
 		source =
 				let
 				    Source = stg_Invoice,
-				    #"Removed Other Columns" = Table.SelectColumns(Source,{"RequiredDate", "ShipName", "ShipPostalCode", "ShipRegion", "ShipCountry", "ShipCity", "ShipAddress"}),
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"RequiredDate", "ShipName", "OrderID", "ShipPostalCode", "ShipRegion", "ShipCountry", "ShipCity", "ShipAddress"}),
 				    #"Sorted Rows1" = Table.Sort(#"Removed Other Columns",{{"RequiredDate", Order.Ascending}}),
 				    #"Removed Columns" = Table.RemoveColumns(#"Sorted Rows1",{"RequiredDate"}),
 				    #"Removed Duplicates" = Table.Distinct(#"Removed Columns"),
 				    #"Filtered Rows" = Table.SelectRows(#"Removed Duplicates", each true),
-				    #"Added Index" = Table.AddIndexColumn(#"Filtered Rows", "Index", 1, 1, Int64.Type),
-				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "Shipment_Key"}}),
-				    #"Reordered Columns" = Table.ReorderColumns(#"Renamed Columns",{"Shipment_Key", "ShipName", "ShipPostalCode", "ShipRegion", "ShipCountry", "ShipCity", "ShipAddress"})
+				    #"Renamed Columns" = Table.RenameColumns(#"Filtered Rows",{{"ShipName", "Ship To"}, {"ShipPostalCode", "Ship PostalCode"}, {"ShipRegion", "Ship Region"}, {"ShipCountry", "Ship Country"}, {"ShipCity", "Ship City"}, {"ShipAddress", "Ship Address"}}),
+				    #"Grouped Rows" = Table.Group(#"Renamed Columns", {"Ship To", "Ship PostalCode", "Ship Region", "Ship Country", "Ship City", "Ship Address"}, {{"Orders", each _, type table [OrderID=nullable text]}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Grouped Rows", "Index", 1, 1, Int64.Type),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Added Index",{"Index", "Ship To", "Ship PostalCode", "Ship Region", "Ship Country", "Ship City", "Ship Address", "Orders"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Reordered Columns",{{"Index", "Shipment_Key"}})
 				in
-				    #"Reordered Columns"
+				    #"Renamed Columns1"
 
 	annotation PBI_NavigationStepName = Navigation
 

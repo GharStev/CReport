@@ -1,6 +1,12 @@
 table Product
 	lineageTag: bcb26b49-5c38-4c86-8b1c-bb32d712b3b6
 
+	measure 'Returned Tooltip Title' = ```
+			
+			    "Top Five Returned Products (by $) in " & SELECTEDVALUE('Product'[Product Category], "")
+			```
+		lineageTag: af85929d-5426-488a-b80e-a74e3c5ef472
+
 	column Product_Key
 		dataType: int64
 		isHidden
@@ -47,34 +53,34 @@ table Product
 		formatString: 0
 		displayFolder: Unit Info
 		lineageTag: 637af2b4-cc73-4fe6-aff2-4472c706fc25
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: Units In Stock
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Units On Order'
 		dataType: int64
 		formatString: 0
 		displayFolder: Unit Info
 		lineageTag: 9eb406ab-ed6d-4982-a9a3-6aea15ae8b2e
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: Units On Order
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
-	column 'Category Name'
+	column 'Product Category'
 		dataType: string
 		lineageTag: 73d57798-3c6c-4f92-9d78-005c52f5761a
 		summarizeBy: none
-		sourceColumn: Category Name
+		sourceColumn: Product Category
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Category Description'
+	column 'Product Category Description'
 		dataType: string
 		lineageTag: cd343874-2a29-4de8-b0a3-fc75ec19f759
 		summarizeBy: none
-		sourceColumn: Category Description
+		sourceColumn: Product Category Description
 
 		annotation SummarizationSetBy = Automatic
 
@@ -82,6 +88,7 @@ table Product
 		dataType: string
 		displayFolder: Supplier Info
 		lineageTag: b4820110-bf04-448b-8675-a168babceb64
+		dataCategory: Address
 		summarizeBy: none
 		sourceColumn: Supplier Address
 
@@ -91,6 +98,7 @@ table Product
 		dataType: string
 		displayFolder: Supplier Info
 		lineageTag: d6586e0c-9cba-4ec7-9d2b-61d8da045a82
+		dataCategory: City
 		summarizeBy: none
 		sourceColumn: Supplier City
 
@@ -127,6 +135,7 @@ table Product
 		dataType: string
 		displayFolder: Supplier Info
 		lineageTag: fcd3f154-7e25-4290-9805-79bd2746951d
+		dataCategory: Country
 		summarizeBy: none
 		sourceColumn: Supplier Country
 
@@ -154,6 +163,7 @@ table Product
 		dataType: string
 		displayFolder: Supplier Info
 		lineageTag: dccd965e-34b8-49e8-8c58-e10cc178cf81
+		dataCategory: PostalCode
 		summarizeBy: none
 		sourceColumn: Supplier Postal Code
 
@@ -176,6 +186,26 @@ table Product
 
 		annotation SummarizationSetBy = Automatic
 
+	hierarchy 'Supplier Geography'
+		displayFolder: Supplier Info
+		lineageTag: 3f011dd1-b8e9-45f4-8708-eb6b5a19882a
+
+		level 'Supplier Country'
+			lineageTag: 816a732c-2090-41cd-afad-df901d0d05a2
+			column: 'Supplier Country'
+
+		level 'Supplier Region'
+			lineageTag: 704b2473-8a92-4250-a7c8-a34f54424fa0
+			column: 'Supplier Region'
+
+		level 'Supplier City'
+			lineageTag: 2a443bca-3c8e-47af-bead-9ba667f38e1c
+			column: 'Supplier City'
+
+		level 'Supplier Company Name'
+			lineageTag: eb6129c6-20ed-4cab-bcb5-d8fd65075667
+			column: 'Supplier Company Name'
+
 	partition Product = m
 		mode: import
 		queryGroup: Dimensions
@@ -187,7 +217,7 @@ table Product
 				    #"Expanded stg_Category" = Table.ExpandTableColumn(#"Merged Queries", "stg_Category", {"CategoryName", "Description"}, {"CategoryName", "Description"}),
 				    #"Renamed Columns1" = Table.RenameColumns(#"Expanded stg_Category",{{"CategoryName", "Category Name"}, {"Description", "Category Description"}}),
 				    #"Removed Columns" = Table.RemoveColumns(#"Renamed Columns1",{"CategoryID"}),
-				    #"Renamed Columns2" = Table.RenameColumns(#"Removed Columns",{{"SupplierID", "Supplier_Key"}, {"ProductName", "Product Name"}, {"QuantityPerUnit", "Quantity Per Unit"}, {"UnitPrice", "Unit Price"}, {"UnitsInStock", "Units In Stock"}, {"UnitsOnOrder", "Units On Order"}}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Removed Columns",{{"SupplierID", "Supplier_Key"}, {"ProductName", "Product Name"}, {"QuantityPerUnit", "Quantity Per Unit"}, {"UnitPrice", "Unit Price"}, {"UnitsInStock", "Units In Stock"}, {"UnitsOnOrder", "Units On Order"}, {"Category Name", "Product Category"}, {"Category Description", "Product Category Description"}}),
 				    #"Merged Queries1" = Table.NestedJoin(#"Renamed Columns2", {"Supplier_Key"}, stg_Supplier, {"SupplierID"}, "stg_Supplier", JoinKind.LeftOuter),
 				    #"Renamed Columns3" = Table.RenameColumns(#"Merged Queries1",{{"stg_Supplier", "Supplier"}}),
 				    #"Expanded Supplier" = Table.ExpandTableColumn(#"Renamed Columns3", "Supplier", {"Address", "City", "CompanyName", "ContactTitle", "ContactName", "Country", "Fax", "Phone", "PostalCode", "Region"}, { "Supplier Address", "Supplier City", "Supplier Company Name", "Supplier Contact Title", "Supplier Contact Name", "Supplier Country", "Supplier Fax", "Supplier Phone", "Supplier Postal Code", "Supplier Region"}),
