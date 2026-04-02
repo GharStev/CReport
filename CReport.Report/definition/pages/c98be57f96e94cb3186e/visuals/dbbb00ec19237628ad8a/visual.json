@@ -152,6 +152,18 @@
                   "Value": "4L"
                 }
               }
+            },
+            "gridLineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0.6
+                    }
+                  }
+                }
+              }
             }
           }
         }
@@ -267,7 +279,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Returned and Not-Returned Retention By Product Category'"
+                  "Value": "'Returned Sales Price Value by Product Category'"
                 }
               }
             }
@@ -289,37 +301,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "e6c043430d815a36fd94",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Order"
-              }
-            },
-            "Property": "Returned Shipped Order $"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "393d97e69e360bd4786e",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Product"
-              }
-            },
-            "Property": "Product Category"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

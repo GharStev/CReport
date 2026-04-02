@@ -4,7 +4,7 @@
   "position": {
     "x": 9.7550353837779,
     "y": 467.54491017964074,
-    "z": 1000,
+    "z": 5500,
     "height": 240.39194338595539,
     "width": 1249.3413173652696,
     "tabOrder": 0
@@ -98,6 +98,23 @@
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Order"
+                  }
+                },
+                "Property": "Shipped Order $"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
       }
     },
     "expansionStates": [
@@ -505,79 +522,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "a21349e5eed2d867f92e",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Product"
-              }
-            },
-            "Property": "Product Category"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "f0a8b4b6014164172acc",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Order"
-              }
-            },
-            "Property": "Shipped Order $"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "975381c7bd2c6631b9f1",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Order"
-              }
-            },
-            "Property": "Shipped Order $ YoY%"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "fe4cf1ed0e16a425e7f4",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Date"
-              }
-            },
-            "Property": "Calendar Year"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "ba19c87574f7e19b4418",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Product"
-              }
-            },
-            "Property": "Product Name"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

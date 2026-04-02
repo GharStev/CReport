@@ -1,17 +1,6 @@
 table Customer
 	lineageTag: cba8a3f8-91f6-4a41-a05e-75027e92e066
 
-	measure 'is Top 5 Returned' = ```
-			
-			    IF(
-			        [Return Rank] <= 5,
-			        True,
-			        False
-			    )
-			```
-		formatString: """TRUE"";""TRUE"";""FALSE"""
-		lineageTag: a3860f15-9bf3-47ed-88d0-8f905e9b6435
-
 	column Customer_Key
 		dataType: int64
 		isHidden
@@ -141,9 +130,9 @@ table Customer
 		source =
 				let
 				    Source = stg_Customer,
-				    #"Merged Queries" = Table.NestedJoin(Source, {"CustomerKey"}, lkp_Customer_Key, {"CustomerKey"}, "sil_Customer (2)", JoinKind.LeftOuter),
-				    #"Expanded sil_Customer (2)" = Table.ExpandTableColumn(#"Merged Queries", "sil_Customer (2)", {"Customer_Key"}, {"Customer_Key"}),
-				    #"Reordered Columns" = Table.ReorderColumns(#"Expanded sil_Customer (2)",{"Customer_Key", "CustomerKey", "Address", "City", "CompanyName", "ContactName", "ContactTitle", "Country", "Fax", "Phone", "PostalCode", "Region"}),
+				    #"Merged Queries" = Table.NestedJoin(Source, {"CustomerKey"}, lkp_Customer_Key, {"CustomerKey"}, "lkp_Customer_Key", JoinKind.LeftOuter),
+				    #"Expanded lkp_Customer_Key" = Table.ExpandTableColumn(#"Merged Queries", "lkp_Customer_Key", {"Customer_Key"}, {"Customer_Key"}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Expanded lkp_Customer_Key",{"Customer_Key", "CustomerKey", "Address", "City", "CompanyName", "ContactName", "ContactTitle", "Country", "Fax", "Phone", "PostalCode", "Region"}),
 				    #"Renamed Columns" = Table.RenameColumns(#"Reordered Columns",{{"CompanyName", "Customer Company"}, {"ContactName", "Contact Name"}, {"ContactTitle", "Contact Title"}, {"PostalCode", "Postal Code"}, {"CustomerKey", "Customer Key"}})
 				in
 				    #"Renamed Columns"

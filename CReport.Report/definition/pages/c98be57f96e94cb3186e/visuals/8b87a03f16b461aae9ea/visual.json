@@ -1,12 +1,12 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
-  "name": "e1863cc9aa7b8185de42",
+  "name": "8b87a03f16b461aae9ea",
   "position": {
-    "x": 9.7550353837779,
-    "y": 676,
+    "x": 9.37347436940602,
+    "y": 676.973148901546,
     "z": 6000,
-    "height": 29.961894393032118,
-    "width": 776.91888949373981,
+    "height": 29.161920260374288,
+    "width": 776.95687550854348,
     "tabOrder": 6000
   },
   "visual": {
@@ -19,7 +19,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Note: Orders often contain products from more than one category and are processed/shipped at the same time"
+                    "value": "Note: Return Rate based on Returned Sales Price (\"Returned Shipped Order $) vs Non-Returned Unit Sales Price"
                   }
                 ]
               }

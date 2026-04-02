@@ -91,17 +91,16 @@ table Shipment
 				let
 				    Source = stg_Invoice,
 				    #"Removed Other Columns" = Table.SelectColumns(Source,{"RequiredDate", "ShipName", "OrderID", "ShipPostalCode", "ShipRegion", "ShipCountry", "ShipCity", "ShipAddress"}),
-				    #"Sorted Rows1" = Table.Sort(#"Removed Other Columns",{{"RequiredDate", Order.Ascending}}),
-				    #"Removed Columns" = Table.RemoveColumns(#"Sorted Rows1",{"RequiredDate"}),
+				    #"Sorted Rows" = Table.Sort(#"Removed Other Columns",{{"RequiredDate", Order.Ascending}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Sorted Rows",{"RequiredDate"}),
 				    #"Removed Duplicates" = Table.Distinct(#"Removed Columns"),
-				    #"Filtered Rows" = Table.SelectRows(#"Removed Duplicates", each true),
-				    #"Renamed Columns" = Table.RenameColumns(#"Filtered Rows",{{"ShipName", "Ship To"}, {"ShipPostalCode", "Ship PostalCode"}, {"ShipRegion", "Ship Region"}, {"ShipCountry", "Ship Country"}, {"ShipCity", "Ship City"}, {"ShipAddress", "Ship Address"}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Duplicates",{{"ShipName", "Ship To"}, {"ShipPostalCode", "Ship PostalCode"}, {"ShipRegion", "Ship Region"}, {"ShipCountry", "Ship Country"}, {"ShipCity", "Ship City"}, {"ShipAddress", "Ship Address"}}),
 				    #"Grouped Rows" = Table.Group(#"Renamed Columns", {"Ship To", "Ship PostalCode", "Ship Region", "Ship Country", "Ship City", "Ship Address"}, {{"Orders", each _, type table [OrderID=nullable text]}}),
 				    #"Added Index" = Table.AddIndexColumn(#"Grouped Rows", "Index", 1, 1, Int64.Type),
-				    #"Reordered Columns" = Table.ReorderColumns(#"Added Index",{"Index", "Ship To", "Ship PostalCode", "Ship Region", "Ship Country", "Ship City", "Ship Address", "Orders"}),
-				    #"Renamed Columns1" = Table.RenameColumns(#"Reordered Columns",{{"Index", "Shipment_Key"}})
+				    #"Renamed Index" = Table.RenameColumns(#"Added Index",{{"Index", "Shipment_Key"}}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Renamed Index",{"Shipment_Key", "Ship To", "Ship PostalCode", "Ship Region", "Ship Country", "Ship City", "Ship Address", "Orders"})
 				in
-				    #"Renamed Columns1"
+				    #"Reordered Columns"
 
 	annotation PBI_NavigationStepName = Navigation
 

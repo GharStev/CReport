@@ -10,124 +10,133 @@
       "nodes": [
         {
           "location": {
-            "x": 421.12553227729524,
-            "y": 0
+            "x": 591.45607356501137,
+            "y": 72.352796299206943
           },
           "nodeIndex": "Customer",
           "nodeLineageTag": "cba8a3f8-91f6-4a41-a05e-75027e92e066",
           "size": {
-            "height": 412.22222222222223,
+            "height": 104,
             "width": 234
           },
-          "zIndex": 6
+          "zIndex": 5,
+          "expandedHeight": 528.28816628553318
         },
         {
           "location": {
-            "x": 632.665587918015,
-            "y": 581.6362913756883
+            "x": 404.41848258502722,
+            "y": 393.07876474567649
           },
           "nodeIndex": "Employee",
           "nodeLineageTag": "599d1331-e7a8-4933-8ee6-3b7fcad65921",
           "size": {
-            "height": 545.55555555555566,
+            "height": 104,
             "width": 234
           },
-          "zIndex": 7
+          "zIndex": 6,
+          "expandedHeight": 545.55555555555566
         },
         {
           "location": {
-            "x": 929.22222222222217,
-            "y": 815
+            "x": 578.00969018648868,
+            "y": 584.375461796278
           },
           "nodeIndex": "Product",
           "nodeLineageTag": "bcb26b49-5c38-4c86-8b1c-bb32d712b3b6",
           "size": {
-            "height": 431,
+            "height": 104,
             "width": 234
           },
-          "zIndex": 4
+          "zIndex": 4,
+          "expandedHeight": 431
         },
         {
           "location": {
-            "x": 1322.978538579458,
+            "x": 1356.140236883261,
             "y": 0
           },
           "nodeIndex": "Shipper",
           "nodeLineageTag": "7b2b8011-43b4-4750-afd5-9a970645aa98",
           "size": {
-            "height": 152,
+            "height": 104,
             "width": 234
           },
-          "zIndex": 5
+          "zIndex": 9,
+          "expandedHeight": 152
         },
         {
           "location": {
-            "x": 1279.5204110600127,
-            "y": 600.12862658263793
+            "x": 1210.1823146066063,
+            "y": 664.94467326734411
           },
           "nodeIndex": "Date",
           "nodeLineageTag": "d94313a1-a8a8-41e1-844e-fba0ab1645ae",
           "size": {
-            "height": 715.66666666666652,
+            "height": 104,
             "width": 234
           },
-          "zIndex": 8
+          "zIndex": 7,
+          "expandedHeight": 715.66666666666652
         },
         {
           "location": {
-            "x": 938.28410832907514,
-            "y": 20.075711122466345
+            "x": 873.468061644369,
+            "y": 202.46505179338368
           },
           "nodeIndex": "Order",
           "nodeLineageTag": "a83682d0-d880-420b-9f64-53e7173217af",
           "size": {
-            "height": 682.22222222222217,
-            "width": 234
+            "height": 320,
+            "width": 320
           },
-          "zIndex": 9
+          "zIndex": 8,
+          "expandedHeight": 614.39147569171587
         },
         {
           "location": {
-            "x": 1684.6957361040143,
-            "y": 183.82311360926587
+            "x": 1524.9166442765991,
+            "y": 183.8231136092659
           },
           "nodeIndex": "Shipment",
           "nodeLineageTag": "485d58a9-1fd0-4d60-92ea-b5da23dc9d2a",
           "size": {
-            "height": 278.36024527337759,
+            "height": 104,
             "width": 234
           },
-          "zIndex": 3
+          "zIndex": 3,
+          "expandedHeight": 278.36024527337759
         },
         {
           "location": {
-            "x": 173.12575938227474,
-            "y": 617.8888888888888
+            "x": 954.99116180293163,
+            "y": 0
           },
           "nodeIndex": "Filters",
           "nodeLineageTag": "dcdd9820-6a27-48f6-a4fe-74dc0be41933",
           "size": {
-            "height": 128,
+            "height": 104,
             "width": 234
           },
-          "zIndex": 2
+          "zIndex": 2,
+          "expandedHeight": 128
         },
         {
           "location": {
-            "x": 1830.0144211661841,
-            "y": 562.33333333333337
+            "x": 1534.5738362777558,
+            "y": 471.89233795932478
           },
           "nodeIndex": "dq_MissingEmployeeIDs",
           "nodeLineageTag": "4875bd06-08cc-4136-a60d-f34d020f1ff1",
           "size": {
-            "height": 145,
+            "height": 104,
             "width": 234
           },
-          "zIndex": 1
+          "zIndex": 1,
+          "expandedHeight": 145
         }
       ],
       "name": "All tables",
-      "zoomValue": 90,
+      "zoomValue": 66.341596254969019,
       "pinKeyFieldsToTop": false,
       "showExtraHeaderInfo": false,
       "hideKeyFieldsWhenCollapsed": false,

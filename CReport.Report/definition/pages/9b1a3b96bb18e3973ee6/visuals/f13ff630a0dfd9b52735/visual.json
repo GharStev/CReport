@@ -152,6 +152,18 @@
                   "Value": "4L"
                 }
               }
+            },
+            "gridLineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0.6
+                    }
+                  }
+                }
+              }
             }
           }
         }
@@ -241,37 +253,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "e1f7d690297aecf9435c",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Product"
-              }
-            },
-            "Property": "Product Category"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "3150719a770d9d04f776",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Order"
-              }
-            },
-            "Property": "Shipped Processing Days"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

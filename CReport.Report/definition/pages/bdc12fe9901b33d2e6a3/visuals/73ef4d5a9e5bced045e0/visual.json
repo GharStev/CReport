@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
   "name": "73ef4d5a9e5bced045e0",
   "position": {
-    "x": 55.74305933587371,
-    "y": 78.737071311921611,
+    "x": 57.28234336859235,
+    "y": 97.9007323026851,
     "z": 0,
-    "height": 153.29341317365271,
-    "width": 762.98312465977142,
+    "height": 153.100081366965,
+    "width": 762.37591537835635,
     "tabOrder": 0
   },
   "visual": {
@@ -159,67 +159,6 @@
           ]
         },
         "howCreated": "User"
-      },
-      {
-        "name": "ad53f44bc4061cf7bac6",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dq_MissingEmployeeIDs"
-              }
-            },
-            "Property": "EmployeeID"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "d089cb5702843b90a1e7",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dq_MissingEmployeeIDs"
-              }
-            },
-            "Property": "LastName"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "f6bfa8fa07302386db75",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Order"
-              }
-            },
-            "Property": "Shipped Order $"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "11cf686d3c19738bda3e",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Order"
-                  }
-                },
-                "Property": "Shipped Date"
-              }
-            },
-            "Function": 4
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }

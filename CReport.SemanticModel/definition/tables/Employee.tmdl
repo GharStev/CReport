@@ -197,9 +197,8 @@ table Employee
 				    Source = Table.Combine({stg_Employee, #"dq_MissingEmployeeIDs"}),
 				    #"Added Conditional Column" = Table.AddColumn(Source, "isPlaceholder", each if Text.StartsWith([LastName], "*") then true else false),
 				    #"Changed Type" = Table.TransformColumnTypes(#"Added Conditional Column",{{"isPlaceholder", type logical}}),
-				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"LastName", "Last Name"}, {"FirstName", "First Name"}, {"TitleOfCourtesy", "Prefix"}, {"PostalCode", "Postal Code"}, {"HireDate", "Hire Date"}, {"BirthDate", "Birth Date"}, {"Extension", "Phone Extension"}, {"HomePhone", "Phone (Home)"}, {"ReportsTo", "Manager"}}),
-				    #"Removed Columns" = Table.RemoveColumns(#"Renamed Columns",{"Birth Date", "Hire Date"}),
-				    #"Sorted Rows" = Table.Sort(#"Removed Columns",{{"EmployeeID", Order.Ascending}})
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"LastName", "Last Name"}, {"FirstName", "First Name"}, {"TitleOfCourtesy", "Prefix"}, {"PostalCode", "Postal Code"},  {"Extension", "Phone Extension"}, {"HomePhone", "Phone (Home)"}, {"ReportsTo", "Manager"}}),
+				    #"Sorted Rows" = Table.Sort(#"Renamed Columns",{{"EmployeeID", Order.Ascending}})
 				in
 				    #"Sorted Rows"
 

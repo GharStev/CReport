@@ -5,7 +5,10 @@ table Product
 			
 			    "Top Five Returned Products (by $) in " & SELECTEDVALUE('Product'[Product Category], "")
 			```
+		isHidden
 		lineageTag: af85929d-5426-488a-b80e-a74e3c5ef472
+
+		changedProperty = IsHidden
 
 	column Product_Key
 		dataType: int64
@@ -213,19 +216,19 @@ table Product
 				let
 				    Source = stg_Product,
 				    #"Renamed Columns" = Table.RenameColumns(Source,{{"ProductID", "Product_Key"}}),
-				    #"Merged Queries" = Table.NestedJoin(#"Renamed Columns", {"CategoryID"}, stg_Category, {"CategoryKey"}, "stg_Category", JoinKind.LeftOuter),
-				    #"Expanded stg_Category" = Table.ExpandTableColumn(#"Merged Queries", "stg_Category", {"CategoryName", "Description"}, {"CategoryName", "Description"}),
-				    #"Renamed Columns1" = Table.RenameColumns(#"Expanded stg_Category",{{"CategoryName", "Category Name"}, {"Description", "Category Description"}}),
-				    #"Removed Columns" = Table.RemoveColumns(#"Renamed Columns1",{"CategoryID"}),
-				    #"Renamed Columns2" = Table.RenameColumns(#"Removed Columns",{{"SupplierID", "Supplier_Key"}, {"ProductName", "Product Name"}, {"QuantityPerUnit", "Quantity Per Unit"}, {"UnitPrice", "Unit Price"}, {"UnitsInStock", "Units In Stock"}, {"UnitsOnOrder", "Units On Order"}, {"Category Name", "Product Category"}, {"Category Description", "Product Category Description"}}),
-				    #"Merged Queries1" = Table.NestedJoin(#"Renamed Columns2", {"Supplier_Key"}, stg_Supplier, {"SupplierID"}, "stg_Supplier", JoinKind.LeftOuter),
-				    #"Renamed Columns3" = Table.RenameColumns(#"Merged Queries1",{{"stg_Supplier", "Supplier"}}),
-				    #"Expanded Supplier" = Table.ExpandTableColumn(#"Renamed Columns3", "Supplier", {"Address", "City", "CompanyName", "ContactTitle", "ContactName", "Country", "Fax", "Phone", "PostalCode", "Region"}, { "Supplier Address", "Supplier City", "Supplier Company Name", "Supplier Contact Title", "Supplier Contact Name", "Supplier Country", "Supplier Fax", "Supplier Phone", "Supplier Postal Code", "Supplier Region"}),
-				    #"Removed Columns1" = Table.RemoveColumns(#"Expanded Supplier",{"Supplier_Key"}),
-				    #"Added Conditional Column" = Table.AddColumn(#"Removed Columns1", "Product Status", each if [Discontinued] = true then "Discontinued" else "Available"),
-				    #"Removed Columns2" = Table.RemoveColumns(#"Added Conditional Column",{"Discontinued"})
+				    #"Merged stg_Category" = Table.NestedJoin(#"Renamed Columns", {"CategoryID"}, stg_Category, {"CategoryKey"}, "stg_Category", JoinKind.LeftOuter),
+				    #"Expanded stg_Category" = Table.ExpandTableColumn(#"Merged stg_Category", "stg_Category", {"CategoryName", "Description"}, {"CategoryName", "Description"}),
+				    #"Renamed Category Columns" = Table.RenameColumns(#"Expanded stg_Category",{{"CategoryName", "Category Name"}, {"Description", "Category Description"}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Renamed Category Columns",{"CategoryID"}),
+				    #"Renamed More Columns" = Table.RenameColumns(#"Removed Columns",{{"SupplierID", "Supplier_Key"}, {"ProductName", "Product Name"}, {"QuantityPerUnit", "Quantity Per Unit"}, {"UnitPrice", "Unit Price"}, {"UnitsInStock", "Units In Stock"}, {"UnitsOnOrder", "Units On Order"}, {"Category Name", "Product Category"}, {"Category Description", "Product Category Description"}}),
+				    #"Merged stg_Supplier" = Table.NestedJoin(#"Renamed More Columns", {"Supplier_Key"}, stg_Supplier, {"SupplierID"}, "stg_Supplier", JoinKind.LeftOuter),
+				    #"Renamed Supplier Columns" = Table.RenameColumns(#"Merged stg_Supplier",{{"stg_Supplier", "Supplier"}}),
+				    #"Expanded stg_Supplier" = Table.ExpandTableColumn(#"Renamed Supplier Columns", "Supplier", {"Address", "City", "CompanyName", "ContactTitle", "ContactName", "Country", "Fax", "Phone", "PostalCode", "Region"}, { "Supplier Address", "Supplier City", "Supplier Company Name", "Supplier Contact Title", "Supplier Contact Name", "Supplier Country", "Supplier Fax", "Supplier Phone", "Supplier Postal Code", "Supplier Region"}),
+				    #"Removed Supplier_Key" = Table.RemoveColumns(#"Expanded stg_Supplier",{"Supplier_Key"}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Removed Supplier_Key", "Product Status", each if [Discontinued] = true then "Discontinued" else "Available"),
+				    #"Removed More Columns" = Table.RemoveColumns(#"Added Conditional Column",{"Discontinued"})
 				in
-				    #"Removed Columns2"
+				    #"Removed More Columns"
 
 	annotation PBI_NavigationStepName = Navigation
 

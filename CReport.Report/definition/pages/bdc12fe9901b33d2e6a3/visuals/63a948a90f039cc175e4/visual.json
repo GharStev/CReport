@@ -1,63 +1,80 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
-  "name": "b04f809fba2a8ba31956",
+  "name": "63a948a90f039cc175e4",
   "position": {
     "x": 0,
-    "y": 0,
-    "z": 0,
-    "height": 110.3986981285598,
+    "y": 110.39869812855977,
+    "z": 1000,
+    "height": 190.59397884458909,
     "width": 492.62815296989419,
-    "tabOrder": 0
+    "tabOrder": 1000
   },
   "visual": {
-    "visualType": "card",
+    "visualType": "tableEx",
     "query": {
       "queryState": {
         "Values": {
           "projections": [
             {
               "field": {
-                "Aggregation": {
+                "Column": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Order"
-                        }
-                      },
-                      "Property": "OrderID"
+                    "SourceRef": {
+                      "Entity": "Order"
                     }
                   },
-                  "Function": 2
+                  "Property": "OrderID"
                 }
               },
-              "queryRef": "Min(Order.OrderID)",
-              "nativeQueryRef": "Count of OrderID"
+              "queryRef": "Order.OrderID",
+              "nativeQueryRef": "OrderID"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Order"
+                    }
+                  },
+                  "Property": "Order Date"
+                }
+              },
+              "queryRef": "Order.Order Date",
+              "nativeQueryRef": "Order Date"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Order"
+                    }
+                  },
+                  "Property": "Required Date"
+                }
+              },
+              "queryRef": "Order.Required Date",
+              "nativeQueryRef": "Required Date"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Order"
+                    }
+                  },
+                  "Property": "Shipped Date"
+                }
+              },
+              "queryRef": "Order.Shipped Date",
+              "nativeQueryRef": "Shipped Date"
             }
           ]
         }
       },
       "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Aggregation": {
-                "Expression": {
-                  "Column": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "Order"
-                      }
-                    },
-                    "Property": "OrderID"
-                  }
-                },
-                "Function": 2
-              }
-            },
-            "direction": "Descending"
-          }
-        ],
         "isDefaultSort": true
       }
     },
@@ -139,8 +156,7 @@
               }
             }
           ]
-        },
-        "howCreated": "User"
+        }
       }
     ]
   }

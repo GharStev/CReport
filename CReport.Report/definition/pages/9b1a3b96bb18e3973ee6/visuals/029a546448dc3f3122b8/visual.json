@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
-  "name": "530859c5b88cbd230592",
+  "name": "029a546448dc3f3122b8",
   "position": {
-    "x": 18.813282525857378,
-    "y": 103.12465977136637,
-    "z": 2000,
-    "height": 352.57485029940119,
-    "width": 1235.4055525313011,
-    "tabOrder": 1000
+    "x": 636.79312813171089,
+    "y": 466.37079455977096,
+    "z": 7000,
+    "height": 209.82104509663566,
+    "width": 643.20687186828923,
+    "tabOrder": 7000
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "clusteredColumnChart",
     "query": {
       "queryState": {
         "Category": {
@@ -45,7 +45,7 @@
                   "Property": "Product Category"
                 }
               },
-              "queryRef": "Product.Category Name",
+              "queryRef": "Product.Product Category",
               "nativeQueryRef": "Product Category"
             }
           ]
@@ -60,11 +60,11 @@
                       "Entity": "Order"
                     }
                   },
-                  "Property": "Shipped Order $ YoY%"
+                  "Property": "Shipped Processing Days"
                 }
               },
-              "queryRef": "Order.Shipped Order $ YoY%",
-              "nativeQueryRef": "Shipped Order $ YoY%"
+              "queryRef": "Order.Shipped Processing Days",
+              "nativeQueryRef": "Shipped Processing Days"
             }
           ]
         }
@@ -83,19 +83,6 @@
               }
             },
             "direction": "Ascending"
-          },
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Product"
-                  }
-                },
-                "Property": "Product Category"
-              }
-            },
-            "direction": "Ascending"
           }
         ]
       }
@@ -104,37 +91,17 @@
       "legend": [
         {
           "properties": {
-            "position": {
-              "expr": {
-                "Literal": {
-                  "Value": "'BottomCenter'"
-                }
-              }
-            },
             "showTitle": {
               "expr": {
                 "Literal": {
                   "Value": "false"
                 }
               }
-            }
-          }
-        }
-      ],
-      "categoryAxis": [
-        {
-          "properties": {
-            "titleText": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Year (Shipped)'"
-                }
-              }
             },
-            "titleFontSize": {
+            "position": {
               "expr": {
                 "Literal": {
-                  "Value": "10D"
+                  "Value": "'BottomCenter'"
                 }
               }
             }
@@ -144,10 +111,30 @@
       "valueAxis": [
         {
           "properties": {
-            "titleFontSize": {
+            "showAxisTitle": {
               "expr": {
                 "Literal": {
-                  "Value": "10D"
+                  "Value": "true"
+                }
+              }
+            },
+            "titleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Processing Days'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -159,10 +146,10 @@
       "title": [
         {
           "properties": {
-            "text": {
+            "show": {
               "expr": {
                 "Literal": {
-                  "Value": "'Shipped Orders Year-over-Year By Product Category'"
+                  "Value": "false"
                 }
               }
             }
