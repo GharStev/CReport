@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
   "name": "dbbb00ec19237628ad8a",
   "position": {
-    "x": 18.813282525857378,
-    "y": 103.12465977136637,
+    "x": 414.76923076923077,
+    "y": 97.84615384615384,
     "z": 2000,
-    "height": 335.15514425694067,
-    "width": 1235.4055525313011,
+    "height": 340.30769230769232,
+    "width": 839.38461538461536,
     "tabOrder": 1000
   },
   "visual": {
@@ -270,6 +270,19 @@
             "highlightMatching": 1
           }
         }
+      ],
+      "subheader": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "visualContainerObjects": {
@@ -280,6 +293,13 @@
               "expr": {
                 "Literal": {
                   "Value": "'Returned Sales Price Value by Product Category'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
                 }
               }
             }
