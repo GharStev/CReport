@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "Date.Calendar Year",
-              "nativeQueryRef": "Calendar Year",
-              "active": true
+              "nativeQueryRef": "Shipped Year",
+              "active": true,
+              "displayName": "Shipped Year"
             }
           ]
         },
@@ -81,6 +82,20 @@
               },
               "queryRef": "Order.Shipped Order Amount",
               "nativeQueryRef": "Shipped Order $"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Order"
+                    }
+                  },
+                  "Property": "Shipped Order $ YoY"
+                }
+              },
+              "queryRef": "Order.Shipped Order $ YoY",
+              "nativeQueryRef": "Shipped Order $ YoY"
             },
             {
               "field": {
@@ -237,7 +252,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "64.27283464090863D"
+                  "Value": "63.65999355541984D"
                 }
               }
             }
@@ -464,6 +479,386 @@
           },
           "selector": {
             "metadata": "Product.Category Name"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "68.49295678616721D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Date"
+                          }
+                        },
+                        "Property": "Calendar Year"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'1996'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Order.Shipped Order $ YoY"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "70.3076923076923D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Date"
+                          }
+                        },
+                        "Property": "Calendar Year"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'1997'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Order.Shipped Order $ YoY"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "71.92307692307692D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Date"
+                          }
+                        },
+                        "Property": "Calendar Year"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'1996'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Order.Shipped Order Amount"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "81.76923076923077D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Date"
+                          }
+                        },
+                        "Property": "Calendar Year"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'1997'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Order.Shipped Order Amount"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "83.61538461538461D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Date"
+                          }
+                        },
+                        "Property": "Calendar Year"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'1998'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Order.Shipped Order Amount"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "72.76923076923077D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Date"
+                          }
+                        },
+                        "Property": "Calendar Year"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'1998'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Order.Shipped Order $ YoY"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "75.61538461538461D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Date"
+                          }
+                        },
+                        "Property": "Calendar Year"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'1999'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Order.Shipped Order Amount"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "80.76923076923077D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Date"
+                          }
+                        },
+                        "Property": "Calendar Year"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'1999'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Order.Shipped Order $ YoY"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "78.07692307692308D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Date"
+                          }
+                        },
+                        "Property": "Calendar Year"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'2000'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Order.Shipped Order Amount"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "81.33783575837366D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Date"
+                          }
+                        },
+                        "Property": "Calendar Year"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'2000'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Order.Shipped Order $ YoY"
           }
         }
       ],

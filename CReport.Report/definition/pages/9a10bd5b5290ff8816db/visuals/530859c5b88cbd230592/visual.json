@@ -10,7 +10,7 @@
     "tabOrder": 1000
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "clusteredColumnChart",
     "query": {
       "queryState": {
         "Category": {
@@ -32,25 +32,7 @@
             }
           ]
         },
-        "Series": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Product"
-                    }
-                  },
-                  "Property": "Product Category"
-                }
-              },
-              "queryRef": "Product.Category Name",
-              "nativeQueryRef": "Product Category"
-            }
-          ]
-        },
-        "Y": {
+        "Tooltips": {
           "projections": [
             {
               "field": {
@@ -67,6 +49,24 @@
               "nativeQueryRef": "Shipped Order $ YoY%"
             }
           ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Order"
+                    }
+                  },
+                  "Property": "Shipped Order $ YoY"
+                }
+              },
+              "queryRef": "Order.Shipped Order $ YoY",
+              "nativeQueryRef": "Shipped Order $ YoY"
+            }
+          ]
         }
       },
       "sortDefinition": {
@@ -80,19 +80,6 @@
                   }
                 },
                 "Property": "Calendar Year"
-              }
-            },
-            "direction": "Ascending"
-          },
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Product"
-                  }
-                },
-                "Property": "Product Category"
               }
             },
             "direction": "Ascending"
@@ -153,6 +140,99 @@
             }
           }
         }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "enableDetailDataLabel": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "detailFontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "labelPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'InsideCenter'"
+                }
+              }
+            },
+            "labelOverflow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "dynamicLabelValue": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Order"
+                    }
+                  },
+                  "Property": "Shipped Order $ YoY%"
+                }
+              }
+            },
+            "dynamicLabelDetail": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Order"
+                    }
+                  },
+                  "Property": "Shipped Order $ YoY"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "highlightMatching": 1
+          }
+        }
       ]
     },
     "visualContainerObjects": {
@@ -162,7 +242,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Shipped Orders Year-over-Year By Product Category'"
+                  "Value": "'Shipped Orders $ and Percentage Year-over-Year'"
                 }
               }
             }

@@ -37,7 +37,7 @@ table Order
 				    DIVIDE(
 			            [Shipped Order $] - PrevYear,
 			            PrevYear,
-			            0
+			            BLANK()
 			        )
 		formatString: 0%;-0%;0%
 		displayFolder: Order Metrics
@@ -138,6 +138,23 @@ table Order
 		formatString: """TRUE"";""TRUE"";""FALSE"""
 		displayFolder: Return Metrics
 		lineageTag: a3860f15-9bf3-47ed-88d0-8f905e9b6435
+
+	measure 'Shipped Order $ YoY' = ```
+			
+			    VAR PrevYear = CALCULATE(
+			        [Shipped Order $],
+			        PREVIOUSYEAR('Date'[Date]),
+			        USERELATIONSHIP('Order'[Invoice.ShippedDate_Key],'Date'[DateKey])
+			    )
+			    RETURN
+				    [Shipped Order $] - PrevYear
+			        
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Order Metrics
+		lineageTag: ae216509-368b-4c4f-8062-cc6a99ce5048
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column OrderID
 		dataType: string
